@@ -7,6 +7,7 @@ const migrations = [
   'supabase/migrations/20260910000003_audit_triggers.sql',
   'supabase/migrations/20260910000004_auth_hooks_and_roles.sql',
   'supabase/migrations/20260910000005_phase3_academic_master_data.sql',
+  'supabase/migrations/20260910000006_timetable_domain.sql',
   'supabase/seed.sql'
 ];
 

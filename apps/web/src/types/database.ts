@@ -231,6 +231,115 @@ export interface StudentEnrollment {
   academic_year?: AcademicYear;
 }
 
+export type TimetableGenerationStatus =
+  | "PENDING"
+  | "RUNNING"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELLED";
+
+export interface TimetableConfiguration {
+  id: string;
+  academic_year_id: string;
+  semester_id: string;
+  section_id: string;
+  name: string;
+  description?: string | null;
+  working_days: number;
+  periods_per_day: number;
+  period_duration_minutes: number;
+  break_after_periods?: { period: number; duration: number; label: string }[] | null;
+  generation_status: string;
+  is_active: boolean;
+  created_by?: string | null;
+  created_at: string;
+  updated_at: string;
+  academic_year?: AcademicYear;
+  semester?: Semester;
+  section?: ClassSection;
+}
+
+export interface TimetablePeriod {
+  id: string;
+  timetable_configuration_id: string;
+  day_of_week: number;
+  period_number: number;
+  start_time: string;
+  end_time: string;
+  is_break: boolean;
+  is_active: boolean;
+  created_at: string;
+}
+
+export interface SubjectSchedulingRequirement {
+  id: string;
+  section_id: string;
+  subject_id: string;
+  faculty_subject_assignment_id?: string | null;
+  weekly_periods: number;
+  consecutive_periods: number;
+  room_type: string;
+  preferred_capacity?: number | null;
+  requires_lab: boolean;
+  requires_consecutive_slots: boolean;
+  preferred_days?: number[] | null;
+  max_periods_per_day: number;
+  min_period_gap: number;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+  section?: ClassSection;
+  subject?: Subject;
+  faculty_assignment?: FacultySubject;
+}
+
+export interface TimetableGeneration {
+  id: string;
+  timetable_configuration_id: string;
+  generation_number: number;
+  status: TimetableGenerationStatus;
+  solver_name: string;
+  solver_version?: string | null;
+  objective_score?: number | null;
+  hard_constraint_violations: number;
+  soft_constraint_violations: number;
+  generation_started_at?: string | null;
+  generation_completed_at?: string | null;
+  generated_by?: string | null;
+  error_message?: string | null;
+  metadata?: Record<string, unknown>;
+  created_at: string;
+  configuration?: TimetableConfiguration;
+}
+
+export interface TimetableEntry {
+  id: string;
+  timetable_generation_id: string;
+  section_id: string;
+  subject_id: string;
+  faculty_id: string;
+  classroom_id: string;
+  timetable_period_id: string;
+  occurrence_index: number;
+  session_type: SubjectType;
+  is_lab: boolean;
+  notes?: string | null;
+  created_at: string;
+  generation?: TimetableGeneration;
+  section?: ClassSection;
+  subject?: Subject;
+  faculty?: Faculty;
+  classroom?: Classroom;
+  period?: TimetablePeriod;
+  // Legacy compatibility fields
+  timetable_id?: string;
+  day_of_week?: number;
+  period_index?: number;
+  start_time?: string;
+  end_time?: string;
+}
+
+// Legacy Phase 1 placeholders preserved for backwards compatibility
 export interface TimetableConfig {
   id: string;
   academic_year_id: string;
@@ -256,22 +365,6 @@ export interface Timetable {
   created_by?: string | null;
   created_at: string;
   updated_at: string;
-}
-
-export interface TimetableEntry {
-  id: string;
-  timetable_id: string;
-  day_of_week: number;
-  period_index: number;
-  start_time: string;
-  end_time: string;
-  subject_id: string;
-  faculty_id: string;
-  classroom_id: string;
-  created_at: string;
-  subject?: Subject;
-  faculty?: Faculty;
-  classroom?: Classroom;
 }
 
 export interface FaceEmbedding {

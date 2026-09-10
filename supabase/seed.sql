@@ -188,3 +188,137 @@ WHERE s.profile_id IS NULL
     (s.usn = '1MS24CS004' AND p.email = 'aditya.reddy@student.sams.edu') OR
     (s.usn = '1MS24CS005' AND p.email = 'tanvi.joshi@student.sams.edu')
   );
+
+-- ------------------------------------------------------------------------------
+-- 13. PHASE 4 DOMAIN FOUNDATION: LAB ASSIGNMENTS & SCHEDULING CONFIGURATION
+-- Zero fake generations/entries. Pure domain foundation for future OR-Tools solver.
+-- ------------------------------------------------------------------------------
+-- Assign faculty for laboratory courses in CSE 5-A
+INSERT INTO public.faculty_subjects (faculty_id, subject_id, section_id, academic_year_id, semester_id, is_primary, status)
+VALUES 
+    ('33333333-3333-3333-3333-333333333331', 'f0000000-0000-0000-0000-000000000005', 'c0000000-0000-0000-0000-000000000001', 'a0000000-0000-0000-0000-000000000001', 'b0000000-0000-0000-0000-000000000005', true, 'ASSIGNED'), -- Dr. Arun -> DBMS Lab
+    ('33333333-3333-3333-3333-333333333332', 'f0000000-0000-0000-0000-000000000006', 'c0000000-0000-0000-0000-000000000001', 'a0000000-0000-0000-0000-000000000001', 'b0000000-0000-0000-0000-000000000005', true, 'ASSIGNED')  -- Dr. Priya -> CN Lab
+ON CONFLICT (faculty_id, subject_id, section_id, academic_year_id) DO NOTHING;
+
+-- Timetable Configuration for CSE Section 5-A (Odd 2026)
+INSERT INTO public.timetable_configurations (
+    id,
+    academic_year_id,
+    semester_id,
+    section_id,
+    name,
+    description,
+    working_days,
+    periods_per_day,
+    period_duration_minutes,
+    break_after_periods,
+    generation_status,
+    is_active
+) VALUES (
+    'e1000000-0000-0000-0000-000000000001',
+    'a0000000-0000-0000-0000-000000000001',
+    'b0000000-0000-0000-0000-000000000005',
+    'c0000000-0000-0000-0000-000000000001',
+    'CSE-S5-A Master Schedule Configuration (2026-2027)',
+    'Standard 6-day academic schedule for 5th semester CSE Section A with 7 periods daily and dedicated lab blocks',
+    6,
+    7,
+    55,
+    '[{"period": 2, "duration": 20, "label": "Tea Break"}, {"period": 4, "duration": 45, "label": "Lunch Break"}]'::jsonb,
+    'DRAFT',
+    true
+) ON CONFLICT (academic_year_id, semester_id, section_id, name) DO NOTHING;
+
+-- Timetable Periods (42 discrete scheduling slots: Mon-Sat, Periods 1-7)
+INSERT INTO public.timetable_periods (
+    timetable_configuration_id,
+    day_of_week,
+    period_number,
+    start_time,
+    end_time,
+    is_break,
+    is_active
+)
+SELECT 
+    'e1000000-0000-0000-0000-000000000001',
+    day_num,
+    period_num,
+    CASE period_num
+        WHEN 1 THEN '09:00:00'::time
+        WHEN 2 THEN '09:55:00'::time
+        WHEN 3 THEN '11:10:00'::time
+        WHEN 4 THEN '12:05:00'::time
+        WHEN 5 THEN '13:45:00'::time
+        WHEN 6 THEN '14:40:00'::time
+        WHEN 7 THEN '15:35:00'::time
+    END,
+    CASE period_num
+        WHEN 1 THEN '09:55:00'::time
+        WHEN 2 THEN '10:50:00'::time
+        WHEN 3 THEN '12:05:00'::time
+        WHEN 4 THEN '13:00:00'::time
+        WHEN 5 THEN '14:40:00'::time
+        WHEN 6 THEN '15:35:00'::time
+        WHEN 7 THEN '16:30:00'::time
+    END,
+    false,
+    true
+FROM generate_series(1, 6) AS day_num
+CROSS JOIN generate_series(1, 7) AS period_num
+ON CONFLICT (timetable_configuration_id, day_of_week, period_number) DO NOTHING;
+
+-- Subject Scheduling Requirements for CSE 5-A
+-- Establishes weekly periods, consecutive lab constraints, and room requirements
+INSERT INTO public.subject_scheduling_requirements (
+    section_id,
+    subject_id,
+    faculty_subject_assignment_id,
+    weekly_periods,
+    consecutive_periods,
+    room_type,
+    preferred_capacity,
+    requires_lab,
+    requires_consecutive_slots,
+    preferred_days,
+    max_periods_per_day,
+    min_period_gap,
+    is_active
+) VALUES 
+    (
+        'c0000000-0000-0000-0000-000000000001',
+        'f0000000-0000-0000-0000-000000000001',
+        (SELECT id FROM public.faculty_subjects WHERE subject_id = 'f0000000-0000-0000-0000-000000000001' AND section_id = 'c0000000-0000-0000-0000-000000000001' LIMIT 1),
+        4, 1, 'LECTURE_HALL', 65, false, false, '{1,2,3,4}', 1, 0, true
+    ),
+    (
+        'c0000000-0000-0000-0000-000000000001',
+        'f0000000-0000-0000-0000-000000000002',
+        (SELECT id FROM public.faculty_subjects WHERE subject_id = 'f0000000-0000-0000-0000-000000000002' AND section_id = 'c0000000-0000-0000-0000-000000000001' LIMIT 1),
+        4, 1, 'LECTURE_HALL', 65, false, false, '{1,2,3,5}', 1, 0, true
+    ),
+    (
+        'c0000000-0000-0000-0000-000000000001',
+        'f0000000-0000-0000-0000-000000000003',
+        (SELECT id FROM public.faculty_subjects WHERE subject_id = 'f0000000-0000-0000-0000-000000000003' AND section_id = 'c0000000-0000-0000-0000-000000000001' LIMIT 1),
+        4, 1, 'LECTURE_HALL', 65, false, false, '{2,3,4,5}', 1, 0, true
+    ),
+    (
+        'c0000000-0000-0000-0000-000000000001',
+        'f0000000-0000-0000-0000-000000000004',
+        (SELECT id FROM public.faculty_subjects WHERE subject_id = 'f0000000-0000-0000-0000-000000000004' AND section_id = 'c0000000-0000-0000-0000-000000000001' LIMIT 1),
+        3, 1, 'LECTURE_HALL', 65, false, false, '{1,3,6}', 1, 0, true
+    ),
+    (
+        'c0000000-0000-0000-0000-000000000001',
+        'f0000000-0000-0000-0000-000000000005',
+        (SELECT id FROM public.faculty_subjects WHERE subject_id = 'f0000000-0000-0000-0000-000000000005' AND section_id = 'c0000000-0000-0000-0000-000000000001' LIMIT 1),
+        3, 3, 'LABORATORY', 40, true, true, '{4,5}', 3, 0, true
+    ),
+    (
+        'c0000000-0000-0000-0000-000000000001',
+        'f0000000-0000-0000-0000-000000000006',
+        (SELECT id FROM public.faculty_subjects WHERE subject_id = 'f0000000-0000-0000-0000-000000000006' AND section_id = 'c0000000-0000-0000-0000-000000000001' LIMIT 1),
+        3, 3, 'LABORATORY', 40, true, true, '{2,6}', 3, 0, true
+    )
+ON CONFLICT (section_id, subject_id) DO NOTHING;
+
