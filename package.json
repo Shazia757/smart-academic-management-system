@@ -1,0 +1,25 @@
+{
+  "name": "smart-academic-management-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Enterprise Smart Academic Management System with AI Timetable Optimization & Biometric Attendance",
+  "scripts": {
+    "dev:web": "npm run dev --prefix apps/web",
+    "build:web": "npm run build --prefix apps/web",
+    "lint:web": "npm run lint --prefix apps/web",
+    "start:web": "npm run start --prefix apps/web"
+  },
+  "workspaces": [
+    "apps/web"
+  ],
+  "keywords": [
+    "academic-management",
+    "nextjs",
+    "supabase",
+    "fastapi",
+    "or-tools",
+    "biometric-attendance"
+  ],
+  "author": "Smart Academic Management System Team",
+  "license": "MIT"
+}
