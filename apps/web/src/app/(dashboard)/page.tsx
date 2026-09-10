@@ -23,6 +23,7 @@ import { aiClient } from "@/lib/ai-client";
 import { getCurrentProfile } from "@/lib/auth/session";
 import { getRoleLabel } from "@/lib/auth/roles";
 import { RoleBadge } from "@/components/common/status-badge";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
@@ -30,11 +31,27 @@ export default async function DashboardPage() {
   const profile = await getCurrentProfile();
   const userRole = profile?.role ?? "student";
   const aiHealth = await aiClient.checkHealth();
+  const supabase = await createServerSupabaseClient();
 
   const isSuperAdmin = userRole === "super_admin";
   const isCollegeAdmin = userRole === "college_admin";
   const isFaculty = userRole === "faculty";
   const isStudent = userRole === "student";
+
+  // Phase 3 live database summary metrics
+  const [
+    { count: totalStudents },
+    { count: totalFaculty },
+    { count: totalDepartments },
+    { count: totalSubjects },
+    { count: totalClassrooms },
+  ] = await Promise.all([
+    supabase.from("students").select("*", { count: "exact", head: true }).eq("is_active", true),
+    supabase.from("faculty").select("*", { count: "exact", head: true }).eq("is_active", true),
+    supabase.from("departments").select("*", { count: "exact", head: true }).eq("is_active", true),
+    supabase.from("subjects").select("*", { count: "exact", head: true }).eq("is_active", true),
+    supabase.from("classrooms").select("*", { count: "exact", head: true }).eq("is_active", true),
+  ]);
 
   return (
     <div className="space-y-8">
@@ -232,32 +249,32 @@ export default async function DashboardPage() {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <MetricCard
-            title="Students Registered"
-            value="1,248"
-            description="Across 3 departments"
-            trend={{ value: "+4.2%", positive: true }}
+            title="Students Enrolled"
+            value={totalStudents !== null && totalStudents !== undefined ? String(totalStudents) : "—"}
+            description={`${totalDepartments ?? 0} active departments`}
+            trend={{ value: "Master Data Active", positive: true }}
             icon={<GraduationCap className="h-5 w-5" />}
           />
           <MetricCard
             title="Active Faculty"
-            value="84"
-            description="100% availability configured"
-            trend={{ value: "Stable", positive: true }}
+            value={totalFaculty !== null && totalFaculty !== undefined ? String(totalFaculty) : "—"}
+            description="Availability matrix ready"
+            trend={{ value: "Verified", positive: true }}
             icon={<Users className="h-5 w-5" />}
           />
           <MetricCard
             title="Classrooms & Labs"
-            value="42"
-            description="14 dedicated computer labs"
-            trend={{ value: "91% util", positive: true }}
+            value={totalClassrooms !== null && totalClassrooms !== undefined ? String(totalClassrooms) : "—"}
+            description="Lecture halls & research labs"
+            trend={{ value: "Schedulable", positive: true }}
             icon={<DoorOpen className="h-5 w-5" />}
           />
           <MetricCard
-            title="Average Attendance"
-            value="89.6%"
-            description="Last 30-day aggregate"
-            trend={{ value: "+2.1%", positive: true }}
-            icon={<BarChart3 className="h-5 w-5" />}
+            title="Curriculum Subjects"
+            value={totalSubjects !== null && totalSubjects !== undefined ? String(totalSubjects) : "—"}
+            description="Credit courses configured"
+            trend={{ value: "OR-Tools Ready", positive: true }}
+            icon={<BookOpen className="h-5 w-5" />}
           />
         </div>
       )}

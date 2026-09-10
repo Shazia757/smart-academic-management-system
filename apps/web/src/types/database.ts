@@ -7,6 +7,15 @@ export type RoomType =
   | "AUDITORIUM"
   | "TUTORIAL_ROOM";
 
+export type SubjectType =
+  | "THEORY"
+  | "LABORATORY"
+  | "PRACTICAL"
+  | "ELECTIVE"
+  | "PROJECT";
+
+export type AvailabilityStatus = "AVAILABLE" | "UNAVAILABLE" | "PREFERRED";
+
 export type SemesterTerm = "ODD" | "EVEN";
 
 export type TimetableStatus =
@@ -55,6 +64,7 @@ export interface Department {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+  head_of_department?: Profile | null;
 }
 
 export interface AcademicYear {
@@ -63,7 +73,9 @@ export interface AcademicYear {
   start_date: string;
   end_date: string;
   is_current: boolean;
+  is_active: boolean;
   created_at: string;
+  updated_at: string;
 }
 
 export interface Semester {
@@ -76,15 +88,24 @@ export interface Semester {
   end_date: string;
   is_active: boolean;
   created_at: string;
+  updated_at: string;
+  academic_year?: AcademicYear;
 }
 
 export interface ClassSection {
   id: string;
   department_id: string;
+  academic_year_id: string;
   semester_id: string;
   name: string;
+  code: string;
   capacity: number;
+  is_active: boolean;
   created_at: string;
+  updated_at: string;
+  department?: Department;
+  semester?: Semester;
+  academic_year?: AcademicYear;
 }
 
 export interface Classroom {
@@ -95,39 +116,65 @@ export interface Classroom {
   room_type: RoomType;
   capacity: number;
   facilities: string[];
+  department_id?: string | null;
   is_available: boolean;
+  is_active: boolean;
   created_at: string;
   updated_at: string;
+  department?: Department | null;
 }
 
 export interface Faculty {
   id: string;
+  profile_id?: string | null;
   employee_id: string;
   department_id: string;
   designation: string;
   qualification: string;
+  specialization?: string | null;
+  joining_date?: string | null;
   max_weekly_hours: number;
+  is_active: boolean;
   created_at: string;
   updated_at: string;
-  profile?: Profile;
+  profile?: Profile | null;
   department?: Department;
+}
+
+export interface FacultyAvailability {
+  id: string;
+  faculty_id: string;
+  day_of_week: number;
+  period_slot: number;
+  start_time?: string | null;
+  end_time?: string | null;
+  availability_status: AvailabilityStatus;
+  is_available: boolean;
+  notes?: string | null;
+  created_at: string;
+  updated_at: string;
+  faculty?: Faculty;
 }
 
 export interface Student {
   id: string;
+  profile_id?: string | null;
   roll_number: string;
   usn: string;
   department_id: string;
   current_semester_id: string;
   current_section_id: string;
   admission_year: number;
+  admission_date: string;
   guardian_name?: string | null;
   guardian_contact?: string | null;
+  is_active: boolean;
   created_at: string;
   updated_at: string;
-  profile?: Profile;
+  profile?: Profile | null;
   department?: Department;
   section?: ClassSection;
+  semester?: Semester;
 }
 
 export interface Subject {
@@ -141,8 +188,47 @@ export interface Subject {
   lab_hours_per_week: number;
   total_weekly_periods: number;
   is_lab: boolean;
+  subject_type: SubjectType;
+  is_active: boolean;
   created_at: string;
   updated_at: string;
+  department?: Department;
+  semester?: Semester;
+}
+
+export interface FacultySubject {
+  id: string;
+  faculty_id: string;
+  subject_id: string;
+  section_id: string;
+  academic_year_id: string;
+  semester_id: string;
+  is_primary: boolean;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  faculty?: Faculty;
+  subject?: Subject;
+  section?: ClassSection;
+  academic_year?: AcademicYear;
+  semester?: Semester;
+}
+
+export interface StudentEnrollment {
+  id: string;
+  student_id: string;
+  subject_id: string;
+  section_id: string;
+  semester_id: string;
+  academic_year_id: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+  student?: Student;
+  subject?: Subject;
+  section?: ClassSection;
+  semester?: Semester;
+  academic_year?: AcademicYear;
 }
 
 export interface TimetableConfig {

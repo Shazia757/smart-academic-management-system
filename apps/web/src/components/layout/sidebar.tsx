@@ -19,6 +19,10 @@ import {
   Cpu,
   ChevronLeft,
   ChevronRight,
+  Layers,
+  Clock,
+  Briefcase,
+  UserCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { UserRole } from "@/types/database";
@@ -39,9 +43,19 @@ const allNavItems: NavItem[] = [
     icon: <LayoutDashboard className="h-5 w-5" />,
   },
   {
-    title: "Students",
-    href: "/students",
-    icon: <GraduationCap className="h-5 w-5" />,
+    title: "Departments",
+    href: "/departments",
+    icon: <Building2 className="h-5 w-5" />,
+  },
+  {
+    title: "Academic Structure",
+    href: "/academic-structure",
+    icon: <Layers className="h-5 w-5" />,
+  },
+  {
+    title: "Classrooms & Labs",
+    href: "/classrooms",
+    icon: <DoorOpen className="h-5 w-5" />,
   },
   {
     title: "Faculty",
@@ -49,9 +63,14 @@ const allNavItems: NavItem[] = [
     icon: <Users className="h-5 w-5" />,
   },
   {
-    title: "Departments",
-    href: "/departments",
-    icon: <Building2 className="h-5 w-5" />,
+    title: "Faculty Availability",
+    href: "/faculty/availability",
+    icon: <Clock className="h-5 w-5" />,
+  },
+  {
+    title: "Students",
+    href: "/students",
+    icon: <GraduationCap className="h-5 w-5" />,
   },
   {
     title: "Subjects",
@@ -59,9 +78,14 @@ const allNavItems: NavItem[] = [
     icon: <BookOpen className="h-5 w-5" />,
   },
   {
-    title: "Classrooms & Labs",
-    href: "/classrooms",
-    icon: <DoorOpen className="h-5 w-5" />,
+    title: "Assignments",
+    href: "/assignments",
+    icon: <Briefcase className="h-5 w-5" />,
+  },
+  {
+    title: "Enrollments",
+    href: "/enrollments",
+    icon: <UserCheck className="h-5 w-5" />,
   },
   {
     title: "Timetable & AI",
