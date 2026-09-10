@@ -1,15 +1,19 @@
 "use client";
 
 import * as React from "react";
-import { Bell, Search, Moon, Sun, Shield, User } from "lucide-react";
+import { Bell, Search, Moon, Sun, LogOut } from "lucide-react";
 import { Breadcrumbs } from "./breadcrumbs";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { RoleBadge } from "@/components/common/status-badge";
-import { UserRole } from "@/types/database";
+import { Profile } from "@/types/database";
+import { logoutAction } from "@/server/actions/auth";
 
-export function Topbar() {
-  const [activeRole, setActiveRole] = React.useState<UserRole>("college_admin");
+interface TopbarProps {
+  profile?: Profile | null;
+}
+
+export function Topbar({ profile }: TopbarProps) {
   const [isDarkMode, setIsDarkMode] = React.useState(false);
 
   const toggleTheme = () => {
@@ -20,6 +24,14 @@ export function Topbar() {
       document.documentElement.classList.remove("dark");
     }
   };
+
+  const displayName = profile
+    ? `${profile.first_name} ${profile.last_name}`
+    : "Academic User";
+
+  const userInitials = profile
+    ? `${profile.first_name?.[0] || ""}${profile.last_name?.[0] || ""}`.toUpperCase()
+    : "U";
 
   return (
     <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-border bg-card/80 px-6 backdrop-blur-md">
@@ -34,7 +46,7 @@ export function Topbar() {
 
       {/* Right Controls */}
       <div className="flex items-center gap-3">
-        {/* Global Search shortcut preview */}
+        {/* Global Search shortcut */}
         <div className="relative hidden md:flex items-center">
           <Search className="absolute left-3 h-4 w-4 text-muted-foreground" />
           <input
@@ -43,24 +55,6 @@ export function Topbar() {
             readOnly
             className="h-9 w-64 rounded-lg border border-input bg-background/50 pl-9 pr-3 text-xs text-muted-foreground placeholder:text-muted-foreground/70 focus:outline-none cursor-pointer"
           />
-        </div>
-
-        {/* Development Role Switcher Selector */}
-        <div className="flex items-center gap-1.5 rounded-lg border border-border bg-muted/40 px-2 py-1">
-          <Shield className="h-3.5 w-3.5 text-muted-foreground" />
-          <span className="text-[11px] font-medium text-muted-foreground hidden lg:inline">
-            Role:
-          </span>
-          <select
-            value={activeRole}
-            onChange={(e) => setActiveRole(e.target.value as UserRole)}
-            className="bg-transparent text-xs font-semibold text-foreground focus:outline-none cursor-pointer"
-          >
-            <option value="super_admin" className="bg-card text-foreground">Super Admin</option>
-            <option value="college_admin" className="bg-card text-foreground">College Admin</option>
-            <option value="faculty" className="bg-card text-foreground">Faculty</option>
-            <option value="student" className="bg-card text-foreground">Student</option>
-          </select>
         </div>
 
         {/* Theme Toggle */}
@@ -85,20 +79,36 @@ export function Topbar() {
           </button>
         </div>
 
-        {/* User Profile Pill */}
+        {/* Authenticated User Profile Pill */}
         <div className="flex items-center gap-2 pl-2 border-l border-border">
           <Avatar
-            fallback="AD"
+            src={profile?.avatar_url}
+            fallback={userInitials}
             className="h-9 w-9 border border-primary/20 bg-primary/10 text-primary font-semibold text-xs"
           />
           <div className="hidden xl:flex flex-col text-left">
             <span className="text-xs font-semibold text-foreground leading-tight">
-              Dr. Radhika Shenoy
+              {displayName}
             </span>
             <div className="mt-0.5">
-              <RoleBadge role={activeRole} />
+              {profile ? (
+                <RoleBadge role={profile.role} />
+              ) : (
+                <Badge variant="outline" className="text-[10px]">Session Active</Badge>
+              )}
             </div>
           </div>
+
+          {/* Secure Logout Action */}
+          <form action={logoutAction} className="ml-1">
+            <button
+              type="submit"
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-destructive/15 hover:text-destructive hover:border-destructive/30 transition-colors"
+              title="Sign out of SAMS"
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
+          </form>
         </div>
       </div>
     </header>

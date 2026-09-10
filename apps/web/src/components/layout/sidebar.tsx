@@ -21,6 +21,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { UserRole } from "@/types/database";
+import { isRouteAuthorized } from "@/lib/auth/roles";
 
 interface NavItem {
   title: string;
@@ -30,7 +32,7 @@ interface NavItem {
   badgeVariant?: "default" | "accent" | "success";
 }
 
-const navItems: NavItem[] = [
+const allNavItems: NavItem[] = [
   {
     title: "Overview",
     href: "/",
@@ -102,9 +104,19 @@ const navItems: NavItem[] = [
   },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  role?: UserRole;
+}
+
+export function Sidebar({ role }: SidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = React.useState(false);
+
+  // Filter navigation items based on the authenticated user's role
+  const visibleNavItems = React.useMemo(() => {
+    if (!role) return allNavItems;
+    return allNavItems.filter((item) => isRouteAuthorized(item.href, role));
+  }, [role]);
 
   return (
     <aside
@@ -153,7 +165,7 @@ export function Sidebar() {
 
       {/* Navigation Links */}
       <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
-        {navItems.map((item) => {
+        {visibleNavItems.map((item) => {
           const isActive =
             item.href === "/"
               ? pathname === "/"
@@ -203,8 +215,8 @@ export function Sidebar() {
           <div className="rounded-lg bg-muted/60 p-2.5 flex items-center gap-2.5">
             <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
             <div className="text-xs text-muted-foreground truncate">
-              <span className="font-semibold text-foreground">v0.1.0 Ready</span>
-              <p className="text-[10px] truncate">Next.js 15 & Supabase</p>
+              <span className="font-semibold text-foreground">RBAC Enforced</span>
+              <p className="text-[10px] truncate capitalize">{role ? role.replace("_", " ") : "Authenticated"}</p>
             </div>
           </div>
         </div>
