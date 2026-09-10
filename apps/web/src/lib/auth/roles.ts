@@ -87,6 +87,7 @@ export const ROUTE_PERMISSIONS: Record<string, UserRole[]> = {
   "/assignments": ADMIN_ROLES,
   "/enrollments": ADMIN_ROLES,
   "/timetable": ALL_ROLES,
+  "/timetable/configuration": ALL_ROLES,
   "/attendance": ALL_ROLES,
   "/analytics": ALL_ROLES,
   "/reports": STAFF_ROLES,

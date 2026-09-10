@@ -88,6 +88,13 @@ const allNavItems: NavItem[] = [
     icon: <UserCheck className="h-5 w-5" />,
   },
   {
+    title: "Timetable Config",
+    href: "/timetable/configuration",
+    icon: <CalendarDays className="h-5 w-5" />,
+    badge: "Phase 4",
+    badgeVariant: "accent",
+  },
+  {
     title: "Audit Logs",
     href: "/audit-logs",
     icon: <ShieldCheck className="h-5 w-5" />,

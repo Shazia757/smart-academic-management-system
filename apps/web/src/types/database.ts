@@ -238,6 +238,12 @@ export type TimetableGenerationStatus =
   | "FAILED"
   | "CANCELLED";
 
+export interface BreakSlot {
+  period: number;
+  duration: number;
+  label: string;
+}
+
 export interface TimetableConfiguration {
   id: string;
   academic_year_id: string;
@@ -248,7 +254,7 @@ export interface TimetableConfiguration {
   working_days: number;
   periods_per_day: number;
   period_duration_minutes: number;
-  break_after_periods?: { period: number; duration: number; label: string }[] | null;
+  break_after_periods?: BreakSlot[] | any;
   generation_status: string;
   is_active: boolean;
   created_by?: string | null;
@@ -257,6 +263,10 @@ export interface TimetableConfiguration {
   academic_year?: AcademicYear;
   semester?: Semester;
   section?: ClassSection;
+  periods?: TimetablePeriod[];
+  enabled_days?: number[];
+  start_time?: string;
+  periods_count?: number;
 }
 
 export interface TimetablePeriod {
