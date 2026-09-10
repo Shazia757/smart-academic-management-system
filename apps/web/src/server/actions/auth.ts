@@ -23,6 +23,17 @@ export async function loginAction(data: LoginInput): Promise<AuthActionResult> {
     }
 
     const { email, password } = validation.data;
+
+    // Check if Supabase URL is an unconfigured placeholder
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+    if (!supabaseUrl || supabaseUrl.includes("placeholder-project.supabase.co")) {
+      console.warn("[AUTH] Login failed: NEXT_PUBLIC_SUPABASE_URL is unconfigured or using placeholder.");
+      return {
+        success: false,
+        error: "Supabase connection is not configured. Please set a valid NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in apps/web/.env.local.",
+      };
+    }
+
     const supabase = await createServerSupabaseClient();
 
     // 2. Perform Supabase authentication
@@ -32,9 +43,19 @@ export async function loginAction(data: LoginInput): Promise<AuthActionResult> {
     });
 
     if (authError || !authData.user) {
+      const isConnectionError =
+        authError?.name === "AuthRetryableFetchError" ||
+        authError?.message?.toLowerCase().includes("fetch");
+
+      if (process.env.NODE_ENV === "development") {
+        console.warn(`[AUTH] Supabase authentication failed for ${email}: ${authError?.name} - ${authError?.message}`);
+      }
+
       return {
         success: false,
-        error: authError?.message || "Invalid email address or password.",
+        error: isConnectionError
+          ? "Unable to reach the Supabase authentication server. Please check your network connection and Supabase URL configuration."
+          : authError?.message || "Invalid email address or password.",
       };
     }
 
