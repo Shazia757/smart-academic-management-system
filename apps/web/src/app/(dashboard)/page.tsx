@@ -98,29 +98,29 @@ export default async function DashboardPage() {
           )}
           {(isSuperAdmin || isCollegeAdmin) && (
             <Link
-              href="/timetable"
+              href="/academic-structure"
               className={buttonVariants({ variant: "default", size: "sm", className: "gap-2 text-xs" })}
             >
               <CalendarDays className="h-4 w-4" />
-              Generate Timetable
+              Academic Structure
             </Link>
           )}
           {isFaculty && (
             <Link
-              href="/attendance"
+              href="/faculty/availability"
               className={buttonVariants({ variant: "default", size: "sm", className: "gap-2 text-xs" })}
             >
-              <ScanFace className="h-4 w-4" />
-              Start Attendance Session
+              <Clock className="h-4 w-4" />
+              Manage Availability
             </Link>
           )}
           {isStudent && (
             <Link
-              href="/timetable"
+              href="/enrollments"
               className={buttonVariants({ variant: "default", size: "sm", className: "gap-2 text-xs" })}
             >
-              <CalendarDays className="h-4 w-4" />
-              View Class Schedule
+              <BookOpen className="h-4 w-4" />
+              My Course Enrollments
             </Link>
           )}
         </div>
@@ -304,7 +304,7 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent className="grid gap-3 sm:grid-cols-2">
             <Link
-              href="/timetable"
+              href="/academic-structure"
               className="group flex flex-col justify-between rounded-xl border border-border/80 bg-background/50 p-4 transition-all hover:border-primary/40 hover:bg-muted/40 hover:shadow-sm"
             >
               <div>
@@ -315,100 +315,90 @@ export default async function DashboardPage() {
                   <ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                 </div>
                 <h4 className="mt-3 text-sm font-semibold text-foreground">
-                  {isStudent ? "My Academic Timetable" : isFaculty ? "My Teaching Schedule" : "AI Timetable Generator"}
+                  Academic Structure
                 </h4>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  {isStudent
-                    ? "View your weekly class schedule, assigned rooms, and instructor details."
-                    : isFaculty
-                    ? "Review your weekly lecture periods, room locations, and lab sessions."
-                    : "Google OR-Tools CP-SAT constraint solver for conflict-free institutional schedules."}
+                  Configure academic years, semester terms, and class cohort sections.
                 </p>
               </div>
               <div className="mt-3 flex items-center gap-2">
                 <Badge variant="accent" className="text-[10px]">
-                  {isStudent || isFaculty ? "Weekly Grid" : "Constraint Solver"}
+                  Structure & Cohorts
                 </Badge>
               </div>
             </Link>
 
             <Link
-              href="/attendance"
+              href="/faculty/availability"
               className="group flex flex-col justify-between rounded-xl border border-border/80 bg-background/50 p-4 transition-all hover:border-primary/40 hover:bg-muted/40 hover:shadow-sm"
             >
               <div>
                 <div className="flex items-center justify-between">
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                    <ScanFace className="h-5 w-5" />
+                    <Clock className="h-5 w-5" />
                   </div>
                   <ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                 </div>
                 <h4 className="mt-3 text-sm font-semibold text-foreground">
-                  {isStudent ? "My Attendance Records" : isFaculty ? "Facial Attendance Kiosk" : "Biometric Attendance"}
+                  Faculty Availability
                 </h4>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  {isStudent
-                    ? "Detailed subject-wise breakdown of your verified attendance and eligibility status."
-                    : isFaculty
-                    ? "Launch camera kiosk for live automated face detection and student verification."
-                    : "Biometric face verification audit, session tracking, and exception overrides."}
+                  Manage weekly teaching availability matrix across periods and days.
                 </p>
               </div>
               <div className="mt-3 flex items-center gap-2">
                 <Badge variant="success" className="text-[10px]">
-                  {isStudent ? "Threshold Check" : "OpenCV + InsightFace"}
+                  Schedule Constraints
                 </Badge>
               </div>
             </Link>
 
-            {(isSuperAdmin || isCollegeAdmin) && (
-              <Link
-                href="/students"
-                className="group flex flex-col justify-between rounded-xl border border-border/80 bg-background/50 p-4 transition-all hover:border-primary/40 hover:bg-muted/40 hover:shadow-sm"
-              >
-                <div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      <GraduationCap className="h-5 w-5" />
-                    </div>
-                    <ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                  </div>
-                  <h4 className="mt-3 text-sm font-semibold text-foreground">
-                    Student Life-Cycle
-                  </h4>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    Directory, semester enrollments, sections, and biometric enrollment status.
-                  </p>
-                </div>
-                <div className="mt-3 flex items-center gap-2">
-                  <Badge variant="secondary" className="text-[10px]">
-                    Management
-                  </Badge>
-                </div>
-              </Link>
-            )}
-
             <Link
-              href="/analytics"
+              href="/students"
               className="group flex flex-col justify-between rounded-xl border border-border/80 bg-background/50 p-4 transition-all hover:border-primary/40 hover:bg-muted/40 hover:shadow-sm"
             >
               <div>
                 <div className="flex items-center justify-between">
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    <BarChart3 className="h-5 w-5" />
+                    <GraduationCap className="h-5 w-5" />
                   </div>
                   <ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
                 </div>
                 <h4 className="mt-3 text-sm font-semibold text-foreground">
-                  Attendance & Risk Analytics
+                  Student Directory
                 </h4>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Visual attendance distributions, trend alerts, and below-threshold flags.
+                  Roster management, admission data, departments, and enrollment tracking.
                 </p>
               </div>
               <div className="mt-3 flex items-center gap-2">
                 <Badge variant="secondary" className="text-[10px]">
-                  Recharts Analytics
+                  Active Directory
+                </Badge>
+              </div>
+            </Link>
+
+            <Link
+              href="/subjects"
+              className="group flex flex-col justify-between rounded-xl border border-border/80 bg-background/50 p-4 transition-all hover:border-primary/40 hover:bg-muted/40 hover:shadow-sm"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    <BookOpen className="h-5 w-5" />
+                  </div>
+                  <ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                </div>
+                <h4 className="mt-3 text-sm font-semibold text-foreground">
+                  Curriculum Subjects
+                </h4>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Credits, lecture/lab period requirements, and theory/practical classifications.
+                </p>
+              </div>
+              <div className="mt-3 flex items-center gap-2">
+                <Badge variant="secondary" className="text-[10px]">
+                  Course Catalog
                 </Badge>
               </div>
             </Link>

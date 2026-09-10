@@ -88,43 +88,11 @@ const allNavItems: NavItem[] = [
     icon: <UserCheck className="h-5 w-5" />,
   },
   {
-    title: "Timetable & AI",
-    href: "/timetable",
-    icon: <CalendarDays className="h-5 w-5" />,
-    badge: "OR-Tools",
-    badgeVariant: "accent",
-  },
-  {
-    title: "Face Attendance",
-    href: "/attendance",
-    icon: <ScanFace className="h-5 w-5" />,
-    badge: "Vision",
-    badgeVariant: "success",
-  },
-  {
-    title: "Analytics",
-    href: "/analytics",
-    icon: <BarChart3 className="h-5 w-5" />,
-  },
-  {
-    title: "Reports",
-    href: "/reports",
-    icon: <FileSpreadsheet className="h-5 w-5" />,
-  },
-  {
-    title: "Notifications",
-    href: "/notifications",
-    icon: <Bell className="h-5 w-5" />,
-  },
-  {
     title: "Audit Logs",
     href: "/audit-logs",
     icon: <ShieldCheck className="h-5 w-5" />,
-  },
-  {
-    title: "AI Microservice",
-    href: "/ai-monitor",
-    icon: <Cpu className="h-5 w-5" />,
+    badge: "Security",
+    badgeVariant: "default",
   },
 ];
 
