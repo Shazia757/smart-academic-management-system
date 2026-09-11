@@ -495,7 +495,7 @@ def run_tests():
         # Invalid day_of_week 99
         PeriodSlotSchema(
             id="bad-p",
-            day_of_week=99,
+            day_of_week=int("99"),
             period_number=1,
             start_time="09:00:00",
             end_time="10:00:00",
@@ -573,9 +573,16 @@ def run_tests():
         ["npx", "tsx", "scripts/test-phase4-timetable-domain.ts"],
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
         shell=True,
     )
-    step1_passed = step1_cmd.returncode == 0 and "14 | Passed: 14" in step1_cmd.stdout
+    step1_output = (step1_cmd.stdout or "") + (step1_cmd.stderr or "")
+
+    step1_passed = (
+        step1_cmd.returncode == 0
+        and "14 | Passed: 14" in step1_output
+    )
     record_test(23, "Phase 4 Step 1 Regression", step1_passed, "14/14 tests passed on live Supabase")
 
     # --------------------------------------------------------------------------
@@ -583,12 +590,25 @@ def run_tests():
     # --------------------------------------------------------------------------
     print("\nRunning Phase 4 Step 2 Regression Suite...")
     step2_cmd = subprocess.run(
-        ["npx", "tsx", "--tsconfig", "apps/web/tsconfig.json", "scripts/test-phase4-step2-configuration.ts"],
-        capture_output=True,
-        text=True,
-        shell=True,
+    [
+        "npx",
+        "tsx",
+        "--tsconfig",
+        "apps/web/tsconfig.json",
+        "scripts/test-phase4-step2-configuration.ts",
+    ],
+    capture_output=True,
+    text=True,
+    encoding="utf-8",
+    errors="replace",
+    shell=True,
+)
+    step2_output = (step2_cmd.stdout or "") + (step2_cmd.stderr or "")
+
+    step2_passed = (
+        step2_cmd.returncode == 0
+        and "18 | Passed: 18" in step2_output
     )
-    step2_passed = step2_cmd.returncode == 0 and "18 | Passed: 18" in step2_cmd.stdout
     record_test(24, "Phase 4 Step 2 Regression", step2_passed, "18/18 tests passed on live Supabase")
 
     # --------------------------------------------------------------------------

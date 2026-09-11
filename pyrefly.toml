@@ -1,0 +1,5 @@
+python-interpreter-path = "apps/ai-service/venv/Scripts/python.exe"
+search-path = [
+    "apps/ai-service",
+    "apps/ai-service/venv/Lib/site-packages"
+]
