@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from app.core.config import settings
 from app.api.v1.health import router as health_router
+from app.api.v1.timetable import router as timetable_router
 
 
 @asynccontextmanager
@@ -47,3 +48,4 @@ async def direct_health():
 
 # Mount versioned routers
 app.include_router(health_router, prefix="/api/v1")
+app.include_router(timetable_router, prefix="/api/v1")

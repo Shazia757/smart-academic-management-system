@@ -10,6 +10,7 @@ class PeriodSlotSchema(BaseModel):
     start_time: str = Field(..., description="Slot start time (HH:MM:SS)")
     end_time: str = Field(..., description="Slot end time (HH:MM:SS)")
     is_break: bool = Field(default=False, description="Flag indicating recess or lunch break")
+    is_active: bool = Field(default=True, description="Flag indicating whether period slot is active")
 
 
 class TimetableConfigSchema(BaseModel):
@@ -56,9 +57,10 @@ class FacultyAssignmentSchema(BaseModel):
 class FacultyAvailabilitySchema(BaseModel):
     """Recurring availability window for a faculty member."""
     faculty_id: str
-    day_of_week: int
-    period_slot: int
-    is_available: bool
+    day_of_week: int = Field(..., ge=1, le=7)
+    period_slot: Optional[int] = Field(default=None, description="Period number (1..N)")
+    period_number: Optional[int] = Field(default=None, description="Alternative alias for period slot (1..N)")
+    is_available: bool = True
     availability_status: str = "AVAILABLE"
 
 
@@ -69,6 +71,7 @@ class ClassroomSchema(BaseModel):
     room_type: str = "LECTURE_HALL"
     capacity: int
     is_available: bool = True
+    unavailable_period_ids: List[str] = Field(default_factory=list, description="Explicit IDs of unavailable periods")
 
 
 class SchedulingRequirementSchema(BaseModel):
@@ -76,6 +79,7 @@ class SchedulingRequirementSchema(BaseModel):
     id: str
     section_id: str
     subject_id: str
+    faculty_id: Optional[str] = Field(default=None, description="Direct faculty ID if pre-bound")
     faculty_subject_assignment_id: Optional[str] = None
     weekly_periods: int = Field(..., gt=0)
     consecutive_periods: int = Field(default=1, gt=0)
@@ -86,11 +90,20 @@ class SchedulingRequirementSchema(BaseModel):
     preferred_days: Optional[List[int]] = None
     max_periods_per_day: int = Field(default=2, gt=0)
     min_period_gap: int = Field(default=0, ge=0)
+    is_active: bool = Field(default=True, description="Active status of requirement")
+
+
+class SolverConfigurationSchema(BaseModel):
+    """Execution parameters for Google OR-Tools CP-SAT solver."""
+    max_solve_time_seconds: float = Field(default=30.0, ge=0.1, le=600.0)
+    random_seed: int = Field(default=42, description="Random seed for deterministic solves")
+    num_workers: int = Field(default=1, ge=1, le=16, description="Parallel worker threads (1 for deterministic output)")
+    log_search_progress: bool = Field(default=False, description="Enable CP-SAT search logging to stdout")
 
 
 class SchedulingInputSchema(BaseModel):
     """
-    Complete typed domain input contract consumed by the future
+    Complete typed domain input contract consumed by the
     Google OR-Tools CP-SAT timetable optimization engine.
     """
     configuration: TimetableConfigSchema
@@ -101,7 +114,8 @@ class SchedulingInputSchema(BaseModel):
     faculty_availability: List[FacultyAvailabilitySchema]
     classrooms: List[ClassroomSchema]
     scheduling_requirements: List[SchedulingRequirementSchema]
-    solver_timeout_seconds: int = Field(default=30, ge=5, le=300)
+    solver_timeout_seconds: int = Field(default=30, ge=1, le=600)
+    solver_config: Optional[SolverConfigurationSchema] = None
 
 
 class ScheduledEntrySchema(BaseModel):
@@ -127,17 +141,23 @@ class ConstraintViolationSchema(BaseModel):
 
 class SchedulingOutputSchema(BaseModel):
     """
-    Standardized result contract returned by the solver microservice
-    to Next.js for persistence into timetable_generations and timetable_entries.
+    Standardized result contract returned by the solver microservice.
+    Status can be: OPTIMAL, FEASIBLE, INFEASIBLE, UNKNOWN, MODEL_INVALID.
     """
-    status: str = Field(..., description="PENDING | RUNNING | COMPLETED | FAILED | CANCELLED")
+    status: str = Field(..., description="OPTIMAL | FEASIBLE | INFEASIBLE | UNKNOWN | MODEL_INVALID")
     solver_name: str = "OR-Tools CP-SAT"
-    solver_version: str = "9.8"
+    solver_version: str = "9.15.6755"
     objective_score: Optional[float] = None
     solve_duration_ms: float = 0.0
     hard_constraint_violations: int = 0
     soft_constraint_violations: int = 0
     entries: List[ScheduledEntrySchema] = Field(default_factory=list)
     violations: List[ConstraintViolationSchema] = Field(default_factory=list)
+    diagnostics: List[str] = Field(default_factory=list)
     error_message: Optional[str] = None
     metadata: Dict[str, Any] = Field(default_factory=dict)
+
+    @property
+    def assignments(self) -> List[ScheduledEntrySchema]:
+        """Convenience property matching solver domain nomenclature."""
+        return self.entries
