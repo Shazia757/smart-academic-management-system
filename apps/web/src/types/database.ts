@@ -438,3 +438,43 @@ export interface AuditLog {
   user_agent?: string | null;
   created_at: string;
 }
+
+export interface EnrichedScheduledEntry {
+  id: string;
+  section_id: string;
+  section_code: string;
+  section_name: string;
+  subject_id: string;
+  subject_code: string;
+  subject_name: string;
+  faculty_id: string;
+  faculty_name: string;
+  faculty_email?: string;
+  classroom_id: string;
+  room_number: string;
+  room_type: string;
+  timetable_period_id: string;
+  day_of_week: number;
+  period_number: number;
+  period_start_time: string;
+  period_end_time: string;
+  occurrence_index: number;
+  session_type: string;
+  is_lab: boolean;
+  notes?: string | null;
+}
+
+export interface GeneratedTimetableResult {
+  status: "OPTIMAL" | "FEASIBLE" | "INFEASIBLE" | "UNKNOWN" | "MODEL_INVALID";
+  solver_name: string;
+  solver_version: string;
+  solve_duration_ms: number;
+  hard_constraint_violations: number;
+  soft_constraint_violations: number;
+  entries: EnrichedScheduledEntry[];
+  diagnostics: string[];
+  error_message?: string | null;
+  configuration_id: string;
+  section_id: string;
+}
+

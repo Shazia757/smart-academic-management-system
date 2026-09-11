@@ -151,6 +151,27 @@ export const GeneratePeriodsSchema = z.object({
   force: z.boolean().optional().default(false),
 });
 
+// -----------------------------------------------------------------------------
+// 3. TIMETABLE GENERATION SOLVER SCHEMA
+// -----------------------------------------------------------------------------
+export const GenerateTimetableSchema = z.object({
+  configuration_id: z.string().uuid("Configuration ID must be a valid UUID"),
+  section_id: z.string().uuid("Section ID must be a valid UUID"),
+  timeout_seconds: z
+    .number()
+    .int("Timeout must be an integer")
+    .min(1, "Timeout must be at least 1 second")
+    .max(300, "Timeout cannot exceed 300 seconds")
+    .default(30),
+  random_seed: z
+    .number()
+    .int("Random seed must be an integer")
+    .default(42),
+});
+
 export type TimetableConfigurationInput = z.infer<typeof TimetableConfigurationSchema>;
 export type UpdateTimetableConfigurationInput = z.infer<typeof UpdateTimetableConfigurationSchema>;
 export type GeneratePeriodsInput = z.input<typeof GeneratePeriodsSchema>;
+export type GenerateTimetableInput = z.input<typeof GenerateTimetableSchema>;
+export type GenerateTimetableData = z.infer<typeof GenerateTimetableSchema>;
+
