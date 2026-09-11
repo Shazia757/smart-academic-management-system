@@ -23,6 +23,7 @@ import {
   Clock,
   Briefcase,
   UserCheck,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { UserRole } from "@/types/database";
@@ -92,6 +93,13 @@ const allNavItems: NavItem[] = [
     href: "/timetable/configuration",
     icon: <CalendarDays className="h-5 w-5" />,
     badge: "Phase 4",
+    badgeVariant: "accent",
+  },
+  {
+    title: "Generate Timetable",
+    href: "/timetable/generate",
+    icon: <Sparkles className="h-5 w-5" />,
+    badge: "AI Solve",
     badgeVariant: "accent",
   },
   {
