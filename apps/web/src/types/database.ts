@@ -419,19 +419,34 @@ export interface FaceEmbedding {
   enrolled_at: string;
 }
 
+export type AttendanceSessionStatus = "OPEN" | "CLOSED" | "CANCELLED";
+export type RecognitionMethod = "MANUAL" | "FACIAL_RECOGNITION" | "IMPORT";
+
 export interface AttendanceSession {
   id: string;
-  subject_id: string;
+  institution_id?: string | null;
+  academic_year_id: string;
   section_id: string;
+  subject_id: string;
   faculty_id: string;
-  classroom_id: string;
+  classroom_id?: string | null;
   timetable_entry_id?: string | null;
   session_date: string;
   start_time: string;
   end_time?: string | null;
-  status: SessionStatus;
-  verification_method: VerificationMethod;
+  status: AttendanceSessionStatus | SessionStatus;
+  created_by?: string | null;
   created_at: string;
+  updated_at: string;
+  // Relations
+  subject?: Subject;
+  section?: ClassSection;
+  faculty?: Faculty;
+  classroom?: Classroom;
+  timetable_entry?: TimetableEntry;
+  academic_year?: AcademicYear;
+  // Legacy compatibility
+  verification_method?: VerificationMethod;
 }
 
 export interface AttendanceRecord {
@@ -440,10 +455,18 @@ export interface AttendanceRecord {
   student_id: string;
   status: AttendanceStatus;
   confidence_score?: number | null;
-  verification_timestamp: string;
-  marked_by: VerificationMethod;
-  override_reason?: string | null;
+  marked_at: string;
+  marked_by?: string | null;
+  recognition_method: RecognitionMethod;
+  remarks?: string | null;
   created_at: string;
+  updated_at: string;
+  // Relations
+  session?: AttendanceSession;
+  student?: Student;
+  // Legacy compatibility
+  verification_timestamp?: string;
+  override_reason?: string | null;
 }
 
 export interface NotificationItem {
