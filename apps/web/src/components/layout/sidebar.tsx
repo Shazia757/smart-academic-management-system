@@ -103,6 +103,13 @@ const allNavItems: NavItem[] = [
     badgeVariant: "accent",
   },
   {
+    title: "Attendance",
+    href: "/attendance",
+    icon: <ScanFace className="h-5 w-5" />,
+    badge: "Phase 5",
+    badgeVariant: "accent",
+  },
+  {
     title: "Audit Logs",
     href: "/audit-logs",
     icon: <ShieldCheck className="h-5 w-5" />,
