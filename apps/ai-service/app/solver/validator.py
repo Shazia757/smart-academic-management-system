@@ -1,4 +1,4 @@
-from typing import List, Dict, Set, Tuple
+from typing import List, Dict, Set, Tuple, Any
 from app.schemas.timetable import (
     SchedulingInputSchema,
     SchedulingOutputSchema,
@@ -157,7 +157,7 @@ def validate_solver_result(
             errors.append(f"Occurrence Violation: Duplicate occurrence indices for requirement '{req_id}': {occurrences}")
 
         # Check max periods per day
-        by_day: Dict[int, List[Tuple[any, PeriodSlotSchema]]] = {}
+        by_day: Dict[int, List[Tuple[Any, PeriodSlotSchema]]] = {}
         for entry, p in assigned:
             by_day.setdefault(p.day_of_week, []).append((entry, p))
 

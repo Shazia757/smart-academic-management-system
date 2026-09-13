@@ -175,3 +175,66 @@ export type GeneratePeriodsInput = z.input<typeof GeneratePeriodsSchema>;
 export type GenerateTimetableInput = z.input<typeof GenerateTimetableSchema>;
 export type GenerateTimetableData = z.infer<typeof GenerateTimetableSchema>;
 
+// -----------------------------------------------------------------------------
+// 4. TIMETABLE PERSISTENCE & GENERATION HISTORY SCHEMAS
+// -----------------------------------------------------------------------------
+export const SavedTimetableEntrySchema = z.object({
+  subject_id: z.string().uuid("Subject ID must be a valid UUID"),
+  faculty_id: z.string().uuid("Faculty ID must be a valid UUID"),
+  classroom_id: z.string().uuid("Classroom ID must be a valid UUID"),
+  timetable_period_id: z.string().uuid("Timetable period ID must be a valid UUID"),
+  occurrence_index: z
+    .number()
+    .int("Occurrence index must be an integer")
+    .positive("Occurrence index must be positive (>= 1)")
+    .default(1),
+  session_type: z
+    .enum(["THEORY", "LAB", "LABORATORY", "PRACTICAL", "ELECTIVE", "PROJECT"])
+    .default("THEORY")
+    .transform((val) => (val === "LAB" ? "LABORATORY" : val)),
+  is_lab: z.boolean().default(false),
+  notes: z.string().nullable().optional(),
+});
+
+export const SolverMetricsSchema = z.object({
+  solver_name: z.string().min(1).default("OR-Tools CP-SAT"),
+  solver_version: z.string().min(1).default("9.15.6755"),
+  solve_duration_ms: z
+    .number()
+    .nonnegative("Solve duration must be non-negative")
+    .default(0),
+  hard_constraint_violations: z
+    .number()
+    .int("Hard violations must be an integer")
+    .nonnegative("Hard violations must be non-negative")
+    .default(0),
+  soft_constraint_violations: z
+    .number()
+    .int("Soft violations must be an integer")
+    .nonnegative("Soft violations must be non-negative")
+    .default(0),
+  objective_score: z.number().nullable().optional(),
+  diagnostics: z.array(z.string()).default([]),
+});
+
+export const SaveTimetableGenerationSchema = z.object({
+  configuration_id: z.string().uuid("Configuration ID must be a valid UUID"),
+  section_id: z.string().uuid("Section ID must be a valid UUID"),
+  solver_metrics: SolverMetricsSchema.default({
+    solver_name: "OR-Tools CP-SAT",
+    solver_version: "9.15.6755",
+    solve_duration_ms: 0,
+    hard_constraint_violations: 0,
+    soft_constraint_violations: 0,
+    diagnostics: [],
+  }),
+  entries: z
+    .array(SavedTimetableEntrySchema)
+    .min(1, "Cannot save an empty timetable schedule; at least one entry required"),
+});
+
+export type SavedTimetableEntryInput = z.infer<typeof SavedTimetableEntrySchema>;
+export type SolverMetricsInput = z.infer<typeof SolverMetricsSchema>;
+export type SaveTimetableGenerationInput = z.input<typeof SaveTimetableGenerationSchema>;
+export type SaveTimetableGenerationData = z.infer<typeof SaveTimetableGenerationSchema>;
+

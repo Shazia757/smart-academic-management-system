@@ -350,7 +350,7 @@ export function TimetableGridPreview({
                         }
 
                         // Render scheduled entry card
-                        const isLab = entry.is_lab || entry.session_type === "LAB";
+                        const isLab = entry.is_lab || entry.session_type === "LAB" || entry.session_type === "LABORATORY";
 
                         return (
                           <td
@@ -471,7 +471,7 @@ export function TimetableGridPreview({
                   ) : (
                     <div className="divide-y divide-border/60">
                       {dayEntries.map((entry) => {
-                        const isLab = entry.is_lab || entry.session_type === "LAB";
+                        const isLab = entry.is_lab || entry.session_type === "LAB" || entry.session_type === "LABORATORY";
 
                         return (
                           <div

@@ -317,9 +317,40 @@ export interface TimetableGeneration {
   generation_completed_at?: string | null;
   generated_by?: string | null;
   error_message?: string | null;
-  metadata?: Record<string, unknown>;
+  metadata?: TimetableGenerationMetadata;
   created_at: string;
   configuration?: TimetableConfiguration;
+}
+
+export interface TimetableGenerationMetadata {
+  solve_duration_ms?: number;
+  diagnostics?: string[];
+  solver_config?: {
+    working_days?: number;
+    periods_per_day?: number;
+    period_duration_minutes?: number;
+  };
+  section_id?: string;
+  is_published?: boolean;
+  [key: string]: unknown;
+}
+
+export interface TimetableGenerationHistoryItem {
+  id: string;
+  timetable_configuration_id: string;
+  generation_number: number;
+  status: TimetableGenerationStatus;
+  solver_name: string;
+  solver_version?: string | null;
+  objective_score?: number | null;
+  hard_constraint_violations: number;
+  soft_constraint_violations: number;
+  generation_completed_at?: string | null;
+  generated_by?: string | null;
+  author_name?: string | null;
+  metadata?: TimetableGenerationMetadata;
+  entries_count: number;
+  created_at: string;
 }
 
 export interface TimetableEntry {
@@ -476,5 +507,8 @@ export interface GeneratedTimetableResult {
   error_message?: string | null;
   configuration_id: string;
   section_id: string;
+  generation_id?: string;
+  generation_number?: number;
+  is_published?: boolean;
 }
 

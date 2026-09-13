@@ -284,8 +284,8 @@ export async function buildSolverInput(
       code: r.subject.code,
       name: r.subject.name,
       credits: r.subject.credits || 3,
-      is_lab: Boolean(r.requires_lab || r.subject.subject_type === "LAB"),
-      subject_type: r.requires_lab || r.subject.subject_type === "LAB" ? "LAB" : "THEORY",
+      is_lab: Boolean(r.requires_lab || r.subject.subject_type === "LAB" || r.subject.subject_type === "LABORATORY"),
+      subject_type: r.requires_lab || r.subject.subject_type === "LAB" || r.subject.subject_type === "LABORATORY" ? "LAB" : "THEORY",
       weekly_periods: r.weekly_periods,
     }));
 

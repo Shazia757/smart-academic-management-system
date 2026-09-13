@@ -136,6 +136,7 @@ class TimetableSolver:
 
             # Resolve assigned faculty
             faculty_id = req.faculty_id or fac_assign_map.get((req.section_id, req.subject_id))
+            
             if not faculty_id:
                 presolve_infeasible_reasons.append(
                     f"No faculty assignment found for section '{req.section_id}' and subject '{req.subject_id}'."
@@ -214,7 +215,7 @@ class TimetableSolver:
 
                         # Feasible candidate found! Create boolean decision variable
                         var_name = f"Y_{req.id}_{b}_{start_p.id}_{room.id}"
-                        var = model.NewBoolVar(var_name)
+                        var = model.new_bool_var(var_name)
                         block_candidates.append((start_p, room, slots, var))
 
                         # Map to conflict trackers
@@ -257,19 +258,19 @@ class TimetableSolver:
         for req_id, blocks in req_blocks_candidates.items():
             for b_idx, candidates in enumerate(blocks):
                 vars_in_block = [cand[3] for cand in candidates]
-                model.AddExactlyOne(vars_in_block)
+                model.add_exactly_one(vars_in_block)
 
         # H3: Section conflict — at most one assignment per section and period
         for (sec_id, p_id), vars_list in section_period_vars.items():
-            model.AddAtMostOne(vars_list)
+            model.add_at_most_one(vars_list)
 
         # H4: Faculty conflict — at most one assignment per faculty and period
         for (fac_id, p_id), vars_list in faculty_period_vars.items():
-            model.AddAtMostOne(vars_list)
+            model.add_at_most_one(vars_list)
 
         # H5: Classroom conflict — at most one assignment per classroom and period
         for (room_id, p_id), vars_list in classroom_period_vars.items():
-            model.AddAtMostOne(vars_list)
+            model.add_at_most_one(vars_list)
 
         # Max periods per day (per requirement)
         for req in active_reqs:
@@ -278,7 +279,7 @@ class TimetableSolver:
                 for day in days_present:
                     day_terms = req_day_vars.get((req.id, day), [])
                     if day_terms:
-                        model.Add(sum(sz * v for sz, v in day_terms) <= max_limit)
+                        model.add(sum(sz * v for sz, v in day_terms) <= max_limit)
 
         # Minimum period gap between separate blocks of the same subject on the same day
         for req in active_reqs:
@@ -294,10 +295,10 @@ class TimetableSolver:
                             # Distance between blocks
                             if p1_num <= p2_num:
                                 if p2_num - (p1_num + c1) < gap:
-                                    model.Add(v1 + v2 <= 1)
+                                    model.add(v1 + v2 <= 1)
                             else:
                                 if p1_num - (p2_num + c2) < gap:
-                                    model.Add(v1 + v2 <= 1)
+                                    model.add(v1 + v2 <= 1)
 
         # ----------------------------------------------------------------------
         # Configure & Execute CP-SAT Solver
@@ -308,7 +309,7 @@ class TimetableSolver:
         solver.parameters.num_search_workers = int(cfg.num_workers)
         solver.parameters.log_search_progress = bool(cfg.log_search_progress)
 
-        status = solver.Solve(model)
+        status = solver.solve(model)
         duration_ms = (time.perf_counter() - start_time) * 1000.0
 
         if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
@@ -317,13 +318,18 @@ class TimetableSolver:
 
             for req in active_reqs:
                 faculty_id = req.faculty_id or fac_assign_map.get((req.section_id, req.subject_id))
+                if faculty_id is None:
+                    raise ValueError(
+                        f"Missing faculty_id for section={req.section_id}, "
+                        f"subject={req.subject_id}, requirement={req.id}"
+                    )
                 subject = subjects_by_id[req.subject_id]
                 blocks = req_blocks_candidates[req.id]
                 c = req.consecutive_periods
 
                 for b_idx, candidates in enumerate(blocks):
                     for start_p, room, slots, var in candidates:
-                        if solver.BooleanValue(var):
+                        if solver.boolean_value(var):
                             for k, slot_p in enumerate(slots):
                                 occ_idx = b_idx * c + k + 1
                                 entries.append(
@@ -352,14 +358,14 @@ class TimetableSolver:
                 status=status_str,
                 solver_name="OR-Tools CP-SAT",
                 solver_version=self.solver_version,
-                objective_score=solver.ObjectiveValue() if model.HasObjective() else None,
+                objective_score=solver.objective_value if model.has_objective() else None,
                 solve_duration_ms=round(duration_ms, 2),
                 entries=entries,
                 hard_constraint_violations=0,
                 soft_constraint_violations=0,
                 diagnostics=[f"Successfully solved with status {status_str} in {round(duration_ms, 2)}ms."],
                 metadata={
-                    "total_assigned_periods": len(entries),
+                "total_assigned_periods": len(entries),
                     "total_requirements": len(active_reqs),
                     "random_seed": cfg.random_seed,
                     "num_workers": cfg.num_workers,

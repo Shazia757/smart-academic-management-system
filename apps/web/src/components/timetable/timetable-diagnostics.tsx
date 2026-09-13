@@ -168,7 +168,7 @@ export function TimetableDiagnostics({ result }: TimetableDiagnosticsProps) {
       </div>
 
       {/* Solver Metadata Header Bar */}
-      <div className="flex items-center justify-between px-3.5 py-2 rounded-lg bg-muted/40 border border-border/60 text-xs text-muted-foreground">
+      <div className="flex items-center justify-between px-3.5 py-2 rounded-lg bg-muted/40 border border-border/60 text-xs text-muted-foreground flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <Cpu className="w-3.5 h-3.5 text-primary" />
           <span>
@@ -176,11 +176,27 @@ export function TimetableDiagnostics({ result }: TimetableDiagnosticsProps) {
             <strong className="text-foreground">{result.solver_name || "Google OR-Tools CP-SAT"}</strong>
           </span>
         </div>
-        {result.solver_version && (
-          <div className="font-mono text-[11px]">
-            v{result.solver_version}
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          {result.generation_number ? (
+            <div className="flex items-center gap-1.5">
+              <span className="px-2 py-0.5 rounded bg-primary/15 text-primary font-bold text-[11px] border border-primary/25">
+                Draft Gen #{result.generation_number}
+              </span>
+              <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 font-semibold text-[10px] border border-amber-500/20">
+                Unpublished
+              </span>
+            </div>
+          ) : (
+            <span className="px-2 py-0.5 rounded bg-muted text-muted-foreground font-medium text-[10px] border border-border">
+              In-Memory Preview
+            </span>
+          )}
+          {result.solver_version && (
+            <div className="font-mono text-[11px]">
+              v{result.solver_version}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ========================================================================= */}
