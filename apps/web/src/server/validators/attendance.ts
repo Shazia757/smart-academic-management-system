@@ -200,7 +200,7 @@ export const AttendanceQuerySchema = z.object({
   academic_year_id: z.string().uuid().optional(),
   from_date: z.string().regex(DATE_REGEX).refine(isValidCalendarDate).optional(),
   to_date: z.string().regex(DATE_REGEX).refine(isValidCalendarDate).optional(),
-  status: AttendanceStatusSchema.optional(),
+  status: z.union([AttendanceSessionStatusSchema, AttendanceStatusSchema]).optional(),
 });
 
 // Inferred TypeScript types

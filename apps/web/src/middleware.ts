@@ -7,9 +7,9 @@ export async function middleware(request: NextRequest) {
   // 1. Always refresh session cookies via Supabase helper
   const { supabaseResponse, user } = await updateSession(request);
 
-  // 2. Define public routes
+  // 2. Define public routes & API routes
   const isAuthRoute = pathname.startsWith("/login");
-  const isPublicApi = pathname.startsWith("/api/health");
+  const isApiRoute = pathname.startsWith("/api");
   const isUnauthorizedPage = pathname.startsWith("/unauthorized");
 
   // If user is already authenticated and visits /login, redirect to dashboard
@@ -17,8 +17,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  // Allow public routes without session check
-  if (isAuthRoute || isPublicApi || isUnauthorizedPage) {
+  // Allow public routes and API routes (route handlers enforce auth & return JSON 401/403)
+  if (isAuthRoute || isApiRoute || isUnauthorizedPage) {
     return supabaseResponse;
   }
 
