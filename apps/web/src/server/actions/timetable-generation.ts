@@ -466,7 +466,7 @@ export async function getTimetableGenerationAction(
         notes,
         section:class_sections(id, name),
         subject:subjects(id, code, name),
-        faculty:faculty(id, employee_id, first_name, last_name, email),
+        faculty:faculty(id, employee_id, profile:profiles(first_name, last_name, email)),
         classroom:classrooms(id, room_number, room_type),
         period:timetable_periods(id, day_of_week, period_number, start_time, end_time)
       `)
@@ -487,9 +487,11 @@ export async function getTimetableGenerationAction(
       const fac = e.faculty as {
         id?: string;
         employee_id?: string;
-        first_name?: string;
-        last_name?: string;
-        email?: string;
+        profile?: {
+          first_name?: string;
+          last_name?: string;
+          email?: string;
+        } | null;
       } | null;
       const room = e.classroom as { id?: string; room_number?: string; room_type?: string } | null;
       const per = e.period as {
@@ -500,7 +502,9 @@ export async function getTimetableGenerationAction(
         end_time?: string;
       } | null;
 
-      const facultyFullName = fac ? `${fac.first_name || ""} ${fac.last_name || ""}`.trim() : "";
+      const facultyFullName = fac?.profile
+        ? `${fac.profile.first_name || ""} ${fac.profile.last_name || ""}`.trim()
+        : fac?.employee_id || "Assigned Faculty";
 
       return {
         id: e.id,
@@ -512,7 +516,7 @@ export async function getTimetableGenerationAction(
         subject_name: subj?.name || "",
         faculty_id: e.faculty_id,
         faculty_name: facultyFullName || "Assigned Faculty",
-        faculty_email: fac?.email || undefined,
+        faculty_email: fac?.profile?.email || undefined,
         classroom_id: e.classroom_id,
         room_number: room?.room_number || "",
         room_type: room?.room_type || "LECTURE_HALL",
