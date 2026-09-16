@@ -369,6 +369,20 @@ export class AttendanceService {
       return { data: null, error: idValidation.error.errors[0].message, status: 400 };
     }
 
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("id, role")
+      .eq("id", user.id)
+      .single();
+
+    if (!profile || profile.role === "student") {
+      return {
+        data: null,
+        error: "Students are not authorized to manage attendance sessions",
+        status: 403,
+      };
+    }
+
     // Verify session exists and is OPEN under caller's RLS
     const { data: currentSess } = await supabase
       .from("attendance_sessions")
@@ -441,6 +455,20 @@ export class AttendanceService {
     const idValidation = UUID_SCHEMA.safeParse(sessionId);
     if (!idValidation.success) {
       return { data: null, error: idValidation.error.errors[0].message, status: 400 };
+    }
+
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("id, role")
+      .eq("id", user.id)
+      .single();
+
+    if (!profile || profile.role === "student") {
+      return {
+        data: null,
+        error: "Students are not authorized to manage attendance sessions",
+        status: 403,
+      };
     }
 
     const { data: currentSess } = await supabase

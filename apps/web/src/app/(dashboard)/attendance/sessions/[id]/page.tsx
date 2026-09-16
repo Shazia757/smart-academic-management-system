@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { requireUser, getCurrentFaculty } from "@/lib/auth/session";
 import { hasAnyRole, ADMIN_ROLES } from "@/lib/auth/roles";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
@@ -51,6 +51,11 @@ export default async function AttendanceSessionPage({ params }: PageProps) {
     if (currentFaculty && currentFaculty.id === session.faculty_id) {
       canEdit = true;
     }
+  }
+
+  // Reject unauthorized users (cross-faculty and students) from accessing another faculty's session
+  if (!canEdit) {
+    redirect("/unauthorized");
   }
 
   // 3. Fetch Existing Attendance Records

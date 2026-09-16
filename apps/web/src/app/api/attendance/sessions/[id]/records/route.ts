@@ -71,3 +71,53 @@ export async function POST(request: NextRequest, context: RouteContext) {
     );
   }
 }
+
+export async function GET(request: NextRequest, context: RouteContext) {
+  try {
+    const { id } = await context.params;
+    const supabase = await createRouteHandlerSupabaseClient(request);
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: "Authentication required" },
+        { status: 401 }
+      );
+    }
+
+    const { data: records, error: recErr } = await supabase
+      .from("attendance_records")
+      .select(`
+        *,
+        student:students(
+          id,
+          roll_number,
+          usn,
+          profile:profiles(first_name, last_name, email)
+        )
+      `)
+      .eq("session_id", id)
+      .order("created_at", { ascending: true });
+
+    if (recErr) {
+      return NextResponse.json(
+        { success: false, error: recErr.message },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, data: records || [] },
+      { status: 200 }
+    );
+  } catch {
+    return NextResponse.json(
+      { success: false, error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
