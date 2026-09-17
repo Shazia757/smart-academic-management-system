@@ -146,6 +146,9 @@ export type SolverStatus =
   | "OPTIMAL"
   | "FEASIBLE"
   | "INFEASIBLE"
+  | "TIME_LIMIT"
+  | "PARTIAL"
+  | "ERROR"
   | "UNKNOWN"
   | "MODEL_INVALID";
 
@@ -157,8 +160,21 @@ export interface SchedulingOutput {
   solve_duration_ms: number;
   hard_constraint_violations: number;
   soft_constraint_violations: number;
+  total_assigned_sessions?: number;
+  total_required_sessions?: number;
+  is_complete?: boolean;
   entries: ScheduledEntryOutput[];
+  unassigned_sessions?: Array<{
+    section_id: string;
+    subject_id: string;
+    faculty_id?: string;
+    block_index: number;
+    required_periods: number;
+    reason?: string;
+  }>;
   violations: ConstraintViolationOutput[];
+  warnings?: string[];
+  validation_errors?: string[];
   diagnostics: string[];
   error_message?: string | null;
   metadata: Record<string, unknown>;
@@ -233,6 +249,18 @@ class AIServiceClient {
 
       clearTimeout(timeoutId);
 
+      // Handle structured responses from solver (200 OK, 409 Infeasible, 504 Timeout)
+      if (response.status === 409 || response.status === 504) {
+        try {
+          const body: SchedulingOutput = await response.json();
+          if (body && body.status) {
+            return { success: true, data: body };
+          }
+        } catch {
+          // If JSON parse fails, fall through to error handling
+        }
+      }
+
       if (!response.ok) {
         let errorDetail = `HTTP ${response.status} (${response.statusText})`;
         try {
@@ -248,6 +276,13 @@ class AIServiceClient {
           }
         } catch {
           // Ignore JSON parse error on non-JSON error response
+        }
+
+        if (response.status === 401 || response.status === 403) {
+          return {
+            success: false,
+            error: `AI solver authorization failed: ${errorDetail}`,
+          };
         }
 
         if (response.status === 422) {

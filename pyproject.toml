@@ -10,3 +10,7 @@ extraPaths = [
     "apps/ai-service",
     "apps/ai-service/venv/Lib/site-packages"
 ]
+
+[tool.pytest.ini_options]
+pythonpath = ["apps/ai-service"]
+

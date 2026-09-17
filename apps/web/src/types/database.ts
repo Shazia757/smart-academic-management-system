@@ -531,13 +531,26 @@ export interface EnrichedScheduledEntry {
 }
 
 export interface GeneratedTimetableResult {
-  status: "OPTIMAL" | "FEASIBLE" | "INFEASIBLE" | "UNKNOWN" | "MODEL_INVALID";
+  status: "OPTIMAL" | "FEASIBLE" | "INFEASIBLE" | "UNKNOWN" | "MODEL_INVALID" | "TIME_LIMIT" | "PARTIAL" | "ERROR";
   solver_name: string;
   solver_version: string;
   solve_duration_ms: number;
   hard_constraint_violations: number;
   soft_constraint_violations: number;
+  total_assigned_sessions?: number;
+  total_required_sessions?: number;
+  is_complete?: boolean;
   entries: EnrichedScheduledEntry[];
+  unassigned_sessions?: Array<{
+    section_id: string;
+    subject_id: string;
+    faculty_id?: string;
+    block_index: number;
+    required_periods: number;
+    reason?: string;
+  }>;
+  warnings?: string[];
+  validation_errors?: string[];
   diagnostics: string[];
   error_message?: string | null;
   configuration_id: string;
