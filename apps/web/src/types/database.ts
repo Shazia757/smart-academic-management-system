@@ -124,6 +124,18 @@ export interface Classroom {
   department?: Department | null;
 }
 
+export interface ClassroomAvailability {
+  id: string;
+  classroom_id: string;
+  day_of_week: number;
+  period_number: number;
+  is_available: boolean;
+  reason?: string | null;
+  created_at: string;
+  updated_at: string;
+  classroom?: Classroom;
+}
+
 export interface Faculty {
   id: string;
   profile_id?: string | null;

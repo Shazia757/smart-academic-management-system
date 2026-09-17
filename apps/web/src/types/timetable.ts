@@ -62,9 +62,9 @@ export interface AcademicSubject {
   credits: number;
   is_lab: boolean;
   weekly_periods: number;
-  consecutive_periods?: number;
+  consecutive_periods: number;
   subject_type?: string;
-  is_active?: boolean;
+  is_active: boolean;
 }
 
 export const AcademicSubjectSchema = z.object({
@@ -88,7 +88,7 @@ export interface ClassSectionInfo {
   department_id?: string | null;
   semester_id?: string | null;
   academic_year_id?: string | null;
-  is_active?: boolean;
+  is_active: boolean;
 }
 
 export const ClassSectionInfoSchema = z.object({
@@ -107,7 +107,7 @@ export interface FacultyAssignment {
   faculty_id: string;
   subject_id: string;
   section_id: string;
-  is_primary?: boolean;
+  is_primary: boolean;
   max_periods_per_week?: number;
 }
 
