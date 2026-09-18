@@ -24,6 +24,7 @@ import {
 export interface BuildSolverInputOptions {
   timeout_seconds?: number;
   random_seed?: number;
+  allow_partial?: boolean;
 }
 
 export interface EntityMetadataMaps {
@@ -369,6 +370,8 @@ export async function buildSolverInput(
         random_seed: randomSeed,
         num_workers: 1, // Single worker for reproducible deterministic output
         log_search_progress: false,
+        allow_partial: Boolean(options?.allow_partial),
+        preview_only: true,
       },
     };
 
@@ -437,6 +440,7 @@ export function enrichSolverOutput(
     solver_name: output.solver_name || "OR-Tools CP-SAT",
     solver_version: output.solver_version || "9.15.6755",
     solve_duration_ms: output.solve_duration_ms || 0,
+    objective_score: output.objective_score ?? null,
     hard_constraint_violations: output.hard_constraint_violations || 0,
     soft_constraint_violations: output.soft_constraint_violations || 0,
     total_assigned_sessions: output.total_assigned_sessions ?? enrichedEntries.length,

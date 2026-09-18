@@ -160,13 +160,14 @@ export const GenerateTimetableSchema = z.object({
   timeout_seconds: z
     .number()
     .int("Timeout must be an integer")
-    .min(1, "Timeout must be at least 1 second")
+    .min(5, "Timeout must be at least 5 seconds")
     .max(300, "Timeout cannot exceed 300 seconds")
     .default(30),
   random_seed: z
     .number()
     .int("Random seed must be an integer")
     .default(42),
+  allow_partial: z.boolean().optional().default(false),
 });
 
 export type TimetableConfigurationInput = z.infer<typeof TimetableConfigurationSchema>;
@@ -237,4 +238,39 @@ export type SavedTimetableEntryInput = z.infer<typeof SavedTimetableEntrySchema>
 export type SolverMetricsInput = z.infer<typeof SolverMetricsSchema>;
 export type SaveTimetableGenerationInput = z.input<typeof SaveTimetableGenerationSchema>;
 export type SaveTimetableGenerationData = z.infer<typeof SaveTimetableGenerationSchema>;
+
+// -----------------------------------------------------------------------------
+// 5. TIMETABLE PUBLISHING & LIFECYCLE SCHEMAS
+// -----------------------------------------------------------------------------
+export const PublishTimetableSchema = z.object({
+  generation_id: z.string().uuid("Generation ID must be a valid UUID"),
+  notify: z.boolean().default(true),
+});
+
+export const UnpublishTimetableSchema = z.object({
+  generation_id: z.string().uuid("Generation ID must be a valid UUID"),
+});
+
+export const DeleteTimetableDraftSchema = z.object({
+  generation_id: z.string().uuid("Generation ID must be a valid UUID"),
+});
+
+export const UpdateTimetableDraftSchema = z.object({
+  generation_id: z.string().uuid("Generation ID must be a valid UUID"),
+  entries: z
+    .array(SavedTimetableEntrySchema)
+    .min(1, "Cannot update timetable with empty entries; at least one entry required"),
+});
+
+export const GetPublishedTimetableQuerySchema = z.object({
+  section_id: z.string().uuid().optional(),
+  faculty_id: z.string().uuid().optional(),
+  configuration_id: z.string().uuid().optional(),
+});
+
+export type PublishTimetableInput = z.infer<typeof PublishTimetableSchema>;
+export type UnpublishTimetableInput = z.infer<typeof UnpublishTimetableSchema>;
+export type DeleteTimetableDraftInput = z.infer<typeof DeleteTimetableDraftSchema>;
+export type UpdateTimetableDraftInput = z.infer<typeof UpdateTimetableDraftSchema>;
+export type GetPublishedTimetableQuery = z.infer<typeof GetPublishedTimetableQuerySchema>;
 

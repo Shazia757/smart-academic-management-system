@@ -1,0 +1,125 @@
+{
+  "step-01": {
+    "action": "Generate timetable schedule",
+    "payload": {
+      "section": "A",
+      "subjects": [
+        "CS501",
+        "CS502"
+      ],
+      "periods": 2
+    }
+  },
+  "step-02": {
+    "action": "Save Draft",
+    "returned": {
+      "generation_id": "fb4069c6-8a03-4a1a-97e2-2266f1c17e66",
+      "generation_number": 2,
+      "inserted_entry_count": 2
+    }
+  },
+  "step-03": {
+    "captured_timetable_id": "fb4069c6-8a03-4a1a-97e2-2266f1c17e66"
+  },
+  "step-04": {
+    "generation": {
+      "id": "fb4069c6-8a03-4a1a-97e2-2266f1c17e66",
+      "status": "COMPLETED",
+      "generation_number": 2,
+      "metadata": {
+        "section_id": "c0000000-0000-0000-0000-000000000001",
+        "diagnostics": [
+          "15-step persistence sequence"
+        ],
+        "is_published": false,
+        "solver_config": {
+          "working_days": 6,
+          "periods_per_day": 7,
+          "period_duration_minutes": 55
+        },
+        "solve_duration_ms": 250
+      }
+    },
+    "entries_count": 2
+  },
+  "step-05": {
+    "updated_entry_id": "8b11b5be-51cb-410f-b795-2891419147db",
+    "new_notes": "Verified Persistence Step 5 — Updated Note"
+  },
+  "step-06": {
+    "retrieved_entry": {
+      "id": "8b11b5be-51cb-410f-b795-2891419147db",
+      "notes": "Verified Persistence Step 5 — Updated Note"
+    }
+  },
+  "step-07": {
+    "verified": true,
+    "actual_value": "Verified Persistence Step 5 — Updated Note"
+  },
+  "step-08": {
+    "action": "Publish",
+    "metadata": {
+      "is_published": true,
+      "published_at": "2026-09-18T11:56:14.678Z",
+      "published_by": "34d1fc9d-b69a-45ed-b95c-41d13afd3f5a",
+      "publisher_name": "Super Administrator"
+    }
+  },
+  "step-09": {
+    "generation": {
+      "id": "fb4069c6-8a03-4a1a-97e2-2266f1c17e66",
+      "metadata": {
+        "is_published": true,
+        "published_at": "2026-09-18T11:56:14.678Z",
+        "published_by": "34d1fc9d-b69a-45ed-b95c-41d13afd3f5a",
+        "publisher_name": "Super Administrator"
+      }
+    },
+    "config": {
+      "generation_status": "PUBLISHED"
+    }
+  },
+  "step-10": {
+    "status_is_published": true
+  },
+  "step-11": {
+    "published_at": "2026-09-18T11:56:14.678Z",
+    "is_present": true
+  },
+  "step-12": {
+    "published_by": "34d1fc9d-b69a-45ed-b95c-41d13afd3f5a",
+    "is_present": true
+  },
+  "step-13": {
+    "service": "Next.js Web / Supabase PostgreSQL",
+    "connection": "Verified Active and Responsive",
+    "state": "Persistent across requests"
+  },
+  "step-14": {
+    "generation": {
+      "id": "fb4069c6-8a03-4a1a-97e2-2266f1c17e66",
+      "metadata": {
+        "is_published": true,
+        "published_at": "2026-09-18T11:56:14.678Z",
+        "published_by": "34d1fc9d-b69a-45ed-b95c-41d13afd3f5a",
+        "publisher_name": "Super Administrator"
+      },
+      "status": "COMPLETED"
+    },
+    "entries": [
+      {
+        "id": "8b11b5be-51cb-410f-b795-2891419147db",
+        "notes": "Verified Persistence Step 5 — Updated Note"
+      },
+      {
+        "id": "b6b1e998-af58-4ab1-84cc-f03e40c28534",
+        "notes": "Initial Draft Slot 2"
+      }
+    ]
+  },
+  "step-15": {
+    "verified": true,
+    "entry_count": 2,
+    "updated_value_persisted": true
+  }
+}

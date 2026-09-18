@@ -329,6 +329,10 @@ export interface TimetableGeneration {
   generation_completed_at?: string | null;
   generated_by?: string | null;
   error_message?: string | null;
+  is_published?: boolean;
+  published_at?: string | null;
+  published_by?: string | null;
+  archived_at?: string | null;
   metadata?: TimetableGenerationMetadata;
   created_at: string;
   configuration?: TimetableConfiguration;
@@ -344,6 +348,10 @@ export interface TimetableGenerationMetadata {
   };
   section_id?: string;
   is_published?: boolean;
+  published_at?: string | null;
+  published_by?: string | null;
+  publisher_name?: string | null;
+  archived_at?: string | null;
   [key: string]: unknown;
 }
 
@@ -360,6 +368,11 @@ export interface TimetableGenerationHistoryItem {
   generation_completed_at?: string | null;
   generated_by?: string | null;
   author_name?: string | null;
+  is_published?: boolean;
+  published_at?: string | null;
+  published_by?: string | null;
+  publisher_name?: string | null;
+  archived_at?: string | null;
   metadata?: TimetableGenerationMetadata;
   entries_count: number;
   created_at: string;
@@ -535,6 +548,7 @@ export interface GeneratedTimetableResult {
   solver_name: string;
   solver_version: string;
   solve_duration_ms: number;
+  objective_score?: number | null;
   hard_constraint_violations: number;
   soft_constraint_violations: number;
   total_assigned_sessions?: number;
@@ -558,5 +572,9 @@ export interface GeneratedTimetableResult {
   generation_id?: string;
   generation_number?: number;
   is_published?: boolean;
+  published_at?: string | null;
+  published_by?: string | null;
+  publisher_name?: string | null;
+  archived_at?: string | null;
 }
 

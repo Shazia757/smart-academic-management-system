@@ -1,0 +1,25 @@
+{
+  "result": {
+    "isValid": false,
+    "totalConflicts": 1,
+    "hardConflictCount": 1,
+    "softConflictCount": 0,
+    "conflicts": [
+      {
+        "id": "section_clash_c0000000-0000-0000-0000-000000000001_1_1",
+        "type": "SECTION_PERIOD_CLASH",
+        "severity": "HARD",
+        "message": "Section c0000000-0000-0000-0000-000000000001 has a schedule clash on day 1, period 1 across 2 subjects/rooms",
+        "entities": {
+          "section_id": "c0000000-0000-0000-0000-000000000001",
+          "day_of_week": 1,
+          "period_number": 1,
+          "conflicting_entry_ids": []
+        }
+      }
+    ],
+    "conflictsByType": {
+      "SECTION_PERIOD_CLASH": 1
+    }
+  }
+}

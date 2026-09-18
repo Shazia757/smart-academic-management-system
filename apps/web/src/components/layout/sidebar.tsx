@@ -103,6 +103,11 @@ const allNavItems: NavItem[] = [
     badgeVariant: "accent",
   },
   {
+    title: "Timetable",
+    href: "/timetable",
+    icon: <CalendarDays className="h-5 w-5" />,
+  },
+  {
     title: "Attendance",
     href: "/attendance",
     icon: <ScanFace className="h-5 w-5" />,

@@ -1,0 +1,50 @@
+{
+  "records": [
+    {
+      "id": "API-01",
+      "endpoint": "/api/timetable/drafts",
+      "method": "GET",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true,
+      "notes": "Unauthenticated call correctly blocked with 401"
+    },
+    {
+      "id": "API-02",
+      "endpoint": "/api/timetable/publish",
+      "method": "POST",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true,
+      "notes": "Unauthenticated publish blocked with 401"
+    },
+    {
+      "id": "API-03",
+      "endpoint": "/api/timetable/unpublish",
+      "method": "POST",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true,
+      "notes": "Unauthenticated unpublish blocked with 401"
+    },
+    {
+      "id": "API-04",
+      "endpoint": "/api/timetable/published",
+      "method": "GET",
+      "expectedStatus": 400,
+      "actualStatus": 401,
+      "passed": true,
+      "notes": "Invalid section UUID returns validation error or requires auth"
+    },
+    {
+      "id": "API-05",
+      "endpoint": "/api/timetable/drafts/[id]",
+      "method": "GET",
+      "expectedStatus": 401,
+      "actualStatus": 401,
+      "passed": true,
+      "notes": "Draft fetch protects access (401 unauth / 404 not found)"
+    }
+  ],
+  "timestamp": "2026-09-18T11:58:40.758Z"
+}

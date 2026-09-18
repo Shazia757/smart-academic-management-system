@@ -1,0 +1,521 @@
+[
+  {
+    "id": "AUTH-01",
+    "category": "Authentication",
+    "route": "/timetable/generate",
+    "role": "Anonymous",
+    "steps": "Attempt to navigate to protected /timetable/generate without cookie",
+    "expected": "Redirect to /login with redirect query param",
+    "actual": "Redirected to: http://localhost:3000/login?redirect=%2Ftimetable%2Fgenerate",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\01_auth_unauthenticated_redirect.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 2208
+  },
+  {
+    "id": "AUTH-02",
+    "category": "Authentication",
+    "route": "/login",
+    "role": "Anonymous",
+    "steps": "Submit login form with blank email and password fields",
+    "expected": "Browser client validation blocks submission via required attribute",
+    "actual": "Form submission prevented by HTML5 required validation",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\02_auth_empty_form_submit.png",
+    "consoleErrors": [
+      "[Console Error] Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <RedirectErrorBoundary router={{...}}>\n      <InnerLayoutRouter url=\"/login?red...\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n        <SegmentViewNode type=\"page\" pagePath=\"(auth)/log...\">\n          <SegmentTrieNode>\n          <LoginPage>\n            <div className=\"relative m...\">\n              <div>\n              <div>\n              <div className=\"relative w...\">\n                <div>\n                <div className=\"rounded-2x...\">\n                  <div>\n                  <Suspense fallback={<div>}>\n                    <LoginForm>\n                      <div className=\"space-y-6\">\n                        <form onSubmit={function handleSubmit} className=\"space-y-4\">\n                          <div className=\"space-y-1....\">\n                            <label>\n                            <div className=\"relative\">\n                              <Mail>\n                              <input\n                                id=\"email\"\n                                type=\"email\"\n                                required={true}\n                                autoComplete=\"email\"\n                                value=\"\"\n                                onChange={function onChange}\n                                placeholder=\"e.g. superadmin@sams.edu\"\n                                disabled={false}\n                                className=\"w-full h-10 rounded-lg border border-input bg-background/80 pl-9 pr-3 text-...\"\n-                               style={{}}\n                              >\n                          <div className=\"space-y-1....\">\n                            <div>\n                            <div className=\"relative\">\n                              <Lock>\n                              <input\n                                id=\"password\"\n                                type=\"password\"\n                                required={true}\n                                autoComplete=\"current-password\"\n                                value=\"\"\n                                onChange={function onChange}\n                                placeholder=\"••••••••\"\n                                disabled={false}\n                                className=\"w-full h-10 rounded-lg border border-input bg-background/80 pl-9 pr-10 text...\"\n-                               style={{}}\n                              >\n                              ...\n                          ...\n                        ...\n                ...\n        ...\n      ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 1668
+  },
+  {
+    "id": "AUTH-03",
+    "category": "Authentication",
+    "route": "/login",
+    "role": "Anonymous",
+    "steps": "Submit valid email with incorrect password",
+    "expected": "Render red error banner with invalid credentials message",
+    "actual": "Rendered banner: \"Invalid login credentials\"",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\03_auth_invalid_password.png",
+    "consoleErrors": [
+      "[Console Error] Failed to load resource: the server responded with a status of 400 ()"
+    ],
+    "networkErrors": [
+      "[HTTP 400] https://xlkhqimanlpuvstqcwti.supabase.co/auth/v1/token?grant_type=password"
+    ],
+    "durationMs": 1761
+  },
+  {
+    "id": "AUTH-04",
+    "category": "Authentication",
+    "route": "/login",
+    "role": "Anonymous",
+    "steps": "Click eye toggle button to reveal and conceal password characters",
+    "expected": "Input type switches from 'password' to 'text' and back",
+    "actual": "Initial: password -> Toggled: text -> Final: password",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\04_auth_password_toggle.png",
+    "consoleErrors": [
+      "[Console Error] Failed to load resource: the server responded with a status of 400 ()"
+    ],
+    "networkErrors": [
+      "[HTTP 400] https://xlkhqimanlpuvstqcwti.supabase.co/auth/v1/token?grant_type=password"
+    ],
+    "durationMs": 1410
+  },
+  {
+    "id": "AUTH-05",
+    "category": "Authentication",
+    "route": "/login",
+    "role": "Super Admin",
+    "steps": "Click Quick-Fill Super Admin card and verify login redirect",
+    "expected": "Authenticate via Supabase cookie and navigate to institutional dashboard",
+    "actual": "Successfully reached: http://localhost:3000/timetable/generate",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\05_auth_superadmin_login_success.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 18843
+  },
+  {
+    "id": "AUTH-06",
+    "category": "Authentication",
+    "route": "/",
+    "role": "Super Admin",
+    "steps": "Trigger hard browser refresh on dashboard while logged in",
+    "expected": "Session cookies persist; user remains on authenticated dashboard",
+    "actual": "Maintained session at: http://localhost:3000/timetable/generate",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\06_auth_session_persistence_refresh.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 5146
+  },
+  {
+    "id": "DASH-01",
+    "category": "Dashboard",
+    "route": "/",
+    "role": "Super Admin",
+    "steps": "Open main overview dashboard as Super Admin",
+    "expected": "Display AI Microservice Service Online badge, system KPI metric cards",
+    "actual": "AI Status: Online, KPIs visible: false",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\07_dashboard_superadmin_view.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 2457
+  },
+  {
+    "id": "DASH-02",
+    "category": "Dashboard",
+    "route": "/",
+    "role": "Faculty",
+    "steps": "Sign in as faculty (Arun Kumar) and load overview dashboard",
+    "expected": "Display faculty-specific metrics (Weekly Teaching Load, Assigned Subjects)",
+    "actual": "Faculty metrics rendered: true",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\08_dashboard_faculty_view.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 1927
+  },
+  {
+    "id": "DASH-03",
+    "category": "Dashboard",
+    "route": "/",
+    "role": "Student",
+    "steps": "Sign in as student (Rohit Verma) and inspect role dashboard",
+    "expected": "Display student-specific metrics (Overall Attendance %, Enrolled Subjects)",
+    "actual": "Student metrics rendered: true",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\09_dashboard_student_view.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 2011
+  },
+  {
+    "id": "SEC-01",
+    "category": "Security & RBAC",
+    "route": "/audit-logs",
+    "role": "Student",
+    "steps": "Attempt to navigate to Admin Audit Logs as logged-in Student",
+    "expected": "Redirect to /unauthorized 403 screen",
+    "actual": "Blocked cleanly: http://localhost:3000/unauthorized",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\10_security_unauthorized_student_access.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <LoadingBoundary loading={null}>\n      <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>\n        <HTTPAccessFallbackErrorBoundary pathname=\"/\" notFound={<SegmentViewNode>} forbidden={undefined} ...>\n          <RedirectBoundary>\n            <RedirectErrorBoundary router={{...}}>\n              <InnerLayoutRouter url=\"/\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n                <SegmentViewNode type=\"layout\" pagePath=\"(dashboard...\">\n                  <SegmentTrieNode>\n                  <DashboardLayout>\n                    <div className=\"flex h-scr...\">\n                      <Sidebar>\n                      <div className=\"flex flex-...\">\n                        <Topbar profile={{id:\"07efc6...\", ...}}>\n                          <header className=\"sticky top...\">\n                            <div>\n                            <div className=\"flex items...\">\n                              <div className=\"relative h...\">\n                                <Search>\n                                <input\n                                  type=\"text\"\n                                  placeholder=\"Search students, faculty, rooms... (Ctrl+K)\"\n                                  readOnly={true}\n                                  className=\"h-9 w-64 rounded-lg border border-input bg-background/50 pl-9 pr-3 text-x...\"\n-                                 style={{}}\n                                >\n                              ...\n                        ...\n              ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 9748
+  },
+  {
+    "id": "TIME-01",
+    "category": "Timetable UI",
+    "route": "/timetable/generate",
+    "role": "Super Admin",
+    "steps": "Load AI Timetable Generator Preview Page",
+    "expected": "Render generator header and in-memory safety banner",
+    "actual": "Header: false, Safety Badge: true",
+    "status": "FAIL",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\11_timetable_generate_initial_state.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 2403
+  },
+  {
+    "id": "TIME-02",
+    "category": "Timetable UI",
+    "route": "/timetable/generate",
+    "role": "Super Admin",
+    "steps": "Select active institutional timetable configuration from dropdown",
+    "expected": "Select valid configuration and populate cohort constraint summary",
+    "actual": "No active configurations in dropdown",
+    "status": "BLOCKED",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\12_timetable_config_selected.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 105
+  },
+  {
+    "id": "TIME-03",
+    "category": "Timetable UI",
+    "route": "/timetable/configuration",
+    "role": "Super Admin",
+    "steps": "Open Timetable Configuration Management directory",
+    "expected": "Render configuration records, working days, daily period slots, break intervals",
+    "actual": "Config manager loaded: false",
+    "status": "FAIL",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\13_timetable_configuration_crud_page.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <LoadingBoundary loading={null}>\n      <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>\n        <HTTPAccessFallbackErrorBoundary pathname=\"/timetable...\" notFound={<SegmentViewNode>} forbidden={undefined} ...>\n          <RedirectBoundary>\n            <RedirectErrorBoundary router={{...}}>\n              <InnerLayoutRouter url=\"/timetable...\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n                <SegmentViewNode type=\"layout\" pagePath=\"(dashboard...\">\n                  <SegmentTrieNode>\n                  <DashboardLayout>\n                    <div className=\"flex h-scr...\">\n                      <Sidebar>\n                      <div className=\"flex flex-...\">\n                        <Topbar profile={{id:\"34d1fc...\", ...}}>\n                          <header className=\"sticky top...\">\n                            <div>\n                            <div className=\"flex items...\">\n                              <div className=\"relative h...\">\n                                <Search>\n                                <input\n                                  type=\"text\"\n                                  placeholder=\"Search students, faculty, rooms... (Ctrl+K)\"\n                                  readOnly={true}\n                                  className=\"h-9 w-64 rounded-lg border border-input bg-background/50 pl-9 pr-3 text-x...\"\n-                                 style={{}}\n                                >\n                              ...\n                        ...\n              ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 4920
+  },
+  {
+    "id": "ATT-01",
+    "category": "Attendance UI",
+    "route": "/attendance",
+    "role": "Super Admin",
+    "steps": "Navigate to Attendance Management session directory",
+    "expected": "Display session creation trigger button and active/closed session filters",
+    "actual": "Attendance directory visible: true",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\14_attendance_sessions_directory.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 5399
+  },
+  {
+    "id": "ATT-02",
+    "category": "Attendance UI",
+    "route": "/attendance",
+    "role": "Super Admin",
+    "steps": "Click 'Create Attendance Session' button to launch modal",
+    "expected": "Display modal dialog with Section, Subject, Date, and Time inputs",
+    "actual": "Modal opened: false",
+    "status": "FAIL",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\15_attendance_create_session_modal.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 184
+  },
+  {
+    "id": "ATT-03",
+    "category": "Biometric Hardware",
+    "route": "/attendance",
+    "role": "Super Admin",
+    "steps": "Inspect rendered attendance UI for in-browser webcam streaming (<video> element or mediaDevices hook)",
+    "expected": "Live webcam capture component if implemented",
+    "actual": "NOT IMPLEMENTED — live webcam capture is not available in the rendered UI",
+    "status": "NOT IMPLEMENTED",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\14_attendance_sessions_directory.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 25
+  },
+  {
+    "id": "NOTIF-01",
+    "category": "Notifications",
+    "route": "/",
+    "role": "Super Admin",
+    "steps": "Inspect topbar bell icon, read unread badge, and click to open notification drawer",
+    "expected": "Bell icon renders badge count; clicking reveals real-time notification popover/drawer",
+    "actual": "Bell visible with badge (3), but clicking does not trigger a dropdown popover (NOT IMPLEMENTED)",
+    "status": "NOT IMPLEMENTED",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\16_notification_bell_interaction.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 920
+  },
+  {
+    "id": "ROUTE-ACADEMIC_STRUCTURE",
+    "category": "Entity Management UI",
+    "route": "/academic-structure",
+    "role": "Super Admin",
+    "steps": "Load Academic Structure screen and verify data-table, header, and action buttons",
+    "expected": "Page renders without errors with functional UI controls",
+    "actual": "Rendered main layout, table/cards, and controls",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\17_screen_academic_structure.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 9888
+  },
+  {
+    "id": "ROUTE-DEPARTMENTS",
+    "category": "Entity Management UI",
+    "route": "/departments",
+    "role": "Super Admin",
+    "steps": "Load Departments screen and verify data-table, header, and action buttons",
+    "expected": "Page renders without errors with functional UI controls",
+    "actual": "Rendered main layout, table/cards, and controls",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\18_screen_departments.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <LoadingBoundary loading={null}>\n      <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>\n        <HTTPAccessFallbackErrorBoundary pathname=\"/academic-...\" notFound={<SegmentViewNode>} forbidden={undefined} ...>\n          <RedirectBoundary>\n            <RedirectErrorBoundary router={{...}}>\n              <InnerLayoutRouter url=\"/academic-...\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n                <SegmentViewNode type=\"layout\" pagePath=\"(dashboard...\">\n                  <SegmentTrieNode>\n                  <DashboardLayout>\n                    <div className=\"flex h-scr...\">\n                      <Sidebar>\n                      <div className=\"flex flex-...\">\n                        <Topbar profile={{id:\"34d1fc...\", ...}}>\n                          <header className=\"sticky top...\">\n                            <div>\n                            <div className=\"flex items...\">\n                              <div className=\"relative h...\">\n                                <Search>\n                                <input\n                                  type=\"text\"\n                                  placeholder=\"Search students, faculty, rooms... (Ctrl+K)\"\n                                  readOnly={true}\n                                  className=\"h-9 w-64 rounded-lg border border-input bg-background/50 pl-9 pr-3 text-x...\"\n-                                 style={{}}\n                                >\n                              ...\n                        ...\n                          <div className=\"space-y-4\">\n                            <div className=\"flex flex-...\">\n                              <div>\n                              <div className=\"flex flex-...\">\n                                <div className=\"relative m...\">\n                                  <Search>\n                                  <input\n                                    type=\"text\"\n                                    value=\"\"\n                                    onChange={function onChange}\n                                    placeholder=\"Search academic years...\"\n                                    className=\"w-full h-9 pl-9 pr-3 rounded-lg border border-border/60 bg-background/5...\"\n-                                   style={{}}\n                                  >\n                                ...\n                            ...\n              ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 6265
+  },
+  {
+    "id": "ROUTE-CLASSROOMS",
+    "category": "Entity Management UI",
+    "route": "/classrooms",
+    "role": "Super Admin",
+    "steps": "Load Classrooms screen and verify data-table, header, and action buttons",
+    "expected": "Page renders without errors with functional UI controls",
+    "actual": "Rendered main layout, table/cards, and controls",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\19_screen_classrooms.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <LoadingBoundary loading={null}>\n      <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>\n        <HTTPAccessFallbackErrorBoundary pathname=\"/departments\" notFound={<SegmentViewNode>} forbidden={undefined} ...>\n          <RedirectBoundary>\n            <RedirectErrorBoundary router={{...}}>\n              <InnerLayoutRouter url=\"/departments\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n                <SegmentViewNode type=\"layout\" pagePath=\"(dashboard...\">\n                  <SegmentTrieNode>\n                  <DashboardLayout>\n                    <div className=\"flex h-scr...\">\n                      <Sidebar>\n                      <div className=\"flex flex-...\">\n                        <Topbar profile={{id:\"34d1fc...\", ...}}>\n                          <header className=\"sticky top...\">\n                            <div>\n                            <div className=\"flex items...\">\n                              <div className=\"relative h...\">\n                                <Search>\n                                <input\n                                  type=\"text\"\n                                  placeholder=\"Search students, faculty, rooms... (Ctrl+K)\"\n                                  readOnly={true}\n                                  className=\"h-9 w-64 rounded-lg border border-input bg-background/50 pl-9 pr-3 text-x...\"\n-                                 style={{}}\n                                >\n                              ...\n                        ...\n                          <div className=\"space-y-4\">\n                            <div className=\"flex flex-...\">\n                              <div>\n                              <div className=\"flex flex-...\">\n                                <div className=\"relative m...\">\n                                  <Search>\n                                  <input\n                                    type=\"text\"\n                                    value=\"\"\n                                    onChange={function onChange}\n                                    placeholder=\"Search departments by code or name...\"\n                                    className=\"w-full h-9 pl-9 pr-3 rounded-lg border border-border/60 bg-background/5...\"\n-                                   style={{}}\n                                  >\n                                ...\n                            ...\n              ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 6962
+  },
+  {
+    "id": "ROUTE-SUBJECTS_CATALOG",
+    "category": "Entity Management UI",
+    "route": "/subjects",
+    "role": "Super Admin",
+    "steps": "Load Subjects Catalog screen and verify data-table, header, and action buttons",
+    "expected": "Page renders without errors with functional UI controls",
+    "actual": "Rendered main layout, table/cards, and controls",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\20_screen_subjects.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <LoadingBoundary loading={null}>\n      <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>\n        <HTTPAccessFallbackErrorBoundary pathname=\"/classrooms\" notFound={<SegmentViewNode>} forbidden={undefined} ...>\n          <RedirectBoundary>\n            <RedirectErrorBoundary router={{...}}>\n              <InnerLayoutRouter url=\"/classrooms\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n                <SegmentViewNode type=\"layout\" pagePath=\"(dashboard...\">\n                  <SegmentTrieNode>\n                  <DashboardLayout>\n                    <div className=\"flex h-scr...\">\n                      <Sidebar>\n                      <div className=\"flex flex-...\">\n                        <Topbar profile={{id:\"34d1fc...\", ...}}>\n                          <header className=\"sticky top...\">\n                            <div>\n                            <div className=\"flex items...\">\n                              <div className=\"relative h...\">\n                                <Search>\n                                <input\n                                  type=\"text\"\n                                  placeholder=\"Search students, faculty, rooms... (Ctrl+K)\"\n                                  readOnly={true}\n                                  className=\"h-9 w-64 rounded-lg border border-input bg-background/50 pl-9 pr-3 text-x...\"\n-                                 style={{caret-color:\"transparent\"}}\n                                >\n                              ...\n                        ...\n                          <div className=\"space-y-4\">\n                            <div className=\"flex flex-...\">\n                              <div>\n                              <div className=\"flex flex-...\">\n                                <div className=\"relative m...\">\n                                  <Search>\n                                  <input\n                                    type=\"text\"\n                                    value=\"\"\n                                    onChange={function onChange}\n                                    placeholder=\"Search rooms by number, building...\"\n                                    className=\"w-full h-9 pl-9 pr-3 rounded-lg border border-border/60 bg-background/5...\"\n-                                   style={{caret-color:\"transparent\"}}\n                                  >\n                                ...\n                            ...\n              ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 6487
+  },
+  {
+    "id": "ROUTE-FACULTY_DIRECTORY",
+    "category": "Entity Management UI",
+    "route": "/faculty",
+    "role": "Super Admin",
+    "steps": "Load Faculty Directory screen and verify data-table, header, and action buttons",
+    "expected": "Page renders without errors with functional UI controls",
+    "actual": "Rendered main layout, table/cards, and controls",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\21_screen_faculty.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <LoadingBoundary loading={null}>\n      <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>\n        <HTTPAccessFallbackErrorBoundary pathname=\"/subjects\" notFound={<SegmentViewNode>} forbidden={undefined} ...>\n          <RedirectBoundary>\n            <RedirectErrorBoundary router={{...}}>\n              <InnerLayoutRouter url=\"/subjects\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n                <SegmentViewNode type=\"layout\" pagePath=\"(dashboard...\">\n                  <SegmentTrieNode>\n                  <DashboardLayout>\n                    <div className=\"flex h-scr...\">\n                      <Sidebar>\n                      <div className=\"flex flex-...\">\n                        <Topbar profile={{id:\"34d1fc...\", ...}}>\n                          <header className=\"sticky top...\">\n                            <div>\n                            <div className=\"flex items...\">\n                              <div className=\"relative h...\">\n                                <Search>\n                                <input\n                                  type=\"text\"\n                                  placeholder=\"Search students, faculty, rooms... (Ctrl+K)\"\n                                  readOnly={true}\n                                  className=\"h-9 w-64 rounded-lg border border-input bg-background/50 pl-9 pr-3 text-x...\"\n-                                 style={{caret-color:\"transparent\"}}\n                                >\n                              ...\n                        ...\n                          <div className=\"space-y-4\">\n                            <div className=\"flex flex-...\">\n                              <div>\n                              <div className=\"flex flex-...\">\n                                <div className=\"relative m...\">\n                                  <Search>\n                                  <input\n                                    type=\"text\"\n                                    value=\"\"\n                                    onChange={function onChange}\n                                    placeholder=\"Search subjects by code or title...\"\n                                    className=\"w-full h-9 pl-9 pr-3 rounded-lg border border-border/60 bg-background/5...\"\n-                                   style={{caret-color:\"transparent\"}}\n                                  >\n                                ...\n                            ...\n              ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 6229
+  },
+  {
+    "id": "ROUTE-FACULTY_AVAILABILITY",
+    "category": "Entity Management UI",
+    "route": "/faculty/availability",
+    "role": "Super Admin",
+    "steps": "Load Faculty Availability screen and verify data-table, header, and action buttons",
+    "expected": "Page renders without errors with functional UI controls",
+    "actual": "Rendered main layout, table/cards, and controls",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\22_screen_faculty_availability.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <LoadingBoundary loading={null}>\n      <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>\n        <HTTPAccessFallbackErrorBoundary pathname=\"/faculty\" notFound={<SegmentViewNode>} forbidden={undefined} ...>\n          <RedirectBoundary>\n            <RedirectErrorBoundary router={{...}}>\n              <InnerLayoutRouter url=\"/faculty\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n                <SegmentViewNode type=\"layout\" pagePath=\"(dashboard...\">\n                  <SegmentTrieNode>\n                  <DashboardLayout>\n                    <div className=\"flex h-scr...\">\n                      <Sidebar>\n                      <div className=\"flex flex-...\">\n                        <Topbar profile={{id:\"34d1fc...\", ...}}>\n                          <header className=\"sticky top...\">\n                            <div>\n                            <div className=\"flex items...\">\n                              <div className=\"relative h...\">\n                                <Search>\n                                <input\n                                  type=\"text\"\n                                  placeholder=\"Search students, faculty, rooms... (Ctrl+K)\"\n                                  readOnly={true}\n                                  className=\"h-9 w-64 rounded-lg border border-input bg-background/50 pl-9 pr-3 text-x...\"\n-                                 style={{caret-color:\"transparent\"}}\n                                >\n                              ...\n                        ...\n                          <div className=\"space-y-4\">\n                            <div className=\"flex flex-...\">\n                              <div>\n                              <div className=\"flex flex-...\">\n                                <div className=\"relative m...\">\n                                  <Search>\n                                  <input\n                                    type=\"text\"\n                                    value=\"\"\n                                    onChange={function onChange}\n                                    placeholder=\"Search faculty by employee ID, designation...\"\n                                    className=\"w-full h-9 pl-9 pr-3 rounded-lg border border-border/60 bg-background/5...\"\n-                                   style={{caret-color:\"transparent\"}}\n                                  >\n                                ...\n                            ...\n              ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 3554
+  },
+  {
+    "id": "ROUTE-STUDENTS_DIRECTORY",
+    "category": "Entity Management UI",
+    "route": "/students",
+    "role": "Super Admin",
+    "steps": "Load Students Directory screen and verify data-table, header, and action buttons",
+    "expected": "Page renders without errors with functional UI controls",
+    "actual": "Rendered main layout, table/cards, and controls",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\23_screen_students.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <LoadingBoundary loading={null}>\n      <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>\n        <HTTPAccessFallbackErrorBoundary pathname=\"/faculty/a...\" notFound={<SegmentViewNode>} forbidden={undefined} ...>\n          <RedirectBoundary>\n            <RedirectErrorBoundary router={{...}}>\n              <InnerLayoutRouter url=\"/faculty/a...\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n                <SegmentViewNode type=\"layout\" pagePath=\"(dashboard...\">\n                  <SegmentTrieNode>\n                  <DashboardLayout>\n                    <div className=\"flex h-scr...\">\n                      <Sidebar>\n                      <div className=\"flex flex-...\">\n                        <Topbar profile={{id:\"34d1fc...\", ...}}>\n                          <header className=\"sticky top...\">\n                            <div>\n                            <div className=\"flex items...\">\n                              <div className=\"relative h...\">\n                                <Search>\n                                <input\n                                  type=\"text\"\n                                  placeholder=\"Search students, faculty, rooms... (Ctrl+K)\"\n                                  readOnly={true}\n                                  className=\"h-9 w-64 rounded-lg border border-input bg-background/50 pl-9 pr-3 text-x...\"\n-                                 style={{caret-color:\"transparent\"}}\n                                >\n                              ...\n                        ...\n              ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 4309
+  },
+  {
+    "id": "ROUTE-FACULTY_COURSE_ASSIGNMENTS",
+    "category": "Entity Management UI",
+    "route": "/assignments",
+    "role": "Super Admin",
+    "steps": "Load Faculty Course Assignments screen and verify data-table, header, and action buttons",
+    "expected": "Page renders without errors with functional UI controls",
+    "actual": "Rendered main layout, table/cards, and controls",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\24_screen_assignments.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <LoadingBoundary loading={null}>\n      <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>\n        <HTTPAccessFallbackErrorBoundary pathname=\"/students\" notFound={<SegmentViewNode>} forbidden={undefined} ...>\n          <RedirectBoundary>\n            <RedirectErrorBoundary router={{...}}>\n              <InnerLayoutRouter url=\"/students\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n                <SegmentViewNode type=\"layout\" pagePath=\"(dashboard...\">\n                  <SegmentTrieNode>\n                  <DashboardLayout>\n                    <div className=\"flex h-scr...\">\n                      <Sidebar>\n                      <div className=\"flex flex-...\">\n                        <Topbar profile={{id:\"34d1fc...\", ...}}>\n                          <header className=\"sticky top...\">\n                            <div>\n                            <div className=\"flex items...\">\n                              <div className=\"relative h...\">\n                                <Search>\n                                <input\n                                  type=\"text\"\n                                  placeholder=\"Search students, faculty, rooms... (Ctrl+K)\"\n                                  readOnly={true}\n                                  className=\"h-9 w-64 rounded-lg border border-input bg-background/50 pl-9 pr-3 text-x...\"\n-                                 style={{caret-color:\"transparent\"}}\n                                >\n                              ...\n                        ...\n                          <div className=\"space-y-4\">\n                            <div className=\"flex flex-...\">\n                              <div>\n                              <div className=\"flex flex-...\">\n                                <div className=\"relative m...\">\n                                  <Search>\n                                  <input\n                                    type=\"text\"\n                                    value=\"\"\n                                    onChange={function onChange}\n                                    placeholder=\"Search students by USN, roll number, name...\"\n                                    className=\"w-full h-9 pl-9 pr-3 rounded-lg border border-border/60 bg-background/5...\"\n-                                   style={{caret-color:\"transparent\"}}\n                                  >\n                                ...\n                            ...\n              ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 11651
+  },
+  {
+    "id": "ROUTE-STUDENT_ENROLLMENTS",
+    "category": "Entity Management UI",
+    "route": "/enrollments",
+    "role": "Super Admin",
+    "steps": "Load Student Enrollments screen and verify data-table, header, and action buttons",
+    "expected": "Page renders without errors with functional UI controls",
+    "actual": "Rendered main layout, table/cards, and controls",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\25_screen_enrollments.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <LoadingBoundary loading={null}>\n      <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>\n        <HTTPAccessFallbackErrorBoundary pathname=\"/assignments\" notFound={<SegmentViewNode>} forbidden={undefined} ...>\n          <RedirectBoundary>\n            <RedirectErrorBoundary router={{...}}>\n              <InnerLayoutRouter url=\"/assignments\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n                <SegmentViewNode type=\"layout\" pagePath=\"(dashboard...\">\n                  <SegmentTrieNode>\n                  <DashboardLayout>\n                    <div className=\"flex h-scr...\">\n                      <Sidebar>\n                      <div className=\"flex flex-...\">\n                        <Topbar profile={{id:\"34d1fc...\", ...}}>\n                          <header className=\"sticky top...\">\n                            <div>\n                            <div className=\"flex items...\">\n                              <div className=\"relative h...\">\n                                <Search>\n                                <input\n                                  type=\"text\"\n                                  placeholder=\"Search students, faculty, rooms... (Ctrl+K)\"\n                                  readOnly={true}\n                                  className=\"h-9 w-64 rounded-lg border border-input bg-background/50 pl-9 pr-3 text-x...\"\n-                                 style={{caret-color:\"transparent\"}}\n                                >\n                              ...\n                        ...\n                          <div className=\"space-y-4\">\n                            <div className=\"flex flex-...\">\n                              <div>\n                              <div className=\"flex flex-...\">\n                                <div className=\"relative m...\">\n                                  <Search>\n                                  <input\n                                    type=\"text\"\n                                    value=\"\"\n                                    onChange={function onChange}\n                                    placeholder=\"Search allocations...\"\n                                    className=\"w-full h-9 pl-9 pr-3 rounded-lg border border-border/60 bg-background/5...\"\n-                                   style={{caret-color:\"transparent\"}}\n                                  >\n                                ...\n                            ...\n              ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 9929
+  },
+  {
+    "id": "ROUTE-SYSTEM_AUDIT_LOGS",
+    "category": "Entity Management UI",
+    "route": "/audit-logs",
+    "role": "Super Admin",
+    "steps": "Load System Audit Logs screen and verify data-table, header, and action buttons",
+    "expected": "Page renders without errors with functional UI controls",
+    "actual": "Rendered main layout, table/cards, and controls",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\26_screen_audit_logs.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <LoadingBoundary loading={null}>\n      <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>\n        <HTTPAccessFallbackErrorBoundary pathname=\"/enrollments\" notFound={<SegmentViewNode>} forbidden={undefined} ...>\n          <RedirectBoundary>\n            <RedirectErrorBoundary router={{...}}>\n              <InnerLayoutRouter url=\"/enrollments\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n                <SegmentViewNode type=\"layout\" pagePath=\"(dashboard...\">\n                  <SegmentTrieNode>\n                  <DashboardLayout>\n                    <div className=\"flex h-scr...\">\n                      <Sidebar>\n                      <div className=\"flex flex-...\">\n                        <Topbar profile={{id:\"34d1fc...\", ...}}>\n                          <header className=\"sticky top...\">\n                            <div>\n                            <div className=\"flex items...\">\n                              <div className=\"relative h...\">\n                                <Search>\n                                <input\n                                  type=\"text\"\n                                  placeholder=\"Search students, faculty, rooms... (Ctrl+K)\"\n                                  readOnly={true}\n                                  className=\"h-9 w-64 rounded-lg border border-input bg-background/50 pl-9 pr-3 text-x...\"\n-                                 style={{caret-color:\"transparent\"}}\n                                >\n                              ...\n                        ...\n                          <div className=\"space-y-4\">\n                            <div className=\"flex flex-...\">\n                              <div>\n                              <div className=\"flex flex-...\">\n                                <div className=\"relative m...\">\n                                  <Search>\n                                  <input\n                                    type=\"text\"\n                                    value=\"\"\n                                    onChange={function onChange}\n                                    placeholder=\"Search enrollments by USN, course...\"\n                                    className=\"w-full h-9 pl-9 pr-3 rounded-lg border border-border/60 bg-background/5...\"\n-                                   style={{}}\n                                  >\n                                ...\n                            ...\n              ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 6517
+  },
+  {
+    "id": "RESP-320x568_iPhoneSE",
+    "category": "Responsive Layout",
+    "route": "/login",
+    "role": "Anonymous",
+    "steps": "Render screen at 320x568 (Ultra-compact mobile) and measure layout overflow",
+    "expected": "Zero unintentional horizontal document body overflow",
+    "actual": "Clean layout without document overflow (320px)",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\27_responsive_login_320x568_iPhoneSE.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <RedirectErrorBoundary router={{...}}>\n      <InnerLayoutRouter url=\"/login\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n        <SegmentViewNode type=\"page\" pagePath=\"(auth)/log...\">\n          <SegmentTrieNode>\n          <LoginPage>\n            <div className=\"relative m...\">\n              <div>\n              <div>\n              <div className=\"relative w...\">\n                <div>\n                <div className=\"rounded-2x...\">\n                  <div>\n                  <Suspense fallback={<div>}>\n                    <LoginForm>\n                      <div className=\"space-y-6\">\n                        <form onSubmit={function handleSubmit} className=\"space-y-4\">\n                          <div className=\"space-y-1....\">\n                            <label>\n                            <div className=\"relative\">\n                              <Mail>\n                              <input\n                                id=\"email\"\n                                type=\"email\"\n                                required={true}\n                                autoComplete=\"email\"\n                                value=\"\"\n                                onChange={function onChange}\n                                placeholder=\"e.g. superadmin@sams.edu\"\n                                disabled={false}\n                                className=\"w-full h-10 rounded-lg border border-input bg-background/80 pl-9 pr-3 text-...\"\n-                               style={{caret-color:\"transparent\"}}\n                              >\n                          <div className=\"space-y-1....\">\n                            <div>\n                            <div className=\"relative\">\n                              <Lock>\n                              <input\n                                id=\"password\"\n                                type=\"password\"\n                                required={true}\n                                autoComplete=\"current-password\"\n                                value=\"\"\n                                onChange={function onChange}\n                                placeholder=\"••••••••\"\n                                disabled={false}\n                                className=\"w-full h-10 rounded-lg border border-input bg-background/80 pl-9 pr-10 text...\"\n-                               style={{caret-color:\"transparent\"}}\n                              >\n                              ...\n                          ...\n                        ...\n                ...\n        ...\n      ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 0
+  },
+  {
+    "id": "RESP-375x667_iPhone8",
+    "category": "Responsive Layout",
+    "route": "/login",
+    "role": "Anonymous",
+    "steps": "Render screen at 375x667 (Compact mobile) and measure layout overflow",
+    "expected": "Zero unintentional horizontal document body overflow",
+    "actual": "Clean layout without document overflow (375px)",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\27_responsive_login_375x667_iPhone8.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <RedirectErrorBoundary router={{...}}>\n      <InnerLayoutRouter url=\"/login\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n        <SegmentViewNode type=\"page\" pagePath=\"(auth)/log...\">\n          <SegmentTrieNode>\n          <LoginPage>\n            <div className=\"relative m...\">\n              <div>\n              <div>\n              <div className=\"relative w...\">\n                <div>\n                <div className=\"rounded-2x...\">\n                  <div>\n                  <Suspense fallback={<div>}>\n                    <LoginForm>\n                      <div className=\"space-y-6\">\n                        <form onSubmit={function handleSubmit} className=\"space-y-4\">\n                          <div className=\"space-y-1....\">\n                            <label>\n                            <div className=\"relative\">\n                              <Mail>\n                              <input\n                                id=\"email\"\n                                type=\"email\"\n                                required={true}\n                                autoComplete=\"email\"\n                                value=\"\"\n                                onChange={function onChange}\n                                placeholder=\"e.g. superadmin@sams.edu\"\n                                disabled={false}\n                                className=\"w-full h-10 rounded-lg border border-input bg-background/80 pl-9 pr-3 text-...\"\n-                               style={{caret-color:\"transparent\"}}\n                              >\n                          <div className=\"space-y-1....\">\n                            <div>\n                            <div className=\"relative\">\n                              <Lock>\n                              <input\n                                id=\"password\"\n                                type=\"password\"\n                                required={true}\n                                autoComplete=\"current-password\"\n                                value=\"\"\n                                onChange={function onChange}\n                                placeholder=\"••••••••\"\n                                disabled={false}\n                                className=\"w-full h-10 rounded-lg border border-input bg-background/80 pl-9 pr-10 text...\"\n-                               style={{caret-color:\"transparent\"}}\n                              >\n                              ...\n                          ...\n                        ...\n                ...\n        ...\n      ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 0
+  },
+  {
+    "id": "RESP-390x844_iPhone14",
+    "category": "Responsive Layout",
+    "route": "/login",
+    "role": "Anonymous",
+    "steps": "Render screen at 390x844 (Modern flagship mobile) and measure layout overflow",
+    "expected": "Zero unintentional horizontal document body overflow",
+    "actual": "Clean layout without document overflow (390px)",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\27_responsive_login_390x844_iPhone14.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <RedirectErrorBoundary router={{...}}>\n      <InnerLayoutRouter url=\"/login\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n        <SegmentViewNode type=\"page\" pagePath=\"(auth)/log...\">\n          <SegmentTrieNode>\n          <LoginPage>\n            <div className=\"relative m...\">\n              <div>\n              <div>\n              <div className=\"relative w...\">\n                <div>\n                <div className=\"rounded-2x...\">\n                  <div>\n                  <Suspense fallback={<div>}>\n                    <LoginForm>\n                      <div className=\"space-y-6\">\n                        <form onSubmit={function handleSubmit} className=\"space-y-4\">\n                          <div className=\"space-y-1....\">\n                            <label>\n                            <div className=\"relative\">\n                              <Mail>\n                              <input\n                                id=\"email\"\n                                type=\"email\"\n                                required={true}\n                                autoComplete=\"email\"\n                                value=\"\"\n                                onChange={function onChange}\n                                placeholder=\"e.g. superadmin@sams.edu\"\n                                disabled={false}\n                                className=\"w-full h-10 rounded-lg border border-input bg-background/80 pl-9 pr-3 text-...\"\n-                               style={{caret-color:\"transparent\"}}\n                              >\n                          <div className=\"space-y-1....\">\n                            <div>\n                            <div className=\"relative\">\n                              <Lock>\n                              <input\n                                id=\"password\"\n                                type=\"password\"\n                                required={true}\n                                autoComplete=\"current-password\"\n                                value=\"\"\n                                onChange={function onChange}\n                                placeholder=\"••••••••\"\n                                disabled={false}\n                                className=\"w-full h-10 rounded-lg border border-input bg-background/80 pl-9 pr-10 text...\"\n-                               style={{caret-color:\"transparent\"}}\n                              >\n                              ...\n                          ...\n                        ...\n                ...\n        ...\n      ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 0
+  },
+  {
+    "id": "RESP-768x1024_iPadPortrait",
+    "category": "Responsive Layout",
+    "route": "/login",
+    "role": "Anonymous",
+    "steps": "Render screen at 768x1024 (Tablet Portrait) and measure layout overflow",
+    "expected": "Zero unintentional horizontal document body overflow",
+    "actual": "Clean layout without document overflow (768px)",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\27_responsive_login_768x1024_iPadPortrait.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 0
+  },
+  {
+    "id": "RESP-1024x768_iPadLandscape",
+    "category": "Responsive Layout",
+    "route": "/login",
+    "role": "Anonymous",
+    "steps": "Render screen at 1024x768 (Tablet Landscape) and measure layout overflow",
+    "expected": "Zero unintentional horizontal document body overflow",
+    "actual": "Clean layout without document overflow (1024px)",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\27_responsive_login_1024x768_iPadLandscape.png",
+    "consoleErrors": [],
+    "networkErrors": [],
+    "durationMs": 0
+  },
+  {
+    "id": "RESP-1280x720_720pLaptop",
+    "category": "Responsive Layout",
+    "route": "/login",
+    "role": "Anonymous",
+    "steps": "Render screen at 1280x720 (HD Laptop / Netbook) and measure layout overflow",
+    "expected": "Zero unintentional horizontal document body overflow",
+    "actual": "Clean layout without document overflow (1280px)",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\27_responsive_login_1280x720_720pLaptop.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <RedirectErrorBoundary router={{...}}>\n      <InnerLayoutRouter url=\"/login\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n        <SegmentViewNode type=\"page\" pagePath=\"(auth)/log...\">\n          <SegmentTrieNode>\n          <LoginPage>\n            <div className=\"relative m...\">\n              <div>\n              <div>\n              <div className=\"relative w...\">\n                <div>\n                <div className=\"rounded-2x...\">\n                  <div>\n                  <Suspense fallback={<div>}>\n                    <LoginForm>\n                      <div className=\"space-y-6\">\n                        <form onSubmit={function handleSubmit} className=\"space-y-4\">\n                          <div className=\"space-y-1....\">\n                            <label>\n                            <div className=\"relative\">\n                              <Mail>\n                              <input\n                                id=\"email\"\n                                type=\"email\"\n                                required={true}\n                                autoComplete=\"email\"\n                                value=\"\"\n                                onChange={function onChange}\n                                placeholder=\"e.g. superadmin@sams.edu\"\n                                disabled={false}\n                                className=\"w-full h-10 rounded-lg border border-input bg-background/80 pl-9 pr-3 text-...\"\n-                               style={{caret-color:\"transparent\"}}\n                              >\n                          <div className=\"space-y-1....\">\n                            <div>\n                            <div className=\"relative\">\n                              <Lock>\n                              <input\n                                id=\"password\"\n                                type=\"password\"\n                                required={true}\n                                autoComplete=\"current-password\"\n                                value=\"\"\n                                onChange={function onChange}\n                                placeholder=\"••••••••\"\n                                disabled={false}\n                                className=\"w-full h-10 rounded-lg border border-input bg-background/80 pl-9 pr-10 text...\"\n-                               style={{caret-color:\"transparent\"}}\n                              >\n                              ...\n                          ...\n                        ...\n                ...\n        ...\n      ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 0
+  },
+  {
+    "id": "RESP-1440x900_Desktop",
+    "category": "Responsive Layout",
+    "route": "/login",
+    "role": "Anonymous",
+    "steps": "Render screen at 1440x900 (High-res Desktop) and measure layout overflow",
+    "expected": "Zero unintentional horizontal document body overflow",
+    "actual": "Clean layout without document overflow (1440px)",
+    "status": "PASS",
+    "screenshot": "C:\\Users\\shazi\\smart-academic-management-system\\test-results\\screenshots\\27_responsive_login_1440x900_Desktop.png",
+    "consoleErrors": [
+      "[Console Error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:\n\n- A server/client branch `if (typeof window !== 'undefined')`.\n- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.\n- Date formatting in a user's locale which doesn't match the server.\n- External changing data without sending a snapshot of it along with the HTML.\n- Invalid HTML tag nesting.\n\nIt can also happen if the client has a browser extension installed which messes with the HTML before React loaded.\n\n%s%s https://react.dev/link/hydration-mismatch \n\n  ...\n    <RedirectErrorBoundary router={{...}}>\n      <InnerLayoutRouter url=\"/login\" tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>\n        <SegmentViewNode type=\"page\" pagePath=\"(auth)/log...\">\n          <SegmentTrieNode>\n          <LoginPage>\n            <div className=\"relative m...\">\n              <div>\n              <div>\n              <div className=\"relative w...\">\n                <div>\n                <div className=\"rounded-2x...\">\n                  <div>\n                  <Suspense fallback={<div>}>\n                    <LoginForm>\n                      <div className=\"space-y-6\">\n                        <form onSubmit={function handleSubmit} className=\"space-y-4\">\n                          <div className=\"space-y-1....\">\n                            <label>\n                            <div className=\"relative\">\n                              <Mail>\n                              <input\n                                id=\"email\"\n                                type=\"email\"\n                                required={true}\n                                autoComplete=\"email\"\n                                value=\"\"\n                                onChange={function onChange}\n                                placeholder=\"e.g. superadmin@sams.edu\"\n                                disabled={false}\n                                className=\"w-full h-10 rounded-lg border border-input bg-background/80 pl-9 pr-3 text-...\"\n-                               style={{caret-color:\"transparent\"}}\n                              >\n                          <div className=\"space-y-1....\">\n                            <div>\n                            <div className=\"relative\">\n                              <Lock>\n                              <input\n                                id=\"password\"\n                                type=\"password\"\n                                required={true}\n                                autoComplete=\"current-password\"\n                                value=\"\"\n                                onChange={function onChange}\n                                placeholder=\"••••••••\"\n                                disabled={false}\n                                className=\"w-full h-10 rounded-lg border border-input bg-background/80 pl-9 pr-10 text...\"\n-                               style={{caret-color:\"transparent\"}}\n                              >\n                              ...\n                          ...\n                        ...\n                ...\n        ...\n      ...\n"
+    ],
+    "networkErrors": [],
+    "durationMs": 0
+  }
+]

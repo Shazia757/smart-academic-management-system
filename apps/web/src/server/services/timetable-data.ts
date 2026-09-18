@@ -648,4 +648,274 @@ export class TimetableDataService {
       return { data: null, error: "Internal error assembling timetable generation input", status: 500 };
     }
   }
+
+  // ---------------------------------------------------------------------------
+  // 10. FETCH PUBLISHED TIMETABLE FOR SECTION
+  // ---------------------------------------------------------------------------
+  static async fetchPublishedTimetableForSection(
+    supabase: SupabaseClient,
+    sectionId: string
+  ): Promise<ServiceResult<{
+    generation: Record<string, unknown>;
+    configuration: Record<string, unknown>;
+    section: Record<string, unknown>;
+    entries: any[];
+    periods: any[];
+  }>> {
+    try {
+      if (!sectionId) {
+        return { data: null, error: "Section ID is required", status: 400 };
+      }
+
+      // Find published configuration for this section
+      const { data: config, error: cfgErr } = await supabase
+        .from("timetable_configurations")
+        .select("*, academic_year:academic_years(name), semester:semesters(name)")
+        .eq("section_id", sectionId)
+        .eq("generation_status", "PUBLISHED")
+        .eq("is_active", true)
+        .order("updated_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (cfgErr) {
+        return { data: null, error: cfgErr.message, status: 500 };
+      }
+
+      // If no config has status PUBLISHED, check for active configs with published generations
+      let targetConfig = config;
+      if (!targetConfig) {
+        const { data: altConfig } = await supabase
+          .from("timetable_configurations")
+          .select("*, academic_year:academic_years(name), semester:semesters(name)")
+          .eq("section_id", sectionId)
+          .eq("is_active", true)
+          .order("updated_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (altConfig) targetConfig = altConfig;
+      }
+
+      if (!targetConfig) {
+        return { data: null, error: "No active timetable found for this section", status: 404 };
+      }
+
+      // Find the published generation for this configuration
+      let { data: generation, error: genErr } = await supabase
+        .from("timetable_generations")
+        .select("*, author:profiles!generated_by(first_name, last_name, email)")
+        .eq("timetable_configuration_id", targetConfig.id)
+        .eq("status", "COMPLETED")
+        .order("generation_number", { ascending: false });
+
+      if (genErr) {
+        return { data: null, error: genErr.message, status: 500 };
+      }
+
+      // Filter for published generation
+      const pubGen = (generation || []).find((g: any) => {
+        return g.is_published === true || (g.metadata && g.metadata.is_published === true);
+      }) || generation?.[0]; // Fallback if configuration is published
+
+      if (!pubGen) {
+        return { data: null, error: "No published timetable generation exists for this section", status: 404 };
+      }
+
+      // Fetch entries
+      const { data: entries, error: entErr } = await supabase
+        .from("timetable_entries")
+        .select(`
+          id,
+          section_id,
+          subject_id,
+          faculty_id,
+          classroom_id,
+          timetable_period_id,
+          occurrence_index,
+          session_type,
+          is_lab,
+          notes,
+          section:class_sections(id, name),
+          subject:subjects(id, code, name),
+          faculty:faculty(id, employee_id, profile:profiles(first_name, last_name, email)),
+          classroom:classrooms(id, room_number, room_type),
+          period:timetable_periods(id, day_of_week, period_number, start_time, end_time)
+        `)
+        .eq("timetable_generation_id", pubGen.id)
+        .order("occurrence_index", { ascending: true });
+
+      if (entErr) {
+        return { data: null, error: entErr.message, status: 500 };
+      }
+
+      // Fetch periods for the configuration
+      const { data: periods } = await supabase
+        .from("timetable_periods")
+        .select("*")
+        .eq("timetable_configuration_id", targetConfig.id)
+        .eq("is_active", true)
+        .order("period_number", { ascending: true });
+
+      // Fetch section details
+      const { data: section } = await supabase
+        .from("class_sections")
+        .select("*, department:departments(name)")
+        .eq("id", sectionId)
+        .maybeSingle();
+
+      return {
+        data: {
+          generation: pubGen,
+          configuration: targetConfig,
+          section: section || {},
+          entries: entries || [],
+          periods: periods || [],
+        },
+        error: null,
+        status: 200,
+      };
+    } catch {
+      return { data: null, error: "Failed to fetch published timetable for section", status: 500 };
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 11. FETCH PUBLISHED TIMETABLE FOR FACULTY
+  // ---------------------------------------------------------------------------
+  static async fetchPublishedTimetableForFaculty(
+    supabase: SupabaseClient,
+    facultyId: string
+  ): Promise<ServiceResult<{
+    faculty: Record<string, unknown>;
+    entries: any[];
+    periods: any[];
+  }>> {
+    try {
+      if (!facultyId) {
+        return { data: null, error: "Faculty ID is required", status: 400 };
+      }
+
+      // Fetch faculty details
+      const { data: faculty, error: facErr } = await supabase
+        .from("faculty")
+        .select("id, employee_id, department_id, profile:profiles(first_name, last_name, email)")
+        .eq("id", facultyId)
+        .maybeSingle();
+
+      if (facErr || !faculty) {
+        return { data: null, error: "Faculty member not found", status: 404 };
+      }
+
+      // Fetch all entries for this faculty where the generation is published
+      const { data: entries, error: entErr } = await supabase
+        .from("timetable_entries")
+        .select(`
+          id,
+          section_id,
+          subject_id,
+          faculty_id,
+          classroom_id,
+          timetable_period_id,
+          occurrence_index,
+          session_type,
+          is_lab,
+          notes,
+          generation:timetable_generations!inner(
+            id,
+            metadata,
+            configuration:timetable_configurations!inner(
+              id,
+              name,
+              generation_status
+            )
+          ),
+          section:class_sections(id, name),
+          subject:subjects(id, code, name),
+          classroom:classrooms(id, room_number, room_type),
+          period:timetable_periods(id, day_of_week, period_number, start_time, end_time)
+        `)
+        .eq("faculty_id", facultyId);
+
+      if (entErr) {
+        return { data: null, error: entErr.message, status: 500 };
+      }
+
+      // Filter entries to only include those from published generations
+      const publishedEntries = (entries || []).filter((e: any) => {
+        const gen = e.generation;
+        if (!gen) return false;
+        const isPubGen = gen.is_published === true || (gen.metadata && gen.metadata.is_published === true);
+        const isPubConfig = gen.configuration && gen.configuration.generation_status === "PUBLISHED";
+        return isPubGen || isPubConfig;
+      });
+
+      return {
+        data: {
+          faculty,
+          entries: publishedEntries,
+          periods: [],
+        },
+        error: null,
+        status: 200,
+      };
+    } catch {
+      return { data: null, error: "Failed to fetch published timetable for faculty", status: 500 };
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 12. FETCH TIMETABLE DRAFTS
+  // ---------------------------------------------------------------------------
+  static async fetchTimetableDrafts(
+    supabase: SupabaseClient,
+    configurationId?: string
+  ): Promise<ServiceResult<any[]>> {
+    try {
+      let query = supabase
+        .from("timetable_generations")
+        .select(`
+          id,
+          timetable_configuration_id,
+          generation_number,
+          status,
+          solver_name,
+          solver_version,
+          objective_score,
+          hard_constraint_violations,
+          soft_constraint_violations,
+          generation_completed_at,
+          generated_by,
+          is_published,
+          published_at,
+          published_by,
+          archived_at,
+          metadata,
+          created_at,
+          configuration:timetable_configurations(
+            id,
+            name,
+            generation_status,
+            section_id,
+            section:class_sections(id, name)
+          ),
+          author:profiles!generated_by(first_name, last_name, email)
+        `)
+        .order("created_at", { ascending: false });
+
+      if (configurationId) {
+        query = query.eq("timetable_configuration_id", configurationId);
+      }
+
+      const { data, error } = await query;
+      if (error) {
+        return { data: null, error: error.message, status: 500 };
+      }
+
+      return { data: data || [], error: null, status: 200 };
+    } catch {
+      return { data: null, error: "Failed to list timetable drafts", status: 500 };
+    }
+  }
 }
+

@@ -1,0 +1,25 @@
+{
+  "result": {
+    "isValid": false,
+    "totalConflicts": 1,
+    "hardConflictCount": 1,
+    "softConflictCount": 0,
+    "conflicts": [
+      {
+        "id": "room_double_booking_e0000000-0000-0000-0000-000000000001_1_1",
+        "type": "CLASSROOM_DOUBLE_BOOKING",
+        "severity": "HARD",
+        "message": "Classroom e0000000-0000-0000-0000-000000000001 is double-booked on day 1, period 1 for multiple sections",
+        "entities": {
+          "classroom_id": "e0000000-0000-0000-0000-000000000001",
+          "day_of_week": 1,
+          "period_number": 1,
+          "conflicting_entry_ids": []
+        }
+      }
+    ],
+    "conflictsByType": {
+      "CLASSROOM_DOUBLE_BOOKING": 1
+    }
+  }
+}

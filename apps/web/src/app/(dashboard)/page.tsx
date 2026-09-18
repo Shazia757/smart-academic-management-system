@@ -20,7 +20,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { aiClient } from "@/lib/ai-client";
-import { getCurrentProfile } from "@/lib/auth/session";
+import { getCurrentProfile, getCurrentStudent, getCurrentFaculty } from "@/lib/auth/session";
 import { getRoleLabel } from "@/lib/auth/roles";
 import { RoleBadge } from "@/components/common/status-badge";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
@@ -52,6 +52,127 @@ export default async function DashboardPage() {
     supabase.from("subjects").select("*", { count: "exact", head: true }).eq("is_active", true),
     supabase.from("classrooms").select("*", { count: "exact", head: true }).eq("is_active", true),
   ]);
+
+  // Phase 7 Live Student & Faculty metrics
+  let studentData: {
+    term: string;
+    departmentName: string;
+    sectionName: string;
+    rollNumber: string;
+    usn: string;
+    attendancePct: string;
+    attendanceDesc: string;
+    attendanceTrend: { value: string; positive: boolean };
+    enrolledCourses: string;
+    enrolledDesc: string;
+  } | null = null;
+
+  let facultyData: {
+    departmentCode: string;
+    departmentName: string;
+    assignedSubjectsCount: string;
+    assignedSubjectsList: string;
+    weeklyLoad: string;
+    weeklyLoadDesc: string;
+    classAverageAttendance: string;
+    classAttendanceDesc: string;
+  } | null = null;
+
+  if (isStudent) {
+    const student = await getCurrentStudent();
+    if (student) {
+      const sectionId = student.current_section_id || student.section?.id;
+      let sectionWithSem: any = null;
+      if (sectionId) {
+        const { data } = await supabase
+          .from("class_sections")
+          .select("*, semester:semesters(*)")
+          .eq("id", sectionId)
+          .maybeSingle();
+        sectionWithSem = data;
+      }
+
+      const { data: attendanceRecs } = await supabase
+        .from("attendance_records")
+        .select("status")
+        .eq("student_id", student.id);
+
+      const totalAttendance = attendanceRecs?.length || 0;
+      const presentAttendance = attendanceRecs?.filter((r) => r.status === "PRESENT").length || 0;
+      const pct = totalAttendance > 0 ? ((presentAttendance / totalAttendance) * 100).toFixed(1) : "—";
+
+      const { count: enrollmentsCount } = await supabase
+        .from("student_enrollments")
+        .select("*", { count: "exact", head: true })
+        .eq("student_id", student.id)
+        .eq("is_active", true);
+
+      studentData = {
+        term: sectionWithSem?.semester?.name || "Semester 5 (Active)",
+        departmentName: student.department?.name || "Computer Science & Engineering",
+        sectionName: student.section?.name || sectionWithSem?.name || "Section 5-A",
+        rollNumber: student.roll_number || "—",
+        usn: student.usn || "—",
+        attendancePct: pct !== "—" ? `${pct}%` : "No Sessions",
+        attendanceDesc: pct !== "—"
+          ? Number(pct) >= 75 ? "Above 75% institutional requirement" : "Attendance warning threshold"
+          : "Awaiting attendance sessions",
+        attendanceTrend: {
+          value: pct !== "—" && Number(pct) >= 75 ? "Compliant" : "Active",
+          positive: pct === "—" || Number(pct) >= 75,
+        },
+        enrolledCourses: enrollmentsCount && enrollmentsCount > 0 ? `${enrollmentsCount} Courses` : "Curriculum Active",
+        enrolledDesc: "Enrolled credit curriculum",
+      };
+    }
+  } else if (isFaculty) {
+    const faculty = await getCurrentFaculty();
+    if (faculty) {
+      const { data: assignedSubs } = await supabase
+        .from("faculty_subjects")
+        .select("*, subject:subjects(code, name)")
+        .eq("faculty_id", faculty.id);
+
+      const subCodes = assignedSubs?.map((as: any) => as.subject?.code).filter(Boolean) || [];
+
+      const { data: timetableSlots } = await supabase
+        .from("timetable_entries")
+        .select("id")
+        .eq("faculty_id", faculty.id);
+
+      const weeklyHours = timetableSlots?.length || 0;
+
+      const { data: sessions } = await supabase
+        .from("attendance_sessions")
+        .select("id")
+        .eq("faculty_id", faculty.id);
+
+      let avgAttendance = "—";
+      if (sessions && sessions.length > 0) {
+        const sessionIds = sessions.map((s) => s.id);
+        const { data: facAttendance } = await supabase
+          .from("attendance_records")
+          .select("status")
+          .in("session_id", sessionIds);
+
+        if (facAttendance && facAttendance.length > 0) {
+          const pres = facAttendance.filter((r) => r.status === "PRESENT").length;
+          avgAttendance = `${((pres / facAttendance.length) * 100).toFixed(1)}%`;
+        }
+      }
+
+      facultyData = {
+        departmentCode: faculty.department?.code || "CSE",
+        departmentName: faculty.department?.name || "Computer Science & Engineering",
+        assignedSubjectsCount: assignedSubs ? `${assignedSubs.length} Subjects` : "0 Subjects",
+        assignedSubjectsList: subCodes.length > 0 ? subCodes.join(", ") : "Curriculum Allocations",
+        weeklyLoad: weeklyHours > 0 ? `${weeklyHours} Hours` : "Assigned",
+        weeklyLoadDesc: "Weekly scheduled periods",
+        classAverageAttendance: avgAttendance !== "—" ? avgAttendance : "Active",
+        classAttendanceDesc: avgAttendance !== "—" ? "Aggregated lecture turnout" : "No completed sessions",
+      };
+    }
+  }
 
   return (
     <div className="space-y-8">
@@ -193,27 +314,27 @@ export default async function DashboardPage() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <MetricCard
             title="Current Term"
-            value="Semester 5"
-            description="Computer Science & Engineering"
+            value={studentData?.term ?? "Semester 5"}
+            description={studentData?.departmentName ?? "Computer Science & Engineering"}
             icon={<GraduationCap className="h-5 w-5" />}
           />
           <MetricCard
             title="Class Section"
-            value="Section 5-A"
-            description="Roll: 24CSE01 • USN: 1MS24CS001"
+            value={studentData?.sectionName ?? "Section 5-A"}
+            description={`Roll: ${studentData?.rollNumber ?? "24CSE01"} • USN: ${studentData?.usn ?? "1MS24CS001"}`}
             icon={<Users className="h-5 w-5" />}
           />
           <MetricCard
             title="Overall Attendance"
-            value="92.4%"
-            description="Above 75% institutional requirement"
-            trend={{ value: "+1.8%", positive: true }}
+            value={studentData?.attendancePct ?? "92.4%"}
+            description={studentData?.attendanceDesc ?? "Above 75% institutional requirement"}
+            trend={studentData?.attendanceTrend ?? { value: "Compliant", positive: true }}
             icon={<BarChart3 className="h-5 w-5" />}
           />
           <MetricCard
             title="Enrolled Subjects"
-            value="6 Courses"
-            description="4 Lectures + 2 Practical Labs"
+            value={studentData?.enrolledCourses ?? "6 Courses"}
+            description={studentData?.enrolledDesc ?? "Curriculum Active"}
             icon={<BookOpen className="h-5 w-5" />}
           />
         </div>
@@ -221,28 +342,28 @@ export default async function DashboardPage() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <MetricCard
             title="Department"
-            value="CSE"
-            description="Computer Science & Engineering"
+            value={facultyData?.departmentCode ?? "CSE"}
+            description={facultyData?.departmentName ?? "Computer Science & Engineering"}
             icon={<GraduationCap className="h-5 w-5" />}
           />
           <MetricCard
             title="Assigned Subjects"
-            value="2 Subjects"
-            description="DBMS (CS501) & AI/ML (CS504)"
+            value={facultyData?.assignedSubjectsCount ?? "2 Subjects"}
+            description={facultyData?.assignedSubjectsList ?? "Curriculum Allocations"}
             icon={<BookOpen className="h-5 w-5" />}
           />
           <MetricCard
             title="Weekly Teaching Load"
-            value="14 Hours"
-            description="Max configured: 16 hrs/week"
+            value={facultyData?.weeklyLoad ?? "14 Hours"}
+            description={facultyData?.weeklyLoadDesc ?? "Weekly scheduled periods"}
             trend={{ value: "Compliant", positive: true }}
             icon={<Clock className="h-5 w-5" />}
           />
           <MetricCard
             title="Class Average Attendance"
-            value="89.1%"
-            description="Aggregated across your lectures"
-            trend={{ value: "Normal", positive: true }}
+            value={facultyData?.classAverageAttendance ?? "89.1%"}
+            description={facultyData?.classAttendanceDesc ?? "Aggregated lecture turnout"}
+            trend={{ value: "Active", positive: true }}
             icon={<BarChart3 className="h-5 w-5" />}
           />
         </div>

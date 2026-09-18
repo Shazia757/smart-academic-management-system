@@ -1,0 +1,25 @@
+{
+  "result": {
+    "isValid": false,
+    "totalConflicts": 1,
+    "hardConflictCount": 1,
+    "softConflictCount": 0,
+    "conflicts": [
+      {
+        "id": "faculty_double_booking_33333333-3333-3333-3333-333333333331_1_1",
+        "type": "FACULTY_DOUBLE_BOOKING",
+        "severity": "HARD",
+        "message": "Faculty 33333333-3333-3333-3333-333333333331 is double-booked on day 1, period 1 across 2 slots",
+        "entities": {
+          "faculty_id": "33333333-3333-3333-3333-333333333331",
+          "day_of_week": 1,
+          "period_number": 1,
+          "conflicting_entry_ids": []
+        }
+      }
+    ],
+    "conflictsByType": {
+      "FACULTY_DOUBLE_BOOKING": 1
+    }
+  }
+}

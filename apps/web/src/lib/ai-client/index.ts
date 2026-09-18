@@ -108,6 +108,8 @@ export interface SolverConfigInput {
   random_seed?: number;
   num_workers?: number;
   log_search_progress?: boolean;
+  allow_partial?: boolean;
+  preview_only?: boolean;
 }
 
 export interface SchedulingInput {

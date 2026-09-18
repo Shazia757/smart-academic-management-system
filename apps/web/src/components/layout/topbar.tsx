@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { Bell, Search, Moon, Sun, LogOut } from "lucide-react";
 import { Breadcrumbs } from "./breadcrumbs";
 import { Avatar } from "@/components/ui/avatar";
@@ -8,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { RoleBadge } from "@/components/common/status-badge";
 import { Profile } from "@/types/database";
 import { logoutAction } from "@/server/actions/auth";
+import { getUnreadNotificationCountAction } from "@/server/actions/notifications";
 
 interface TopbarProps {
   profile?: Profile | null;
@@ -15,6 +17,15 @@ interface TopbarProps {
 
 export function Topbar({ profile }: TopbarProps) {
   const [isDarkMode, setIsDarkMode] = React.useState(false);
+  const [unreadCount, setUnreadCount] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    if (profile) {
+      getUnreadNotificationCountAction().then((count) => {
+        setUnreadCount(count);
+      });
+    }
+  }, [profile]);
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
@@ -68,15 +79,18 @@ export function Topbar({ profile }: TopbarProps) {
 
         {/* Notification Bell */}
         <div className="relative">
-          <button
+          <Link
+            href="/notifications"
             className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-            title="Notifications"
+            title="Notifications & Alerts"
           >
             <Bell className="h-4 w-4" />
-            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-              3
-            </span>
-          </button>
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                {unreadCount > 9 ? "9+" : unreadCount}
+              </span>
+            )}
+          </Link>
         </div>
 
         {/* Authenticated User Profile Pill */}

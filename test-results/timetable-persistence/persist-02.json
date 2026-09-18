@@ -1,0 +1,41 @@
+{
+  "generation": {
+    "id": "bf2b2acf-cb2d-44ee-be11-1fed2ae5ef79",
+    "timetable_configuration_id": "6b5fd28c-2908-4e5b-ae19-9341fc9f9019",
+    "generation_number": 1,
+    "status": "COMPLETED",
+    "hard_constraint_violations": 0,
+    "metadata": {
+      "section_id": "c0000000-0000-0000-0000-000000000001",
+      "diagnostics": [
+        "Optimal schedule found",
+        "Persistence test draft"
+      ],
+      "is_published": false,
+      "solver_config": {
+        "working_days": 6,
+        "periods_per_day": 7,
+        "period_duration_minutes": 55
+      },
+      "solve_duration_ms": 250
+    }
+  },
+  "entries": [
+    {
+      "id": "5dcfa89f-2543-4429-b441-ccc4b75c985b",
+      "subject_id": "f0000000-0000-0000-0000-000000000001",
+      "faculty_id": "33333333-3333-3333-3333-333333333331",
+      "classroom_id": "e0000000-0000-0000-0000-000000000001",
+      "timetable_period_id": "1507e64d-f4e4-4526-b78b-c68e4589e01d",
+      "notes": "Initial Draft Slot 1"
+    },
+    {
+      "id": "dc83c9bc-9322-479d-abb7-bdb7e132b4d3",
+      "subject_id": "f0000000-0000-0000-0000-000000000002",
+      "faculty_id": "33333333-3333-3333-3333-333333333332",
+      "classroom_id": "e0000000-0000-0000-0000-000000000002",
+      "timetable_period_id": "ba44fbdd-5479-442f-b899-c7f31cc43de4",
+      "notes": "Initial Draft Slot 2"
+    }
+  ]
+}

@@ -1,15 +1,40 @@
 import * as React from "react";
 import Link from "next/link";
-import { ShieldCheck, ArrowLeft, Database } from "lucide-react";
+import { ShieldCheck, ArrowLeft } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { requireAnyRole } from "@/lib/auth/session";
 import { ROLES } from "@/lib/auth/roles";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { AuditLedgerClient, AuditLogEntry } from "@/components/audit/audit-ledger-client";
+
+export const dynamic = "force-dynamic";
 
 export default async function AuditLogsPage() {
   // Server-side Guard: Super Admin & College Admin only
   const profile = await requireAnyRole([ROLES.SUPER_ADMIN, ROLES.COLLEGE_ADMIN]);
+  const supabase = await createServerSupabaseClient();
+
+  const { data: rawLogs } = await supabase
+    .from("audit_logs")
+    .select(`
+      id,
+      user_id,
+      action,
+      entity_name,
+      entity_id,
+      old_values,
+      new_values,
+      ip_address,
+      user_agent,
+      created_at,
+      profile:profiles(first_name, last_name, email, role)
+    `)
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  const logs = ((rawLogs || []) as unknown) as AuditLogEntry[];
 
   return (
     <div className="space-y-6">
@@ -51,17 +76,7 @@ export default async function AuditLogsPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="rounded-xl border border-dashed border-border bg-muted/20 p-8 text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-destructive/10 text-destructive mb-3">
-              <Database className="h-6 w-6" />
-            </div>
-            <h3 className="text-sm font-semibold text-foreground">
-              Audit Logs Security Ledger
-            </h3>
-            <p className="mt-1 text-xs text-muted-foreground max-w-md mx-auto">
-              This module requires administrative privileges. PostgreSQL audit triggers configured in Migration 003 record administrative actions automatically into public.audit_logs.
-            </p>
-          </div>
+          <AuditLedgerClient initialLogs={logs} />
         </CardContent>
       </Card>
     </div>
