@@ -9,7 +9,7 @@ import {
   saveFacultyAvailabilityAction,
   deleteFacultyAvailabilityAction,
 } from "@/server/actions/availability";
-import { Clock, CheckCircle2, XCircle, AlertCircle, Loader2, Sparkles, User } from "lucide-react";
+import { Clock, CheckCircle2, XCircle, AlertCircle, Loader2, User } from "lucide-react";
 
 interface AvailabilityClientProps {
   facultyList: (Faculty & { department?: Department; profile?: Profile | null })[];
@@ -141,9 +141,9 @@ export function AvailabilityClient({
   return (
     <div className="space-y-6">
       {/* Top Selector & Legend Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-lg border border-border bg-card shadow-xs">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10 text-primary">
+          <div className="p-2 rounded-md bg-primary/10 text-primary">
             <User className="w-5 h-5" />
           </div>
           <div>
@@ -194,7 +194,7 @@ export function AvailabilityClient({
       </div>
 
       {/* Weekly Schedule Grid */}
-      <div className="rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm shadow-sm overflow-hidden">
+      <div className="rounded-lg border border-border bg-card shadow-xs overflow-hidden">
         <div className="p-4 border-b border-border/60 bg-muted/20 flex items-center justify-between">
           <div>
             <h3 className="font-semibold text-foreground text-sm flex items-center gap-2">

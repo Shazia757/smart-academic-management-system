@@ -64,7 +64,7 @@ export function ModalDialog({
 
       {/* Modal Card */}
       <div
-        className={`relative z-10 w-full ${maxWidthMap[maxWidth]} bg-card text-card-foreground border border-border/70 rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200`}
+        className={`relative z-10 w-full ${maxWidthMap[maxWidth]} bg-card text-card-foreground border border-border rounded-lg shadow-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200`}
       >
         <div className="flex items-start justify-between p-6 border-b border-border/50 bg-muted/20">
           <div>

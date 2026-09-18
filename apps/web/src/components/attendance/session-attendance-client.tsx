@@ -21,7 +21,6 @@ import {
   FileSpreadsheet,
   Edit3,
   Loader2,
-  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -681,7 +680,7 @@ export function SessionAttendanceClient({
                               type="button"
                               onClick={() => handleStatusChange(row.student_id, st)}
                               disabled={!isEditable || isSaving}
-                              className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all ${
+                              className={`px-3 py-1.5 min-h-[32px] text-xs font-semibold rounded-md transition-all ${
                                 isSelected
                                   ? activeColor
                                   : "text-muted-foreground hover:text-foreground hover:bg-background/50 disabled:opacity-40"
@@ -709,14 +708,13 @@ export function SessionAttendanceClient({
                     {/* Recognition / Verification Info */}
                     <td className="py-3 px-4 whitespace-nowrap text-right text-xs">
                       {row.recognition_method === "FACIAL_RECOGNITION" ? (
-                        <div className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
-                          <Camera className="w-3.5 h-3.5" />
-                          <span>
-                            {row.confidence_score
-                              ? `${Math.round(row.confidence_score * 100)}% Match`
-                              : "Face Match"}
-                          </span>
-                        </div>
+                        <Badge
+                          variant="outline"
+                          className="text-[10px] gap-1 text-purple-600 dark:text-purple-400 border-purple-500/30 bg-purple-50/50 dark:bg-purple-950/20"
+                        >
+                          <Camera className="w-3 h-3" />
+                          <span>Facial {row.confidence_score ? `${Math.round(row.confidence_score * 100)}%` : ""}</span>
+                        </Badge>
                       ) : (
                         <span className="text-muted-foreground text-[11px]">Manual</span>
                       )}
@@ -731,13 +729,13 @@ export function SessionAttendanceClient({
 
       {/* Floating Save Toolbar when Unsaved Changes exist */}
       {hasUnsavedChanges && isEditable && (
-        <div className="fixed bottom-6 right-8 z-40 p-4 rounded-2xl bg-card/95 backdrop-blur-md border border-primary/30 shadow-2xl flex items-center gap-4 animate-in slide-in-from-bottom-5">
+        <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-8 z-40 p-3.5 rounded-lg bg-card border border-border shadow-lg flex items-center justify-between sm:justify-start gap-4">
           <div className="flex items-center gap-2 text-xs">
-            <span className="relative flex h-2.5 w-2.5">
+            <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
             </span>
-            <span className="font-semibold text-foreground">You have unsaved changes</span>
+            <span className="font-semibold text-foreground">Unsaved attendance changes</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -745,14 +743,14 @@ export function SessionAttendanceClient({
               size="sm"
               onClick={() => handleSaveAttendance(false)}
               disabled={isSaving}
-              className="gap-1.5 shadow-sm"
+              className="gap-1.5 shadow-xs h-8 text-xs font-semibold"
             >
               {isSaving ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
               ) : (
-                <Save className="w-4 h-4" />
+                <Save className="w-3.5 h-3.5" />
               )}
-              Save Now
+              Save Changes
             </Button>
           </div>
         </div>

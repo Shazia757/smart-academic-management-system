@@ -162,7 +162,7 @@ export function NotificationsClient({ initialNotifications }: NotificationsClien
       {displayedNotifications.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center p-12 text-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-muted-foreground mb-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted text-muted-foreground mb-3">
               <Bell className="h-6 w-6" />
             </div>
             <h3 className="text-sm font-semibold text-foreground">
@@ -186,14 +186,14 @@ export function NotificationsClient({ initialNotifications }: NotificationsClien
             return (
               <div
                 key={notification.id}
-                className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border transition-all ${
+                className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-lg border transition-all ${
                   notification.is_read
                     ? "border-border/60 bg-card/60 opacity-80"
                     : "border-primary/30 bg-primary/5 shadow-xs"
                 }`}
               >
                 <div className="flex items-start gap-3.5">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-background border border-border">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-background border border-border">
                     {getNotificationIcon(notification.type)}
                   </div>
                   <div>

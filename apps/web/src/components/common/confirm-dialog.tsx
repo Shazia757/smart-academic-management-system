@@ -45,7 +45,7 @@ export function ConfirmDialog({
       <div className="space-y-5">
         <div className="flex items-start gap-3">
           <div
-            className={`p-2.5 rounded-xl shrink-0 ${
+            className={`p-2.5 rounded-md shrink-0 ${
               isDestructive
                 ? "bg-rose-500/10 text-rose-600 dark:text-rose-400"
                 : "bg-amber-500/10 text-amber-600 dark:text-amber-400"

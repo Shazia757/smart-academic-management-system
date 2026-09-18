@@ -3,7 +3,7 @@ import { requireAnyRole } from "@/lib/auth/session";
 import { ADMIN_ROLES } from "@/lib/auth/roles";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { TimetableGeneratorClient } from "@/components/timetable/timetable-generator-client";
-import { Sparkles } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Generate Timetable | Smart Academic Management System",
@@ -60,20 +60,15 @@ export default async function TimetableGeneratePage() {
     <div className="space-y-6">
       {/* Page Header */}
       <div className="flex items-center gap-3">
-        <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
-          <Sparkles className="w-6 h-6 text-primary" />
+        <div className="p-2.5 rounded-lg bg-primary/10 text-primary border border-primary/20">
+          <CalendarDays className="w-5 h-5 text-primary" />
         </div>
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">
-              Timetable Generation & Preview
-            </h1>
-            <span className="px-2 py-0.5 text-xs font-semibold rounded-md bg-accent/20 text-accent border border-accent/30">
-              Phase 4.3
-            </span>
-          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
+            Timetable Generation & Management
+          </h1>
           <p className="text-sm text-muted-foreground">
-            Solve and preview conflict-free weekly schedules in memory using Google OR-Tools CP-SAT before publishing.
+            Solve, review, and persist conflict-free weekly schedules before publishing to faculty and students.
           </p>
         </div>
       </div>

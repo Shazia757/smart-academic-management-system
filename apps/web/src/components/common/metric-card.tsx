@@ -1,12 +1,11 @@
 import * as React from "react";
-import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 interface MetricCardProps {
   title: string;
   value: string | number;
   description?: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   trend?: {
     value: string;
     positive?: boolean;
@@ -23,40 +22,47 @@ export function MetricCard({
   className,
 }: MetricCardProps) {
   return (
-    <Card className={cn("hover:shadow-card-hover transition-all duration-200 border-border/80", className)}>
-      <CardContent className="p-5">
-        <div className="flex items-center justify-between">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            {title}
-          </p>
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+    <div
+      className={cn(
+        "rounded-lg border border-border bg-card p-4 transition-colors",
+        className
+      )}
+    >
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-medium text-muted-foreground">
+          {title}
+        </span>
+        {icon && (
+          <div className="flex h-8 w-8 items-center justify-center rounded border border-border bg-muted/50 text-muted-foreground">
             {icon}
           </div>
-        </div>
+        )}
+      </div>
 
-        <div className="mt-3">
-          <div className="text-2xl font-bold tracking-tight text-foreground">
-            {value}
-          </div>
-          {(description || trend) && (
-            <div className="mt-1 flex items-center gap-1.5 text-xs">
-              {trend && (
-                <span
-                  className={cn(
-                    "font-semibold",
-                    trend.positive ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
-                  )}
-                >
-                  {trend.value}
-                </span>
-              )}
-              {description && (
-                <span className="text-muted-foreground">{description}</span>
-              )}
-            </div>
-          )}
+      <div className="mt-2">
+        <div className="text-xl font-bold tracking-tight text-foreground">
+          {value}
         </div>
-      </CardContent>
-    </Card>
+        {(description || trend) && (
+          <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[11px]">
+            {trend && (
+              <span
+                className={cn(
+                  "font-medium",
+                  trend.positive
+                    ? "text-emerald-600 dark:text-emerald-400"
+                    : "text-amber-600 dark:text-amber-400"
+                )}
+              >
+                {trend.value}
+              </span>
+            )}
+            {description && (
+              <span className="text-muted-foreground truncate">{description}</span>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

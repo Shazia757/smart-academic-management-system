@@ -13,7 +13,7 @@ import {
   updateClassroomAction,
   toggleClassroomActiveAction,
 } from "@/server/actions/classrooms";
-import { Plus, Edit2, Power, DoorOpen, Loader2, AlertCircle, Sparkles } from "lucide-react";
+import { Plus, Edit2, Power, DoorOpen, Loader2, AlertCircle } from "lucide-react";
 
 interface ClassroomClientProps {
   classrooms: (Classroom & { department?: Department | null })[];

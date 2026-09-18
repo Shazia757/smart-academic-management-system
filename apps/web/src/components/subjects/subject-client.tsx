@@ -13,7 +13,7 @@ import {
   updateSubjectAction,
   toggleSubjectActiveAction,
 } from "@/server/actions/subjects";
-import { Plus, Edit2, Power, BookOpen, Loader2, AlertCircle, Sparkles } from "lucide-react";
+import { Plus, Edit2, Power, BookOpen, Loader2, AlertCircle } from "lucide-react";
 
 interface SubjectClientProps {
   subjects: (Subject & { department?: Department; semester?: Semester })[];

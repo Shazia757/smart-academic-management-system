@@ -29,7 +29,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Sparkles,
   Calendar,
   Layers,
   Clock,
@@ -1191,7 +1190,7 @@ export function TimetableGeneratorClient({
                     </>
                   ) : (
                     <>
-                      <Sparkles className="w-4 h-4 text-accent" />
+                      <CalendarDays className="w-4 h-4 text-primary-foreground" />
                       <span>Generate Timetable (Preview)</span>
                     </>
                   )}

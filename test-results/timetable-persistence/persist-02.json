@@ -1,7 +1,7 @@
 {
   "generation": {
-    "id": "5ee45169-0f4f-4a27-91d8-3ec4f1761b2f",
-    "timetable_configuration_id": "cc95d840-33be-4431-81d3-af79d3ffaa69",
+    "id": "1507206c-3ac1-4070-b5a8-9b687a736fcd",
+    "timetable_configuration_id": "7f682129-0859-4584-8bcc-6334a0eb5df4",
     "generation_number": 1,
     "status": "COMPLETED",
     "hard_constraint_violations": 0,
@@ -22,19 +22,19 @@
   },
   "entries": [
     {
-      "id": "bec2d835-8e87-4b01-9e10-d7d04c8d09ad",
+      "id": "8af2dc43-c098-48a1-ad4a-1ea3b35a4983",
       "subject_id": "f0000000-0000-0000-0000-000000000001",
       "faculty_id": "33333333-3333-3333-3333-333333333331",
       "classroom_id": "e0000000-0000-0000-0000-000000000001",
-      "timetable_period_id": "85fd2769-469d-40c2-bb54-c4242b840a6c",
+      "timetable_period_id": "67f8c0d3-c394-4433-b441-b6df5f21de24",
       "notes": "Initial Draft Slot 1"
     },
     {
-      "id": "a6984980-79fc-4813-acae-292a460b4f2f",
+      "id": "5452aa47-c11b-4e95-9834-e4543a985ee9",
       "subject_id": "f0000000-0000-0000-0000-000000000002",
       "faculty_id": "33333333-3333-3333-3333-333333333332",
       "classroom_id": "e0000000-0000-0000-0000-000000000002",
-      "timetable_period_id": "6e6031c9-09dc-4f4e-a6ad-876f74c14d92",
+      "timetable_period_id": "67ebf6e2-1a90-4b77-ae3a-08b1ea46ee46",
       "notes": "Initial Draft Slot 2"
     }
   ]

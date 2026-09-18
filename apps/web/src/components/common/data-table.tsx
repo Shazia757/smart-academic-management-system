@@ -107,23 +107,23 @@ export function DataTable<T>({
       </div>
 
       {/* Table Container */}
-      <div className="rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm shadow-sm overflow-hidden">
+      <div className="rounded-lg border border-border bg-card shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-muted/40 border-b border-border/60 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <thead className="bg-muted/50 border-b border-border text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               <tr>
                 {columns.map((col, idx) => (
                   <th
                     key={idx}
                     scope="col"
-                    className={`px-5 py-3.5 ${col.className || ""}`}
+                    className={`px-4 py-3 ${col.className || ""}`}
                   >
                     {col.header}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-border/40">
+            <tbody className="divide-y divide-border/60">
               {isLoading ? (
                 <tr>
                   <td colSpan={columns.length} className="py-16 text-center">
@@ -163,7 +163,7 @@ export function DataTable<T>({
                     {columns.map((col, colIdx) => (
                       <td
                         key={colIdx}
-                        className={`px-5 py-4 align-middle ${col.className || ""}`}
+                        className={`px-4 py-3 align-middle ${col.className || ""}`}
                       >
                         {col.cell
                           ? col.cell(row)

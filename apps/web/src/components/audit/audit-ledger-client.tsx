@@ -117,7 +117,7 @@ export function AuditLedgerClient({ initialLogs }: AuditLedgerClientProps) {
       {filteredLogs.length === 0 ? (
         <Card>
           <CardContent className="flex flex-col items-center justify-center p-12 text-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-muted-foreground mb-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted text-muted-foreground mb-3">
               <Database className="h-6 w-6" />
             </div>
             <h3 className="text-sm font-semibold text-foreground">No Audit Records Found</h3>
@@ -129,7 +129,7 @@ export function AuditLedgerClient({ initialLogs }: AuditLedgerClientProps) {
           </CardContent>
         </Card>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-border bg-card">
+        <div className="overflow-hidden rounded-lg border border-border bg-card shadow-xs">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="border-b border-border bg-muted/40 font-medium text-muted-foreground">

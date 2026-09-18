@@ -33,7 +33,6 @@ import {
   RefreshCw,
   Power,
   Layers,
-  Sparkles,
   Info,
   Calendar,
 } from "lucide-react";
@@ -793,11 +792,11 @@ export function TimetableConfigurationClient({
 
           {/* RIGHT COLUMN: Live Schedule Timeline Preview (5 Cols) */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="p-6 rounded-2xl bg-card border border-border/80 shadow-sm sticky top-6">
+            <div className="p-6 rounded-lg bg-card border border-border shadow-xs sticky top-6">
               <div className="flex items-center justify-between pb-3 border-b border-border/60">
                 <div>
                   <h3 className="text-base font-bold text-foreground flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-primary" />
+                    <Clock className="w-4 h-4 text-primary" />
                     Live Schedule Preview
                   </h3>
                   <p className="text-xs text-muted-foreground mt-0.5">

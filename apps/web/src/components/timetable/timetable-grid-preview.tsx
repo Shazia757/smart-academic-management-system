@@ -16,7 +16,6 @@ import {
   Coffee,
   Calendar,
   Layers,
-  Sparkles,
   RotateCcw,
   Filter,
   CheckCircle2,

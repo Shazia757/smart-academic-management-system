@@ -18,19 +18,19 @@ export default function LoginPage() {
       <div className="relative w-full max-w-md">
         {/* Institutional Brand Header */}
         <div className="text-center mb-6">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-md mb-3">
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-xs mb-3">
             <GraduationCap className="h-6 w-6" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground">
             Smart Academic Management System
           </h1>
           <p className="mt-1 text-xs text-muted-foreground">
-            Enterprise Academic Platform • Single Sign-On Access
+            Academic Administration & Student Information Portal
           </p>
         </div>
 
         {/* Auth Card */}
-        <div className="rounded-2xl border border-border bg-card/90 p-8 shadow-glass backdrop-blur-md">
+        <div className="rounded-lg border border-border bg-card p-6 sm:p-8 shadow-sm">
           <div className="mb-6">
             <h2 className="text-base font-semibold text-foreground">
               Sign In to Your Account

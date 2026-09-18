@@ -9,7 +9,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   CalendarDays,
-  Sparkles,
   ShieldCheck,
   CheckCircle2,
   AlertCircle,
@@ -127,7 +126,7 @@ export function TimetablePublishedViewerClient({
           {isAdmin && (
             <Link href="/timetable/generate">
               <Button variant="outline" size="sm" className="gap-2 text-xs h-8">
-                <Sparkles className="h-3.5 w-3.5 text-primary" />
+                <CalendarDays className="h-3.5 w-3.5 text-primary" />
                 Generator & Drafts
               </Button>
             </Link>
@@ -253,7 +252,7 @@ export function TimetablePublishedViewerClient({
             {isAdmin && (
               <Link href="/timetable/generate" className="mt-2">
                 <Button size="sm" className="gap-2 text-xs">
-                  <Sparkles className="h-3.5 w-3.5" />
+                  <CalendarDays className="h-3.5 w-3.5" />
                   Generate and Publish Schedule
                 </Button>
               </Link>
