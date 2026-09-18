@@ -1,6 +1,6 @@
 {
   "suite": "Phase 6.5 Timetable Persistence & Publishing",
-  "timestamp": "2026-09-18T11:56:16.111Z",
+  "timestamp": "2026-09-18T13:44:04.582Z",
   "total_tests": 14,
   "passed": 14,
   "failed": 0,
@@ -10,7 +10,7 @@
       "area": "Database Persistence",
       "name": "Save Timetable Draft to Database",
       "expected": "Timetable draft persisted with generation ID, status COMPLETED, and entries created",
-      "actual": "Saved generation_id=bf2b2acf-cb2d-44ee-be11-1fed2ae5ef79, generation_number=1, entries_count=2",
+      "actual": "Saved generation_id=5ee45169-0f4f-4a27-91d8-3ec4f1761b2f, generation_number=1, entries_count=2",
       "status": "PASS",
       "evidenceFile": "test-results/timetable-persistence/persist-01.json"
     },
@@ -19,7 +19,7 @@
       "area": "Timetable Retrieval",
       "name": "Retrieve Timetable Draft by ID with Entries",
       "expected": "Returns the exact saved generation with 2 persisted entries",
-      "actual": "Retrieved generation bf2b2acf-cb2d-44ee-be11-1fed2ae5ef79 with 2 entries",
+      "actual": "Retrieved generation 5ee45169-0f4f-4a27-91d8-3ec4f1761b2f with 2 entries",
       "status": "PASS",
       "evidenceFile": "test-results/timetable-persistence/persist-02.json"
     },
@@ -28,7 +28,7 @@
       "area": "Database Persistence",
       "name": "Update Existing Timetable Draft Entry",
       "expected": "Entry updated in-place without creating duplicate parent generation",
-      "actual": "Entry 5dcfa89f-2543-4429-b441-ccc4b75c985b updated successfully: notes=\"Updated Draft Slot 1 — Rescheduled Room\"",
+      "actual": "Entry bec2d835-8e87-4b01-9e10-d7d04c8d09ad updated successfully: notes=\"Updated Draft Slot 1 — Rescheduled Room\"",
       "status": "PASS",
       "evidenceFile": "test-results/timetable-persistence/persist-03.json"
     },
@@ -37,7 +37,7 @@
       "area": "Duplicate Prevention",
       "name": "Sequential Generation Numbering Prevents Duplicate Overwrites",
       "expected": "Re-saving draft generates generation_number = 2 without primary key collision",
-      "actual": "Second generation created safely: generation_number=2, id=be478c85-5dd9-45e7-92f2-9152532b196b",
+      "actual": "Second generation created safely: generation_number=2, id=05a5d41d-9d2c-4513-b2f2-27661914f5c4",
       "status": "PASS",
       "evidenceFile": "test-results/timetable-persistence/persist-04.json"
     },
@@ -46,7 +46,7 @@
       "area": "Database Persistence",
       "name": "Delete Draft Timetable Generation Safely",
       "expected": "Draft generation and its entries deleted cleanly without foreign key violations",
-      "actual": "Generation be478c85-5dd9-45e7-92f2-9152532b196b deleted cleanly",
+      "actual": "Generation 05a5d41d-9d2c-4513-b2f2-27661914f5c4 deleted cleanly",
       "status": "PASS",
       "evidenceFile": "test-results/timetable-persistence/persist-05.json"
     },
@@ -100,7 +100,7 @@
       "area": "Published Timetable Access",
       "name": "Student Can View Published Timetable for Section",
       "expected": "Student queries published timetable and receives the verified active schedule",
-      "actual": "Student successfully viewed published config \"Phase6.5-Persistence-Test-1789732570250\"",
+      "actual": "Student successfully viewed published config \"Phase6.5-Persistence-Test-1789739036622\"",
       "status": "PASS",
       "evidenceFile": "test-results/timetable-persistence/access-01.json"
     },

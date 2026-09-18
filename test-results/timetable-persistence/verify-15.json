@@ -13,17 +13,17 @@
   "step-02": {
     "action": "Save Draft",
     "returned": {
-      "generation_id": "fb4069c6-8a03-4a1a-97e2-2266f1c17e66",
+      "generation_id": "aa7461d4-aabd-454d-ab10-46bd13eeb6eb",
       "generation_number": 2,
       "inserted_entry_count": 2
     }
   },
   "step-03": {
-    "captured_timetable_id": "fb4069c6-8a03-4a1a-97e2-2266f1c17e66"
+    "captured_timetable_id": "aa7461d4-aabd-454d-ab10-46bd13eeb6eb"
   },
   "step-04": {
     "generation": {
-      "id": "fb4069c6-8a03-4a1a-97e2-2266f1c17e66",
+      "id": "aa7461d4-aabd-454d-ab10-46bd13eeb6eb",
       "status": "COMPLETED",
       "generation_number": 2,
       "metadata": {
@@ -43,12 +43,12 @@
     "entries_count": 2
   },
   "step-05": {
-    "updated_entry_id": "8b11b5be-51cb-410f-b795-2891419147db",
+    "updated_entry_id": "f3892f99-1149-4e70-b3c3-1f0547abaf1e",
     "new_notes": "Verified Persistence Step 5 — Updated Note"
   },
   "step-06": {
     "retrieved_entry": {
-      "id": "8b11b5be-51cb-410f-b795-2891419147db",
+      "id": "f3892f99-1149-4e70-b3c3-1f0547abaf1e",
       "notes": "Verified Persistence Step 5 — Updated Note"
     }
   },
@@ -60,17 +60,17 @@
     "action": "Publish",
     "metadata": {
       "is_published": true,
-      "published_at": "2026-09-18T11:56:14.678Z",
+      "published_at": "2026-09-18T13:44:02.836Z",
       "published_by": "34d1fc9d-b69a-45ed-b95c-41d13afd3f5a",
       "publisher_name": "Super Administrator"
     }
   },
   "step-09": {
     "generation": {
-      "id": "fb4069c6-8a03-4a1a-97e2-2266f1c17e66",
+      "id": "aa7461d4-aabd-454d-ab10-46bd13eeb6eb",
       "metadata": {
         "is_published": true,
-        "published_at": "2026-09-18T11:56:14.678Z",
+        "published_at": "2026-09-18T13:44:02.836Z",
         "published_by": "34d1fc9d-b69a-45ed-b95c-41d13afd3f5a",
         "publisher_name": "Super Administrator"
       }
@@ -83,7 +83,7 @@
     "status_is_published": true
   },
   "step-11": {
-    "published_at": "2026-09-18T11:56:14.678Z",
+    "published_at": "2026-09-18T13:44:02.836Z",
     "is_present": true
   },
   "step-12": {
@@ -97,10 +97,10 @@
   },
   "step-14": {
     "generation": {
-      "id": "fb4069c6-8a03-4a1a-97e2-2266f1c17e66",
+      "id": "aa7461d4-aabd-454d-ab10-46bd13eeb6eb",
       "metadata": {
         "is_published": true,
-        "published_at": "2026-09-18T11:56:14.678Z",
+        "published_at": "2026-09-18T13:44:02.836Z",
         "published_by": "34d1fc9d-b69a-45ed-b95c-41d13afd3f5a",
         "publisher_name": "Super Administrator"
       },
@@ -108,11 +108,11 @@
     },
     "entries": [
       {
-        "id": "8b11b5be-51cb-410f-b795-2891419147db",
+        "id": "f3892f99-1149-4e70-b3c3-1f0547abaf1e",
         "notes": "Verified Persistence Step 5 — Updated Note"
       },
       {
-        "id": "b6b1e998-af58-4ab1-84cc-f03e40c28534",
+        "id": "86299097-7686-4a4b-9a07-b5b0477f77e9",
         "notes": "Initial Draft Slot 2"
       }
     ]
