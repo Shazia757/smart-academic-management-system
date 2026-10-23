@@ -91,24 +91,29 @@ export function NotificationsClient({ initialNotifications }: NotificationsClien
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <div className="flex items-center gap-2.5">
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">
-              Notifications & Alerts
-            </h1>
-            {unreadCount > 0 ? (
-              <Badge variant="destructive" className="text-xs">
-                {unreadCount} Unread
-              </Badge>
-            ) : (
-              <Badge variant="success" className="text-xs">
-                All Caught Up
-              </Badge>
-            )}
+        <div className="flex items-center gap-3.5">
+          <div className="p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20 shadow-xs">
+            <Bell className="w-6 h-6" />
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Real-time timetable releases, room reassignments, and administrative notices.
-          </p>
+          <div>
+            <div className="flex items-center gap-2.5">
+              <h1 className="text-2xl font-bold tracking-tight text-foreground">
+                Notifications & Alerts
+              </h1>
+              {unreadCount > 0 ? (
+                <Badge variant="destructive" className="text-xs rounded-full px-2.5 py-0.5 font-semibold">
+                  {unreadCount} Unread
+                </Badge>
+              ) : (
+                <Badge variant="success" className="text-xs rounded-full px-2.5 py-0.5 font-semibold">
+                  All Caught Up
+                </Badge>
+              )}
+            </div>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Real-time timetable releases, room reassignments, and administrative notices.
+            </p>
+          </div>
         </div>
 
         <div className="flex items-center gap-3">
@@ -118,7 +123,7 @@ export function NotificationsClient({ initialNotifications }: NotificationsClien
               size="sm"
               onClick={handleMarkAllAsRead}
               disabled={isMarkingAll}
-              className="gap-1.5 text-xs"
+              className="gap-2 text-xs rounded-xl shadow-subtle"
             >
               <CheckCheck className="h-4 w-4" />
               Mark All as Read
@@ -128,31 +133,31 @@ export function NotificationsClient({ initialNotifications }: NotificationsClien
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center justify-between border-b border-border pb-3">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between border-b border-border/80 pb-3">
+        <div className="flex items-center gap-2 bg-muted/40 p-1 rounded-xl border border-border/80">
           <button
             onClick={() => setFilter("all")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               filter === "all"
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted text-muted-foreground hover:text-foreground"
+                ? "bg-card text-foreground shadow-xs border border-border/80"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             All ({notifications.length})
           </button>
           <button
             onClick={() => setFilter("unread")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               filter === "unread"
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted text-muted-foreground hover:text-foreground"
+                ? "bg-card text-foreground shadow-xs border border-border/80"
+                : "text-muted-foreground hover:text-foreground"
             }`}
           >
             Unread ({unreadCount})
           </button>
         </div>
 
-        <span className="text-xs text-muted-foreground flex items-center gap-1.5">
+        <span className="text-xs text-muted-foreground flex items-center gap-1.5 font-medium">
           <Clock className="h-3.5 w-3.5" />
           Sorted by newest
         </span>
@@ -160,12 +165,12 @@ export function NotificationsClient({ initialNotifications }: NotificationsClien
 
       {/* Notifications List */}
       {displayedNotifications.length === 0 ? (
-        <Card>
+        <Card className="rounded-2xl border-border/80 shadow-card">
           <CardContent className="flex flex-col items-center justify-center p-12 text-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted text-muted-foreground mb-3">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted/60 text-muted-foreground mb-3">
               <Bell className="h-6 w-6" />
             </div>
-            <h3 className="text-sm font-semibold text-foreground">
+            <h3 className="text-sm font-bold text-foreground">
               {filter === "unread" ? "No unread alerts" : "No notifications"}
             </h3>
             <p className="mt-1 text-xs text-muted-foreground max-w-sm">
@@ -186,32 +191,32 @@ export function NotificationsClient({ initialNotifications }: NotificationsClien
             return (
               <div
                 key={notification.id}
-                className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-lg border transition-all ${
+                className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl border transition-all duration-200 ${
                   notification.is_read
-                    ? "border-border/60 bg-card/60 opacity-80"
-                    : "border-primary/30 bg-primary/5 shadow-xs"
+                    ? "border-border/80 bg-card hover:shadow-card"
+                    : "border-primary/30 bg-primary/5 shadow-card hover:shadow-card-hover"
                 }`}
               >
-                <div className="flex items-start gap-3.5">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-background border border-border">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-card border border-border/80 shadow-xs">
                     {getNotificationIcon(notification.type)}
                   </div>
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-sm font-semibold text-foreground">
+                      <span className="text-sm font-bold text-foreground">
                         {notification.title}
                       </span>
-                      <Badge variant={getTypeBadgeVariant(notification.type) as any} className="text-[10px]">
+                      <Badge variant={getTypeBadgeVariant(notification.type) as any} className="text-[10px] rounded-full px-2 py-0.5 font-semibold">
                         {notification.type.replace("_", " ")}
                       </Badge>
                       {!notification.is_read && (
-                        <span className="h-2 w-2 rounded-full bg-primary" />
+                        <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
                       )}
                     </div>
                     <p className="mt-1 text-xs text-muted-foreground line-clamp-2">
                       {notification.message}
                     </p>
-                    <span className="mt-1.5 block text-[11px] text-muted-foreground/80 font-mono">
+                    <span className="mt-2 block text-[11px] text-muted-foreground/80 font-mono">
                       {dateStr}
                     </span>
                   </div>
@@ -221,7 +226,7 @@ export function NotificationsClient({ initialNotifications }: NotificationsClien
                   {notification.action_url && (
                     <Link
                       href={notification.action_url}
-                      className={buttonVariants({ variant: "outline", size: "sm", className: "gap-1 text-xs h-8" })}
+                      className={buttonVariants({ variant: "outline", size: "sm", className: "gap-1.5 text-xs h-9 rounded-xl shadow-subtle" })}
                       onClick={() => {
                         if (!notification.is_read) {
                           handleMarkAsRead(notification.id);
@@ -237,9 +242,9 @@ export function NotificationsClient({ initialNotifications }: NotificationsClien
                       variant="ghost"
                       size="sm"
                       onClick={() => handleMarkAsRead(notification.id)}
-                      className="gap-1 text-xs h-8 text-muted-foreground hover:text-foreground"
+                      className="gap-1.5 text-xs h-9 rounded-xl text-muted-foreground hover:text-foreground"
                     >
-                      <CheckCircle2 className="h-3.5 w-3.5" />
+                      <CheckCircle2 className="h-4 w-4" />
                       Mark Read
                     </Button>
                   )}

@@ -64,15 +64,15 @@ export function ModalDialog({
 
       {/* Modal Card */}
       <div
-        className={`relative z-10 w-full ${maxWidthMap[maxWidth]} bg-card text-card-foreground border border-border rounded-lg shadow-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200`}
+        className={`relative z-10 w-full ${maxWidthMap[maxWidth]} bg-card text-card-foreground border border-border/80 rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200`}
       >
-        <div className="flex items-start justify-between p-6 border-b border-border/50 bg-muted/20">
+        <div className="flex items-start justify-between p-6 border-b border-border/70 bg-muted/20">
           <div>
-            <h2 id="modal-dialog-title" className="text-xl font-semibold tracking-tight text-foreground">
+            <h2 id="modal-dialog-title" className="text-xl font-bold tracking-tight text-foreground">
               {title}
             </h2>
             {description && (
-              <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+              <p className="mt-1 text-sm text-muted-foreground font-normal">{description}</p>
             )}
           </div>
           <Button

@@ -182,27 +182,27 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* 1. Academic Header Banner */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-border pb-5">
+      <div className="rounded-2xl border border-border/80 bg-card p-5 sm:p-6 shadow-card flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2.5">
             <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
               {isStudent
                 ? "Student Academic Portal"
                 : isFaculty
-                ? "Faculty Teaching Workspace"
-                : isSuperAdmin
-                ? "Institution Operations Center"
-                : "Academic Administration"}
+                  ? "Faculty Teaching Workspace"
+                  : isSuperAdmin
+                    ? "Institution Operations Center"
+                    : "Academic Administration"}
             </h1>
-            <Badge variant="outline" className="text-[11px] font-medium text-muted-foreground bg-muted/30">
+            <Badge variant="outline" className="text-[11px] font-semibold text-primary bg-primary/10 border-primary/20 py-0.5 px-2.5 rounded-full">
               Odd Term 2026-2027
             </Badge>
           </div>
-          <p className="mt-1 text-xs text-muted-foreground">
+          <p className="mt-1.5 text-xs text-muted-foreground font-medium">
             {profile ? (
               <span>
                 User: <strong className="text-foreground">{profile.first_name} {profile.last_name}</strong> • Role:{" "}
-                <span className="font-medium text-foreground">{getRoleLabel(userRole)}</span>
+                <span className="font-semibold text-primary">{getRoleLabel(userRole)}</span>
               </span>
             ) : (
               "Smart Academic Management System"
@@ -211,39 +211,39 @@ export default async function DashboardPage() {
         </div>
 
         {/* Quick Context Actions */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2.5">
           {(isSuperAdmin || isCollegeAdmin) && (
             <Link
               href="/timetable/generate"
-              className={buttonVariants({ variant: "default", size: "sm", className: "gap-1.5 text-xs h-8" })}
+              className={buttonVariants({ variant: "default", size: "sm", className: "gap-2 text-xs h-9 rounded-xl shadow-xs" })}
             >
-              <CalendarDays className="h-3.5 w-3.5" />
+              <CalendarDays className="h-4 w-4" />
               Generate Schedule
             </Link>
           )}
           {isFaculty && (
             <Link
               href="/attendance"
-              className={buttonVariants({ variant: "default", size: "sm", className: "gap-1.5 text-xs h-8" })}
+              className={buttonVariants({ variant: "default", size: "sm", className: "gap-2 text-xs h-9 rounded-xl shadow-xs" })}
             >
-              <ScanFace className="h-3.5 w-3.5" />
+              <ScanFace className="h-4 w-4" />
               Conduct Attendance
             </Link>
           )}
           {isStudent && (
             <Link
               href="/timetable"
-              className={buttonVariants({ variant: "default", size: "sm", className: "gap-1.5 text-xs h-8" })}
+              className={buttonVariants({ variant: "default", size: "sm", className: "gap-2 text-xs h-9 rounded-xl shadow-xs" })}
             >
-              <CalendarDays className="h-3.5 w-3.5" />
+              <CalendarDays className="h-4 w-4" />
               View Timetable
             </Link>
           )}
           <Link
             href="/notifications"
-            className={buttonVariants({ variant: "outline", size: "sm", className: "gap-1.5 text-xs h-8" })}
+            className={buttonVariants({ variant: "outline", size: "sm", className: "gap-2 text-xs h-9 rounded-xl shadow-subtle" })}
           >
-            <Bell className="h-3.5 w-3.5 text-muted-foreground" />
+            <Bell className="h-4 w-4 text-muted-foreground" />
             Notices
           </Link>
         </div>
@@ -349,211 +349,181 @@ export default async function DashboardPage() {
                   {isStudent
                     ? "Access your class schedule, attendance records, and course details"
                     : isFaculty
-                    ? "Conduct attendance, review timetable allocations, and manage availability"
-                    : "Institutional catalogs, timetable optimization, and scheduling controls"}
+                      ? "Conduct attendance, review timetable allocations, and manage availability"
+                      : "Institutional catalogs, timetable optimization, and scheduling controls"}
                 </CardDescription>
               </div>
             </div>
           </CardHeader>
 
-          <CardContent className="p-4 sm:p-5 grid gap-3 sm:grid-cols-2">
+          <CardContent className="p-4 sm:p-6 grid gap-3 sm:grid-cols-2">
             <Link
               href="/timetable"
-              className="flex items-start justify-between rounded-lg border border-border bg-card p-3.5 hover:bg-muted/40 transition-colors"
+              className="flex items-start justify-between rounded-xl border border-border/80 bg-card p-4 hover:border-primary/40 hover:bg-muted/30 shadow-subtle hover:shadow-card transition-all duration-150"
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <CalendarDays className="h-4 w-4 text-primary" />
-                  <span className="text-xs font-semibold text-foreground">
+                  <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
+                    <CalendarDays className="h-4 w-4" />
+                  </div>
+                  <span className="text-xs font-bold text-foreground">
                     {isStudent ? "My Class Timetable" : isFaculty ? "Teaching Timetable" : "Master Timetables"}
                   </span>
                 </div>
-                <p className="text-[11px] text-muted-foreground">
+                <p className="text-[11px] text-muted-foreground pt-0.5">
                   {isStudent
                     ? "Review weekly lecture schedule and classroom locations."
                     : isFaculty
-                    ? "Weekly teaching allocations across sections and halls."
-                    : "Draft iterations, conflict detection, and publishing."}
+                      ? "Weekly teaching allocations across sections and halls."
+                      : "Draft iterations, conflict detection, and publishing."}
                 </p>
               </div>
-              <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+              <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-1" />
             </Link>
 
             <Link
               href="/attendance"
-              className="flex items-start justify-between rounded-lg border border-border bg-card p-3.5 hover:bg-muted/40 transition-colors"
+              className="flex items-start justify-between rounded-xl border border-border/80 bg-card p-4 hover:border-primary/40 hover:bg-muted/30 shadow-subtle hover:shadow-card transition-all duration-150"
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <ScanFace className="h-4 w-4 text-primary" />
-                  <span className="text-xs font-semibold text-foreground">
+                  <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                    <ScanFace className="h-4 w-4" />
+                  </div>
+                  <span className="text-xs font-bold text-foreground">
                     {isStudent ? "My Attendance Record" : "Class Attendance Sessions"}
                   </span>
                 </div>
-                <p className="text-[11px] text-muted-foreground">
+                <p className="text-[11px] text-muted-foreground pt-0.5">
                   {isStudent
                     ? "Subject-wise attendance percentages and session logs."
                     : "Record class roll-call, verify turnout, and save sessions."}
                 </p>
               </div>
-              <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+              <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-1" />
             </Link>
 
             {(isSuperAdmin || isCollegeAdmin) && (
               <Link
                 href="/academic-structure"
-                className="flex items-start justify-between rounded-lg border border-border bg-card p-3.5 hover:bg-muted/40 transition-colors"
+                className="flex items-start justify-between rounded-xl border border-border/80 bg-card p-4 hover:border-primary/40 hover:bg-muted/30 shadow-subtle hover:shadow-card transition-all duration-150"
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <Layers className="h-4 w-4 text-primary" />
-                    <span className="text-xs font-semibold text-foreground">Academic Structure</span>
+                    <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
+                      <Layers className="h-4 w-4" />
+                    </div>
+                    <span className="text-xs font-bold text-foreground">Academic Structure</span>
                   </div>
-                  <p className="text-[11px] text-muted-foreground">
+                  <p className="text-[11px] text-muted-foreground pt-0.5">
                     Configure academic years, semester terms, and cohort sections.
                   </p>
                 </div>
-                <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+                <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-1" />
               </Link>
             )}
 
             {(isSuperAdmin || isCollegeAdmin) && (
               <Link
                 href="/subjects"
-                className="flex items-start justify-between rounded-lg border border-border bg-card p-3.5 hover:bg-muted/40 transition-colors"
+                className="flex items-start justify-between rounded-xl border border-border/80 bg-card p-4 hover:border-primary/40 hover:bg-muted/30 shadow-subtle hover:shadow-card transition-all duration-150"
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <BookOpen className="h-4 w-4 text-primary" />
-                    <span className="text-xs font-semibold text-foreground">Curriculum Subjects</span>
+                    <div className="p-1.5 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                      <BookOpen className="h-4 w-4" />
+                    </div>
+                    <span className="text-xs font-bold text-foreground">Curriculum Subjects</span>
                   </div>
-                  <p className="text-[11px] text-muted-foreground">
+                  <p className="text-[11px] text-muted-foreground pt-0.5">
                     Course credits, theory vs. lab hours, and department mappings.
                   </p>
                 </div>
-                <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+                <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-1" />
               </Link>
             )}
 
             {isFaculty && (
               <Link
                 href="/faculty/availability"
-                className="flex items-start justify-between rounded-lg border border-border bg-card p-3.5 hover:bg-muted/40 transition-colors"
+                className="flex items-start justify-between rounded-xl border border-border/80 bg-card p-4 hover:border-primary/40 hover:bg-muted/30 shadow-subtle hover:shadow-card transition-all duration-150"
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-primary" />
-                    <span className="text-xs font-semibold text-foreground">Teaching Availability</span>
+                    <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
+                      <Clock className="h-4 w-4" />
+                    </div>
+                    <span className="text-xs font-bold text-foreground">Teaching Availability</span>
                   </div>
-                  <p className="text-[11px] text-muted-foreground">
+                  <p className="text-[11px] text-muted-foreground pt-0.5">
                     Set weekly preferred time slots and period constraints.
                   </p>
                 </div>
-                <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+                <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-1" />
               </Link>
             )}
 
             {isStudent && (
               <Link
                 href="/enrollments"
-                className="flex items-start justify-between rounded-lg border border-border bg-card p-3.5 hover:bg-muted/40 transition-colors"
+                className="flex items-start justify-between rounded-xl border border-border/80 bg-card p-4 hover:border-primary/40 hover:bg-muted/30 shadow-subtle hover:shadow-card transition-all duration-150"
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <BookOpen className="h-4 w-4 text-primary" />
-                    <span className="text-xs font-semibold text-foreground">Course Enrollments</span>
+                    <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
+                      <BookOpen className="h-4 w-4" />
+                    </div>
+                    <span className="text-xs font-bold text-foreground">Course Enrollments</span>
                   </div>
-                  <p className="text-[11px] text-muted-foreground">
+                  <p className="text-[11px] text-muted-foreground pt-0.5">
                     View active subject registrations for the current term.
                   </p>
                 </div>
-                <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+                <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-1" />
               </Link>
             )}
 
             {(isSuperAdmin || isCollegeAdmin) && (
               <Link
                 href="/audit-logs"
-                className="flex items-start justify-between rounded-lg border border-border bg-card p-3.5 hover:bg-muted/40 transition-colors"
+                className="flex items-start justify-between rounded-xl border border-border/80 bg-card p-4 hover:border-primary/40 hover:bg-muted/30 shadow-subtle hover:shadow-card transition-all duration-150"
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <Database className="h-4 w-4 text-primary" />
-                    <span className="text-xs font-semibold text-foreground">Security Audit Ledger</span>
+                    <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
+                      <Database className="h-4 w-4" />
+                    </div>
+                    <span className="text-xs font-bold text-foreground">Security Audit Ledger</span>
                   </div>
-                  <p className="text-[11px] text-muted-foreground">
+                  <p className="text-[11px] text-muted-foreground pt-0.5">
                     Review administrative events and mutation history.
                   </p>
                 </div>
-                <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+                <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-1" />
               </Link>
             )}
 
             <Link
               href="/notifications"
-              className="flex items-start justify-between rounded-lg border border-border bg-card p-3.5 hover:bg-muted/40 transition-colors"
+              className="flex items-start justify-between rounded-xl border border-border/80 bg-card p-4 hover:border-primary/40 hover:bg-muted/30 shadow-subtle hover:shadow-card transition-all duration-150"
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <Bell className="h-4 w-4 text-primary" />
-                  <span className="text-xs font-semibold text-foreground">Academic Notices</span>
+                  <div className="p-1.5 rounded-lg bg-accent text-accent-foreground">
+                    <Bell className="h-4 w-4" />
+                  </div>
+                  <span className="text-xs font-bold text-foreground">Academic Notices</span>
                 </div>
-                <p className="text-[11px] text-muted-foreground">
+                <p className="text-[11px] text-muted-foreground pt-0.5">
                   Timetable publication announcements and institutional updates.
                 </p>
               </div>
-              <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
+              <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0 mt-1" />
             </Link>
           </CardContent>
         </Card>
 
-        {/* System Security & Access Status (1 col) */}
-        <Card>
-          <CardHeader className="p-4 sm:p-5 border-b border-border">
-            <CardTitle className="text-sm font-semibold">Security & Session</CardTitle>
-            <CardDescription className="text-xs">
-              Access control and authentication verification
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-4 sm:p-5 space-y-3">
-            <div className="flex items-start gap-2.5 text-xs">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-              <div>
-                <span className="font-medium text-foreground block">Session Authenticated</span>
-                <span className="text-[11px] text-muted-foreground">
-                  HttpOnly session cookie verified by Supabase Auth
-                </span>
-              </div>
-            </div>
 
-            <div className="flex items-start gap-2.5 text-xs">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-              <div>
-                <span className="font-medium text-foreground block">PostgreSQL RLS Active</span>
-                <span className="text-[11px] text-muted-foreground">
-                  Queries evaluated against auth.uid() at database level
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-2.5 text-xs">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-              <div>
-                <span className="font-medium text-foreground block">Role Authorization</span>
-                <span className="text-[11px] text-muted-foreground">
-                  Server component guards enforce role hierarchy
-                </span>
-              </div>
-            </div>
-
-            <div className="pt-2 border-t border-border">
-              <div className="rounded bg-muted/40 p-2.5 text-xs flex items-center justify-between">
-                <span className="text-muted-foreground text-[11px]">System Status</span>
-                <span className="font-medium text-emerald-600 dark:text-emerald-400 text-[11px]">Operational</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

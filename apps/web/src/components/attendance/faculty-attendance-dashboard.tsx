@@ -223,31 +223,31 @@ export function FacultyAttendanceDashboard({
       </div>
 
       {/* Filters & Search Control Bar */}
-      <Card className="border-border/70">
-        <CardContent className="p-4 space-y-3">
+      <Card className="border-border/80 shadow-card">
+        <CardContent className="p-4 sm:p-5 space-y-3.5">
           <div className="flex flex-col md:flex-row gap-3">
             {/* Search Input */}
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search by subject code, name, section, or faculty..."
-                className="w-full h-9 pl-9 pr-3 rounded-lg border border-border/70 bg-background text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                className="w-full h-10 pl-10 pr-3 rounded-xl border border-border/80 bg-card text-sm placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-subtle"
               />
             </div>
 
             {/* Status Filter */}
-            <div className="flex items-center gap-1.5 bg-muted/40 p-1 rounded-lg border border-border/60">
+            <div className="flex items-center gap-1.5 bg-muted/40 p-1 rounded-xl border border-border/80">
               {(["ALL", "OPEN", "CLOSED", "CANCELLED"] as const).map((st) => (
                 <button
                   key={st}
                   type="button"
                   onClick={() => setStatusFilter(st)}
-                  className={`px-3 py-1 text-xs font-semibold rounded-md transition-all ${
+                  className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all ${
                     statusFilter === st
-                      ? "bg-background text-foreground shadow-sm border border-border/70"
+                      ? "bg-card text-foreground shadow-xs border border-border/80"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
@@ -258,11 +258,11 @@ export function FacultyAttendanceDashboard({
           </div>
 
           {/* Secondary Dropdown Filters */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 border-t border-border/40">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-border/60">
             <select
               value={sectionFilter}
               onChange={(e) => setSectionFilter(e.target.value)}
-              className="w-full h-8 px-2.5 rounded-md border border-border/60 bg-background text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
+              className="w-full h-10 px-3 rounded-xl border border-border/80 bg-card text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-subtle"
             >
               <option value="">All Class Sections</option>
               {classSections.map((sec) => (
@@ -275,7 +275,7 @@ export function FacultyAttendanceDashboard({
             <select
               value={subjectFilter}
               onChange={(e) => setSubjectFilter(e.target.value)}
-              className="w-full h-8 px-2.5 rounded-md border border-border/60 bg-background text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
+              className="w-full h-10 px-3 rounded-xl border border-border/80 bg-card text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-subtle"
             >
               <option value="">All Subjects</option>
               {subjects.map((sub) => (

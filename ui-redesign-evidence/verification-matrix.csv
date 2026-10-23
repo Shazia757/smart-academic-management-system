@@ -1,0 +1,20 @@
+Route/path,Page name,User role,Page discovered,Updated to shared design system,Functional interactions checked,Responsive layouts checked,Screenshot captured,Test result,Remaining issues
+/login,Institutional Sign In,Public,PASS,PASS,PASS,PASS,PASS,PASS,None
+/,Executive Dashboard,"Super Admin, Dean, Faculty, Student",PASS,PASS,PASS,PASS,PASS,PASS,None
+/academic-structure,Academic Structure,"Super Admin, College Admin",PASS,PASS,PASS,PASS,PASS,PASS,None
+/departments,Departments Catalog,"Super Admin, College Admin",PASS,PASS,PASS,PASS,PASS,PASS,None
+/classrooms,Classrooms & Venues,"Super Admin, College Admin",PASS,PASS,PASS,PASS,PASS,PASS,None
+/subjects,Subjects & Syllabus,"Super Admin, College Admin",PASS,PASS,PASS,PASS,PASS,PASS,None
+/faculty,Faculty Directory,"Super Admin, College Admin",PASS,PASS,PASS,PASS,PASS,PASS,None
+/faculty/availability,Faculty Availability Matrix,"Super Admin, College Admin, Faculty",PASS,PASS,PASS,PASS,PASS,PASS,None
+/students,Student Roster,"Super Admin, College Admin",PASS,PASS,PASS,PASS,PASS,PASS,None
+/enrollments,Course Enrollments,"Super Admin, College Admin",PASS,PASS,PASS,PASS,PASS,PASS,None
+/assignments,Faculty Course Allocations,"Super Admin, College Admin",PASS,PASS,PASS,PASS,PASS,PASS,None
+/timetable,Published Timetable Viewer,All Roles,PASS,PASS,PASS,PASS,PASS,PASS,None
+/timetable/configuration,Timetable Configuration,"Super Admin, College Admin",PASS,PASS,PASS,PASS,PASS,PASS,None
+/timetable/generate,OR-Tools Timetable Generator,"Super Admin, College Admin",PASS,PASS,PASS,PASS,PASS,PASS,None
+/attendance,Attendance Management,All Roles,PASS,PASS,PASS,PASS,PASS,PASS,None
+/attendance/sessions/[id],Session Attendance Roster,"Super Admin, Faculty",PASS,PASS,PASS,PASS,PASS,PASS,None
+/notifications,Notifications Center,All Authenticated,PASS,PASS,PASS,PASS,PASS,PASS,None
+/audit-logs,System Audit Logs,"Super Admin, College Admin",PASS,PASS,PASS,PASS,PASS,PASS,None
+/unauthorized,Access Guard (Unauthorized),All Authenticated,PASS,PASS,PASS,PASS,PASS,PASS,None

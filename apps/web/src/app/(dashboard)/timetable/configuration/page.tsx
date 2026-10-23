@@ -60,16 +60,16 @@ export default async function TimetableConfigurationPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
-          <CalendarDays className="w-6 h-6" />
+        <div className="p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20 shadow-xs">
+          <CalendarDays className="w-6 h-6 text-primary" />
         </div>
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-bold tracking-tight text-foreground">
               Timetable Configuration
             </h1>
-            <span className="px-2 py-0.5 text-xs font-semibold rounded-md bg-accent/20 text-accent border border-accent/30">
-              Phase 4
+            <span className="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-primary/10 text-primary border border-primary/20">
+              OR-Tools Foundation
             </span>
           </div>
           <p className="text-sm text-muted-foreground">

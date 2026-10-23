@@ -87,8 +87,8 @@ export function DataTable<T>({
 
         <div className="flex flex-wrap items-center gap-3 sm:ml-auto">
           {/* Search bar */}
-          <div className="relative min-w-[240px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <div className="relative min-w-[260px]">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
               type="text"
               value={searchQuery}
@@ -97,7 +97,7 @@ export function DataTable<T>({
                 setCurrentPage(1);
               }}
               placeholder={searchPlaceholder}
-              className="w-full h-9 pl-9 pr-3 rounded-lg border border-border/60 bg-background/50 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+              className="w-full h-10 pl-10 pr-3 rounded-xl border border-border/80 bg-card text-sm placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-subtle"
             />
           </div>
 
@@ -107,16 +107,16 @@ export function DataTable<T>({
       </div>
 
       {/* Table Container */}
-      <div className="rounded-lg border border-border bg-card shadow-xs overflow-hidden">
+      <div className="rounded-2xl border border-border/80 bg-card shadow-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-muted/50 border-b border-border text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <thead className="bg-muted/40 border-b border-border/80 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
               <tr>
                 {columns.map((col, idx) => (
                   <th
                     key={idx}
                     scope="col"
-                    className={`px-4 py-3 ${col.className || ""}`}
+                    className={`px-5 py-3.5 ${col.className || ""}`}
                   >
                     {col.header}
                   </th>
@@ -129,7 +129,7 @@ export function DataTable<T>({
                   <td colSpan={columns.length} className="py-16 text-center">
                     <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground">
                       <Loader2 className="w-6 h-6 animate-spin text-primary" />
-                      <span className="text-xs">Loading records...</span>
+                      <span className="text-xs font-medium">Loading records...</span>
                     </div>
                   </td>
                 </tr>
@@ -137,16 +137,16 @@ export function DataTable<T>({
                 <tr>
                   <td colSpan={columns.length} className="py-16 text-center">
                     <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground">
-                      <div className="p-3 rounded-full bg-muted/40">
+                      <div className="p-3.5 rounded-2xl bg-muted/50 border border-border/60">
                         <Inbox className="w-6 h-6 text-muted-foreground/60" />
                       </div>
-                      <span className="text-sm font-medium">{emptyMessage}</span>
+                      <span className="text-sm font-semibold text-foreground/90">{emptyMessage}</span>
                       {searchQuery && (
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => setSearchQuery("")}
-                          className="text-xs text-primary hover:underline h-7 mt-1"
+                          className="text-xs text-primary hover:underline h-8 mt-1"
                         >
                           Clear search filter
                         </Button>
@@ -158,12 +158,12 @@ export function DataTable<T>({
                 paginatedData.map((row, rowIdx) => (
                   <tr
                     key={rowIdx}
-                    className="hover:bg-muted/30 transition-colors duration-150"
+                    className="hover:bg-muted/40 transition-colors duration-150"
                   >
                     {columns.map((col, colIdx) => (
                       <td
                         key={colIdx}
-                        className={`px-4 py-3 align-middle ${col.className || ""}`}
+                        className={`px-5 py-3.5 align-middle ${col.className || ""}`}
                       >
                         {col.cell
                           ? col.cell(row)
@@ -181,18 +181,18 @@ export function DataTable<T>({
 
         {/* Footer / Pagination */}
         {!isLoading && filteredData.length > 0 && (
-          <div className="flex items-center justify-between px-5 py-3.5 border-t border-border/40 bg-muted/20 text-xs text-muted-foreground">
+          <div className="flex items-center justify-between px-6 py-4 border-t border-border/70 bg-muted/15 text-xs text-muted-foreground">
             <div>
               Showing{" "}
-              <span className="font-medium text-foreground">
+              <span className="font-semibold text-foreground">
                 {(currentPage - 1) * pageSize + 1}
               </span>{" "}
               to{" "}
-              <span className="font-medium text-foreground">
+              <span className="font-semibold text-foreground">
                 {Math.min(currentPage * pageSize, filteredData.length)}
               </span>{" "}
               of{" "}
-              <span className="font-medium text-foreground">
+              <span className="font-semibold text-foreground">
                 {filteredData.length}
               </span>{" "}
               entries
@@ -204,12 +204,12 @@ export function DataTable<T>({
                 size="sm"
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage <= 1}
-                className="h-8 w-8 p-0"
+                className="h-8 w-8 p-0 rounded-lg"
                 aria-label="Previous page"
               >
                 <ChevronLeft className="w-4 h-4" />
               </Button>
-              <span className="px-2">
+              <span className="px-2 font-medium">
                 Page {currentPage} of {totalPages}
               </span>
               <Button
@@ -217,7 +217,7 @@ export function DataTable<T>({
                 size="sm"
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage >= totalPages}
-                className="h-8 w-8 p-0"
+                className="h-8 w-8 p-0 rounded-lg"
                 aria-label="Next page"
               >
                 <ChevronRight className="w-4 h-4" />

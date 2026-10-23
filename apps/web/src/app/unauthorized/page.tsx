@@ -31,11 +31,11 @@ export default async function UnauthorizedPage() {
         </p>
 
         {profile && (
-          <div className="my-6 rounded-xl border border-border bg-card p-4 text-left">
+          <div className="my-6 rounded-2xl border border-border/80 bg-card p-5 text-left shadow-card">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-xs text-muted-foreground block">Active Identity</span>
-                <span className="text-sm font-semibold text-foreground">
+                <span className="text-xs text-muted-foreground block font-medium">Active Identity</span>
+                <span className="text-sm font-bold text-foreground">
                   {profile.first_name} {profile.last_name}
                 </span>
                 <span className="text-xs text-muted-foreground block">{profile.email}</span>
@@ -44,8 +44,8 @@ export default async function UnauthorizedPage() {
                 <RoleBadge role={profile.role} />
               </div>
             </div>
-            <p className="mt-3 text-xs text-muted-foreground border-t border-border pt-2.5">
-              Assigned Permission Tier: <span className="font-medium text-foreground">{getRoleLabel(profile.role)}</span>
+            <p className="mt-3 text-xs text-muted-foreground border-t border-border/80 pt-3">
+              Assigned Permission Tier: <span className="font-semibold text-foreground">{getRoleLabel(profile.role)}</span>
             </p>
           </div>
         )}
@@ -53,7 +53,7 @@ export default async function UnauthorizedPage() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/"
-            className={buttonVariants({ variant: "default", size: "default", className: "w-full sm:w-auto gap-2" })}
+            className={buttonVariants({ variant: "default", size: "default", className: "w-full sm:w-auto gap-2 rounded-xl shadow-xs" })}
           >
             <ArrowLeft className="h-4 w-4" />
             Return to Dashboard

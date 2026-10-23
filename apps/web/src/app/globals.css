@@ -1,83 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,700&family=Google+Sans+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 222 47% 11%;
+    /* Application background: #F4F8FA */
+    --background: 200 37% 97%;
+    /* Main text: #1E293B */
+    --foreground: 215 25% 20%;
 
+    /* Card & sidebar background: #FFFFFF */
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 215 25% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 215 25% 20%;
 
-    /* Deep Indigo for primary enterprise brand */
-    --primary: 224 76% 48%;
-    --primary-foreground: 210 40% 98%;
+    /* Brand Primary: #0F4C5C */
+    --primary: 192 72% 21%;
+    /* Primary hover: #0B3D4A */
+    --primary-hover: 192 74% 17%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Soft Slate secondary */
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
+    /* Soft secondary */
+    --secondary: 190 25% 94%;
+    --secondary-foreground: 192 72% 21%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    /* Muted backgrounds & secondary text */
+    --muted: 195 20% 95%;
+    --muted-foreground: 196 15% 45%;
 
-    /* Vibrant Cyan / Sky accent */
-    --accent: 199 89% 48%;
-    --accent-foreground: 210 40% 98%;
+    /* Accent soft teal: #DCECEF */
+    --accent: 189 37% 90%;
+    --accent-foreground: 192 72% 21%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    /* Error / destructive: #C84B55 */
+    --destructive: 355 53% 54%;
+    --destructive-foreground: 0 0% 100%;
 
-    --success: 142 71% 45%;
-    --success-foreground: 210 40% 98%;
+    /* Success: #1B7A63 */
+    --success: 165 64% 31%;
+    --success-foreground: 0 0% 100%;
 
-    --warning: 38 92% 50%;
-    --warning-foreground: 222 47% 11%;
+    /* Warning: #C58A31 */
+    --warning: 36 60% 48%;
+    --warning-foreground: 212 35% 22%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 224 76% 48%;
+    /* Borders & dividers: #E2ECEE */
+    --border: 195 22% 91%;
+    --input: 195 22% 91%;
+    --ring: 192 72% 21%;
 
-    --radius: 0.75rem;
+    /* 14px border radius for friendly rounded cards */
+    --radius: 0.875rem;
   }
 
   .dark {
-    --background: 222 47% 7%;
-    --foreground: 210 40% 98%;
+    --background: 195 50% 8%;
+    --foreground: 195 20% 95%;
 
-    --card: 222 47% 10%;
-    --card-foreground: 210 40% 98%;
+    --card: 195 40% 12%;
+    --card-foreground: 195 20% 95%;
 
-    --popover: 222 47% 10%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 195 40% 12%;
+    --popover-foreground: 195 20% 95%;
 
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 11%;
+    --primary: 190 60% 45%;
+    --primary-hover: 190 60% 52%;
+    --primary-foreground: 195 50% 8%;
 
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 195 30% 16%;
+    --secondary-foreground: 195 20% 95%;
 
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 195 30% 16%;
+    --muted-foreground: 195 15% 65%;
 
-    --accent: 199 89% 48%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 195 35% 20%;
+    --accent-foreground: 195 20% 95%;
 
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 355 65% 58%;
+    --destructive-foreground: 0 0% 100%;
 
-    --success: 142 71% 45%;
-    --success-foreground: 210 40% 98%;
+    --success: 160 60% 45%;
+    --success-foreground: 0 0% 100%;
 
-    --warning: 38 92% 50%;
-    --warning-foreground: 222 47% 11%;
+    --warning: 36 75% 55%;
+    --warning-foreground: 195 50% 8%;
 
-    --border: 217 33% 20%;
-    --input: 217 33% 20%;
-    --ring: 217 91% 60%;
+    --border: 195 30% 18%;
+    --input: 195 30% 18%;
+    --ring: 190 60% 45%;
   }
 }
 
@@ -86,8 +100,8 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    @apply bg-background text-foreground antialiased font-sans;
+    font-family: 'Google Sans', 'Google Sans Text', 'Product Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 }
 

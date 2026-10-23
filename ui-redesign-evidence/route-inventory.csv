@@ -1,0 +1,20 @@
+Route,Page Name,User Roles,Category,Core Components,State / Data Dependencies
+/login,Institutional Sign In,Public / Unauthenticated,Authentication,"Rounded Card, 44px Inputs, Status Alerts, Quick Test Credentials",Supabase Auth / Session Cookie
+/,Executive Dashboard,"Super Admin, College Admin, Faculty, Student",Core,"Metric Cards Grid, Operational Services, Live AY Pill, Security Card",Supabase DB (counts & profiles)
+/academic-structure,Academic Structure,"Super Admin, College Admin",Academics,"Structure Tree, Term Badges, Action Modals",academic_years & semesters
+/departments,Departments Catalog,"Super Admin, College Admin",Academics,"DataTable, Search Bar, Status Badges, Add Department Modal",departments
+/classrooms,Classrooms & Venues,"Super Admin, College Admin",Infrastructure,"DataTable, Capacity Badges, Search/Filter",classrooms
+/subjects,Subjects & Syllabus,"Super Admin, College Admin",Curriculum,"DataTable, Credit Badges, Department Filters",subjects
+/faculty,Faculty Directory,"Super Admin, College Admin",Personnel,"DataTable, Role Badges, Department Tag, Search",faculty_profiles
+/faculty/availability,Faculty Availability Matrix,"Super Admin, College Admin, Faculty",Scheduling,"Weekly Availability Grid, Day Selectors, Toggle Chips",faculty_availability
+/students,Student Roster,"Super Admin, College Admin",Student Management,"DataTable, Enrollment Badges, Search Bar",student_profiles
+/enrollments,Course Enrollments,"Super Admin, College Admin",Student Management,"DataTable, Semester Selectors, Section Badges",enrollments
+/assignments,Faculty Course Allocations,"Super Admin, College Admin",Academics,"DataTable, Faculty Selectors, Subject Badges",course_assignments
+/timetable,Published Timetable Viewer,"Super Admin, College Admin, Faculty, Student",Timetable,"Weekly Grid, Section Tabs, Export Controls, Slot Chips",timetable_slots & periods
+/timetable/configuration,Timetable Configuration,"Super Admin, College Admin",Timetable,"Timing Boundaries, Day Checkboxes, Break Config, Period Sliders",timetable_configurations
+/timetable/generate,OR-Tools Timetable Generator,"Super Admin, College Admin",Timetable,"Generation Form, Constraint Toggles, Conflict Console, Save/Publish Modal",FastAPI AI Solver & drafts
+/attendance,Attendance Management,"Super Admin, College Admin, Faculty, Student",Attendance,"Session Cards, Filters, Date Range, Status Indicators",attendance_sessions & records
+/attendance/sessions/[id],Session Attendance Roster,"Super Admin, College Admin, Faculty",Attendance,"Live Roster, Present/Absent/Late Toggles, Lock Session Banner",attendance_records
+/notifications,Notifications Center,All Authenticated,Communication,"Filter Tabs, Unread Badges, Action Buttons, Time Indicators",notifications
+/audit-logs,System Audit Logs,"Super Admin, College Admin",Compliance,"DataTable, Event Badges, IP/User Info, JSON Detail Modal",audit_logs
+/unauthorized,Access Guard (Unauthorized),Authenticated (Forbidden),Security,"Security Alert Card, Role Identity Badge, Back Button",Session Role Guard

@@ -38,22 +38,27 @@ export default async function AuditLogsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="flex items-center gap-2.5">
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">
-              Security Audit Ledger
-            </h1>
-            <Badge variant="destructive">Restricted Access</Badge>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20 shadow-xs">
+            <ShieldCheck className="w-6 h-6" />
           </div>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Immutable administrative event logging and mutation records.
-          </p>
+          <div>
+            <div className="flex items-center gap-2.5">
+              <h1 className="text-2xl font-bold tracking-tight text-foreground">
+                Security Audit Ledger
+              </h1>
+              <Badge variant="destructive" className="rounded-full px-2.5 py-0.5 text-xs font-semibold">Restricted Access</Badge>
+            </div>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Immutable administrative event logging and mutation records.
+            </p>
+          </div>
         </div>
 
         <Link
           href="/"
-          className={buttonVariants({ variant: "outline", size: "sm", className: "gap-2" })}
+          className={buttonVariants({ variant: "outline", size: "sm", className: "gap-2 rounded-xl shadow-subtle self-start sm:self-auto" })}
         >
           <ArrowLeft className="h-4 w-4" />
           Dashboard

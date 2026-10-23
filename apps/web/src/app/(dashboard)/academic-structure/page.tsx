@@ -43,8 +43,8 @@ export default async function AcademicStructurePage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <div className="p-2.5 rounded-xl bg-primary/10 text-primary border border-primary/20">
+      <div className="flex items-center gap-3.5">
+        <div className="p-3 rounded-2xl bg-primary/10 text-primary border border-primary/20 shadow-xs">
           <Layers className="w-6 h-6" />
         </div>
         <div>
@@ -52,7 +52,7 @@ export default async function AcademicStructurePage() {
             Academic Structure
           </h1>
           <p className="text-sm text-muted-foreground">
-            Institutional timeline hierarchy: Academic Years $\to$ Semesters $\to$ Cohort Class Sections.
+            Institutional timeline hierarchy: Academic Years → Semesters → Cohort Class Sections.
           </p>
         </div>
       </div>

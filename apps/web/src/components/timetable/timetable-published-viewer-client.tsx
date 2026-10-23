@@ -96,15 +96,15 @@ export function TimetablePublishedViewerClient({
   return (
     <div className="space-y-6">
       {/* 1. Header & Official Published Status Banner */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-900 dark:text-emerald-200 shadow-xs gap-3">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
-            <ShieldCheck className="h-5 w-5" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between p-5 rounded-2xl bg-card border border-border/80 text-foreground shadow-card gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="p-3 rounded-2xl bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 shadow-xs">
+            <ShieldCheck className="h-6 w-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-sm">Official Institutional Timetable</span>
-              <Badge variant="outline" className="text-[10px] uppercase font-bold tracking-wider border-emerald-500/40 text-emerald-800 dark:text-emerald-300">
+              <span className="font-bold text-base text-foreground">Official Institutional Timetable</span>
+              <Badge variant="outline" className="text-[10px] uppercase font-bold tracking-wider rounded-full border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
                 ACTIVE
               </Badge>
             </div>
@@ -122,11 +122,11 @@ export function TimetablePublishedViewerClient({
           </div>
         </div>
 
-        <div className="flex items-center gap-2 self-end sm:self-auto">
+        <div className="flex items-center gap-2.5 self-end sm:self-auto">
           {isAdmin && (
             <Link href="/timetable/generate">
-              <Button variant="outline" size="sm" className="gap-2 text-xs h-8">
-                <CalendarDays className="h-3.5 w-3.5 text-primary" />
+              <Button variant="outline" size="sm" className="gap-2 text-xs h-9 rounded-xl shadow-subtle">
+                <CalendarDays className="h-4 w-4 text-primary" />
                 Generator & Drafts
               </Button>
             </Link>
@@ -135,9 +135,9 @@ export function TimetablePublishedViewerClient({
             variant="outline"
             size="sm"
             onClick={() => window.print()}
-            className="gap-2 text-xs h-8 print:hidden"
+            className="gap-2 text-xs h-9 rounded-xl shadow-subtle print:hidden"
           >
-            <Printer className="h-3.5 w-3.5" />
+            <Printer className="h-4 w-4" />
             Print Schedule
           </Button>
         </div>

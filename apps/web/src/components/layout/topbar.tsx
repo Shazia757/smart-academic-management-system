@@ -46,13 +46,13 @@ export function Topbar({ profile, onOpenMobileMenu }: TopbarProps) {
     : "U";
 
   return (
-    <header className="sticky top-0 z-20 flex h-14 w-full items-center justify-between border-b border-border bg-card px-4 sm:px-6">
+    <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-border/80 bg-card px-4 sm:px-6">
       {/* Left: Mobile menu trigger & Breadcrumbs */}
-      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+      <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
         {onOpenMobileMenu && (
           <button
             onClick={onOpenMobileMenu}
-            className="flex lg:hidden h-8 w-8 items-center justify-center rounded border border-border bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground shrink-0"
+            className="flex lg:hidden h-9 w-9 items-center justify-center rounded-xl border border-border/80 bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground shrink-0 transition-colors"
             title="Open navigation menu"
           >
             <Menu className="h-4 w-4" />
@@ -63,10 +63,10 @@ export function Topbar({ profile, onOpenMobileMenu }: TopbarProps) {
           <Breadcrumbs />
         </div>
 
-        <div className="hidden md:block h-3.5 w-px bg-border shrink-0" />
+        <div className="hidden md:block h-4 w-px bg-border/80 shrink-0" />
         <Badge
           variant="outline"
-          className="hidden md:inline-flex text-[10px] font-medium text-muted-foreground bg-muted/30 py-0.5"
+          className="hidden md:inline-flex text-[11px] font-semibold text-primary bg-primary/10 border-primary/20 py-0.5 px-2.5 rounded-full"
         >
           AY 2026-2027 • Sem 5
         </Badge>
@@ -78,12 +78,12 @@ export function Topbar({ profile, onOpenMobileMenu }: TopbarProps) {
         <div className="relative">
           <Link
             href="/notifications"
-            className="flex h-8 w-8 items-center justify-center rounded border border-border bg-background text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+            className="flex h-9 w-9 items-center justify-center rounded-xl border border-border/80 bg-card text-muted-foreground hover:bg-muted hover:text-foreground transition-all duration-150"
             title="Institutional Notifications & Notices"
           >
-            <Bell className="h-3.5 w-3.5" />
+            <Bell className="h-4 w-4" />
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-primary-foreground">
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground shadow-xs">
                 {unreadCount > 9 ? "9+" : unreadCount}
               </span>
             )}
@@ -93,24 +93,24 @@ export function Topbar({ profile, onOpenMobileMenu }: TopbarProps) {
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          className="flex h-8 w-8 items-center justify-center rounded border border-border bg-background text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+          className="flex h-9 w-9 items-center justify-center rounded-xl border border-border/80 bg-card text-muted-foreground hover:bg-muted hover:text-foreground transition-all duration-150"
           title="Toggle color theme"
         >
-          {isDarkMode ? <Sun className="h-3.5 w-3.5 text-amber-500" /> : <Moon className="h-3.5 w-3.5" />}
+          {isDarkMode ? <Sun className="h-4 w-4 text-amber-500" /> : <Moon className="h-4 w-4" />}
         </button>
 
         {/* Profile Pill & Role */}
-        <div className="flex items-center gap-2 pl-2 border-l border-border">
+        <div className="flex items-center gap-2.5 pl-3 border-l border-border/80">
           <Avatar
             src={profile?.avatar_url}
             fallback={userInitials}
-            className="h-8 w-8 border border-border bg-muted text-foreground font-semibold text-xs"
+            className="h-9 w-9 rounded-xl border border-border/80 bg-primary/10 text-primary font-bold text-xs"
           />
           <div className="hidden sm:flex flex-col text-left">
-            <span className="text-xs font-semibold text-foreground leading-tight truncate max-w-[130px]">
+            <span className="text-xs font-semibold text-foreground leading-tight truncate max-w-[140px]">
               {displayName}
             </span>
-            <span className="text-[10px] capitalize text-muted-foreground leading-none mt-0.5">
+            <span className="text-[10px] capitalize text-muted-foreground font-medium leading-none mt-0.5">
               {profile?.role ? profile.role.replace("_", " ") : "User"}
             </span>
           </div>
@@ -119,10 +119,10 @@ export function Topbar({ profile, onOpenMobileMenu }: TopbarProps) {
           <form action={logoutAction} className="ml-1">
             <button
               type="submit"
-              className="flex h-8 w-8 items-center justify-center rounded border border-border bg-background text-muted-foreground hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 transition-colors"
+              className="flex h-9 w-9 items-center justify-center rounded-xl border border-border/80 bg-card text-muted-foreground hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 transition-all duration-150"
               title="Sign out of SAMS"
             >
-              <LogOut className="h-3.5 w-3.5" />
+              <LogOut className="h-4 w-4" />
             </button>
           </form>
         </div>
